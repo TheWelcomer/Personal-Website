@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="be2b445a-250d-4ce8-86cb-c84badd4c078" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.npmrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.nojekyll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/__data.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/env.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/0.Br1xEDlG.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/2.CyJQsSr_.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/3.CsgfhULn.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/4.MWHyxg-Z.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/5.BMf-RGIR.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/_layout.n1BiFuie.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/_page.BMf-RGIR.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/_page.CNjxrbiT.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/_page.CsgfhULn.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/assets/_page.MWHyxg-Z.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/Icon.DMVxx1jf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/each.D6YF6ztN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/entry.fPoJWDfN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/index.DAinFavA.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/index.x_vOF7Lr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/paths.DqO9xUBo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/scheduler.CnY5WKvn.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/chunks/transform.W7TN51b0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/entry/app.CM_Zg40W.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/entry/start.BJ8kvQNB.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/0.HDgF3lCR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/1.BALe8-jf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/2.R62kWUKr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/3.D4-9gE65.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/4.BrBkd9jk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/immutable/nodes/5.BS93_b3Y.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_app/version.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/atkinson.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/atlas.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/baloo-bhai.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/canela.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/computer-modern.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/cozette.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/inter.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/jamboree.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/jersey.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/lyon.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/metropolis.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/national.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/publico.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/recoleta.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/rubik.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/spacemono.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/fonts/tiempos.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/assets/demo/test.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/demo/elements/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/demo/fonts/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/demo/ig-story/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/google.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/properties/category.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/properties/color.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/properties/font-size.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/canTab.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/checkOverlap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/focusTrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/inView.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/keepWithinBox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/resize.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Index.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Meta.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.ButtonSet.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Elements.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Figure.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Fonts.Sample.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Fonts.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.IgStory.Chapters.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.IgStory.Figure.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.IgStory.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Img.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.LayerCake.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Link.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Range.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Scrolly.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Select.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Slider.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.SortTable.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.SvelteComponent.A.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.SvelteComponent.B.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.SvelteComponent.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.SvelteElement.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Tip.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.Toggle.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/Demo.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/demo-fonts.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/demo/demo-layercake.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.MapCanvas.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.MapLabels.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.MapPath.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.MapPoints.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.MapSvg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.Template.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.Tooltip.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/figure/Figure.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/ButtonSet.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Chunk.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Countdown.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/DarkModeToggle.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/MotionToggle.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Range.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Scrolly.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Select.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/ShareLink.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Slider.Slide.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Slider.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/SortTable.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Tap.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Tip.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/Toggle.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/helpers/WIP.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Area.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/AxisX.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/AxisX.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/AxisY.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/AxisY.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Bar.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Column.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/ColumnStacked.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Line.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Scatter.canvas.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Scatter.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Scatter.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Tooltip.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/Voronoi.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/Beeswarm.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/Beeswarm.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/BeeswarmForce.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/BeeswarmForce.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/CirclePack.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/ClevelandDotPlot.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/Map.canvas.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/Map.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MapLabels.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MapLabels.svg.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MapPoints.canvas.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MapPoints.html.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MapPoints.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layercake/todo/MultiLine.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/copy.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/test.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/variables.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+error.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+layout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+layout.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+page.server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/demo/elements/+page.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/demo/fonts/+page.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/demo/ig-story/+page.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/misc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/mq.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/previous.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/reducedMotion.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/scrollY.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/timer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/viewport.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/font.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/normalize.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/reset.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/variables.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/svg/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/svg/wordmark.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/checkScrollDir.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/csvDownload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/generateId.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/loadCsv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/loadImage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/loadJson.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/loadPixels.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/localStorage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/locate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/mapToArray.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/transformSvg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/translate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/urlParams.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/version.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/atkinson.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/atlas.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/baloo-bhai.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/canela.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/computer-modern.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/cozette.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/inter.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/jamboree.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/jersey.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/lyon.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/metropolis.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/national.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/publico.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/recoleta.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/rubik.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/spacemono.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/fonts/tiempos.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/assets/demo/test.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/svelte.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/fetch-google.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/style-dictionary.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TheWelcomer&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TheWelcomer/Personal-Website.git&quot;,
+    &quot;accountId&quot;: &quot;ff9f3a7c-0751-4d57-abfb-7fef7478ce64&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2hRlOmMPtWM4nxLpVgCQsCNVGpr" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/thewelcomer/Coding/Personal Website/svelte-starter-main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be2b445a-250d-4ce8-86cb-c84badd4c078" name="Changes" comment="" />
+      <created>1717564740280</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1717564740280</updated>
+      <workItem from="1717564741421" duration="37000" />
+      <workItem from="1717564779534" duration="1505000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
