@@ -1,30 +1,69 @@
 <script>
-	let rawNumScrolled = 0;
-	let lastNumScrolled = 0;
-	$: numScrolled = Math.floor(rawNumScrolled / 6);
-	$: if (numScrolled > lastNumScrolled) {
-		for (let i = lastNumScrolled; i < numScrolled; i++) {
-			const pipe = document.createElement('div');
-			pipe.innerHTML = '|';
-			document.getElementById('append_pipes').appendChild(pipe);
+	const startCursorBlinking = () => {
+		return setInterval(() => {
+			render.substring(render.length - 50) === '<span id="cursor" style="font-size: 1em;">▮</span>' ? render = render.slice(0, -50) : render += '<span id="cursor" style="font-size: 1em;">▮</span>';
+			console.log(render.substring(render.length - 50));
+		}, 5000);
+	}
+	let ascii = '<pre>        .n.                     |<br>' +
+		'       /___\\          _.---.  \\ _ /<br>' +
+		'       [|||]         (_._ ) )--;_) =-<br>' +
+		'       [___]           \'---\'.__,\' \\<br>' +
+		'       }-=-{                    |<br>' +
+		'       |-" |<br>' +
+		'       |.-"|                p<br>' +
+		'~^=~^~-|_.-|~^-~^~ ~^~ -^~^~|\\ ~^-~^~-<br>' +
+		'^   .=.| _.|__  ^       ~  /| \\<br>' +
+		' ~ /:. \\" _|_/\\    ~      /_|__\\  ^<br>' +
+		'.-/::.  |   |""|-._    ^   ~~~~<br>' +
+		'  `===-\'-----\'""`  \'-.              ~<br>' +
+		'                 __.-\'      ^<br>' +
+		'<br>' +
+		'LET’S BUILD A LIGHTHOUSE!!!!!!!!!!!!!!<br>' +
+		'\t\t\t\tlook it’s us <):)<br>' +
+		'\t\t\t\toriginal scaling is 32x32 pixels<br>' +
+		'\t\t\t\t(from hat to toe I am a full 32px tall)<br></pre>'
+	let render = '|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>';
+	let scrollY = 0;
+	$: numScrolled = Math.floor(scrollY / .45) + 10;
+	let numScrollsHandled = 0;
+	let timer = undefined;
+	$: if (numScrolled > numScrollsHandled) {
+		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+			clearInterval(timer);
+			render  = render.substring(render.length - 50);
+			render += ascii[numScrollsHandled % ascii.length];
+			render += '<span id="cursor" style="font-size: 1em;">▮</span>';
+			numScrollsHandled++;
+			timer = startCursorBlinking();
 		}
-		lastNumScrolled = numScrolled;
 	}
 </script>
-
-<div id="scroll-detection" on:wheel={() => rawNumScrolled++}>
-	<div id="append_pipes"></div>
-	<div id="num-scrolled">{numScrolled}</div>
+<svelte:window bind:scrollY={scrollY} />
+<div id="view">
+	<div id="append_pipes">
+		{@html render}
+	</div>
+	<div id="num_scrolled">{numScrolled}</div>
+	<div id="scroll">{scrollY}</div>
 </div>
 <style>
-	#scroll-detection {
+  :global(body) {
+    background-color: #00003a;
+    color: #8084ff;
+    transition: background-color 0.3s
+  }
+	#view {
 		display: flex;
 		flex-direction: column;
 		align-items: left;
 		justify-content: left;
-		height: 200vh;
+		height: 10000vh;
 	}
-	#num-scrolled {
+	#cursor {
+		font-size: 2em;
+	}
+  #num_scrolled {
 		font-size: 2em;
 	}
 </style>
