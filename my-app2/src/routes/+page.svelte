@@ -1,9 +1,30 @@
 <script>
+	const timerInterval = 515;
+	const initalNumberOfChars = 10;
+	const scrollIncrement = 0.444;
+	const handleScroll = async () => {
+		clearInterval(timer);
+		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+			if (render[render.length - 1] === '▋') {
+				render = render.slice(0, -1);
+			}
+			render += ascii[numScrollsHandled % ascii.length];
+			render += '▋'
+			numScrollsHandled++;
+		}
+		timer = startCursorBlinking();
+	}
 	const startCursorBlinking = () => {
 		return setInterval(() => {
-			render.substring(render.length - 50) === '<span id="cursor" style="font-size: 1em;">▮</span>' ? render = render.slice(0, -50) : render += '<span id="cursor" style="font-size: 1em;">▮</span>';
-			console.log(render.substring(render.length - 50));
-		}, 5000);
+			if (render[render.length - 1] === '▋') {
+				render = render.slice(0, -1);
+				if (render.slice(0, -3) === '<br>') {
+					render += '<br>';
+				}
+			} else {
+				render += '▋';
+			}
+		}, timerInterval);
 	}
 	let ascii = '<pre>        .n.                     |<br>' +
 		'       /___\\          _.---.  \\ _ /<br>' +
@@ -23,20 +44,13 @@
 		'\t\t\t\tlook it’s us <):)<br>' +
 		'\t\t\t\toriginal scaling is 32x32 pixels<br>' +
 		'\t\t\t\t(from hat to toe I am a full 32px tall)<br></pre>'
-	let render = '|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>';
+	let render = '|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>▋';
 	let scrollY = 0;
-	$: numScrolled = Math.floor(scrollY / .45) + 10;
+	$: numScrolled = Math.floor(scrollY / scrollIncrement) + initalNumberOfChars;
 	let numScrollsHandled = 0;
-	let timer = undefined;
+	let timer = startCursorBlinking();
 	$: if (numScrolled > numScrollsHandled) {
-		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
-			clearInterval(timer);
-			render  = render.substring(render.length - 50);
-			render += ascii[numScrollsHandled % ascii.length];
-			render += '<span id="cursor" style="font-size: 1em;">▮</span>';
-			numScrollsHandled++;
-			timer = startCursorBlinking();
-		}
+		handleScroll();
 	}
 </script>
 <svelte:window bind:scrollY={scrollY} />
@@ -58,7 +72,7 @@
 		flex-direction: column;
 		align-items: left;
 		justify-content: left;
-		height: 10000vh;
+		height: 100000vh;
 	}
 	#cursor {
 		font-size: 2em;
