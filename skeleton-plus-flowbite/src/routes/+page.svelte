@@ -1,7 +1,6 @@
 <script lang="ts">
   import { LightSwitch, AppShell, Avatar, AppBar} from '@skeletonlabs/skeleton';
 	import Timeline from '$lib/Timeline/Timeline.svelte';
-	import { NavBar } from '$lib/NavBar/NavBar.svelte';
 	const timerInterval = 515;
 	const initalNumberOfChars = 0;
 	const scrollIncrement = 0.72;
@@ -56,12 +55,6 @@
 		handleScroll();
 	}
 </script>
-<NavBar />
-<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
-	<svelte:fragment slot="lead">(icon)</svelte:fragment>
-	(title)
-	<svelte:fragment slot="trail">(actions)</svelte:fragment>
-</AppBar>
 <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
 <svelte:fragment slot="sidebarLeft">
 	<!-- Insert the list: -->
