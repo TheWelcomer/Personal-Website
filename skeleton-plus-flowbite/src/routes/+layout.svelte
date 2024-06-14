@@ -4,8 +4,14 @@
 </script>
 <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
   <svelte:fragment slot="lead">
-    <a href="/about">
-      About
+    <a href="/">
+      Intro
+    </a>
+    <a href="/projects">
+      Projects
+    </a>
+    <a href="/devlog">
+      Devlog
     </a>
   </svelte:fragment>
   <svelte:fragment slot="default">Skeleton</svelte:fragment>
