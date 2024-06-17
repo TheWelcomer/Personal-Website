@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.postcss';
 	const timerInterval = 515;
 	const initalNumberOfChars = 0;
 	const scrollIncrement = 0.72;
@@ -67,30 +68,9 @@
 		handleScroll();
 	}
 </script>
+
 <svelte:window bind:scrollY={scrollY} />
-<div id="view">
-	<div id="append_pipes">
-		<pre>
-			{@html render}
-		</pre>
-	</div>
-	<div id="num_scrolled">{numScrolled}</div>
-	<div id="scroll">{scrollY}</div>
-</div>
-<style lang="postcss">
-  :global(body) {
-    background-color: #00003a;
-    color: #8084ff;
-    transition: background-color 0.3s;
-  }
-	#view {
-		display: flex;
-		flex-direction: column;
-		align-items: left;
-		justify-content: left;
-		height: 10000vh;
-	}
-  #num_scrolled {
-		font-size: 2em;
-	}
-</style>
+
+	<pre>
+		{@html render}
+	</pre>
