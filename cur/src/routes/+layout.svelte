@@ -2,7 +2,7 @@
 	import '../app.postcss';
   import { LightSwitch, AppShell, Avatar, AppBar } from '@skeletonlabs/skeleton';
 </script>
-<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+<AppBar class="sticky top-0 w-full" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
   <svelte:fragment slot="lead">
     <a href="/">
       Intro

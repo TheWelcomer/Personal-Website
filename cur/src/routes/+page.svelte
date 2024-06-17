@@ -1,26 +1,38 @@
 <script lang="ts">
-  import { LightSwitch, AppShell, Avatar, AppBar} from '@skeletonlabs/skeleton';
-	import Timeline from '$lib/Timeline/Timeline.svelte';
 	const timerInterval = 515;
 	const initalNumberOfChars = 0;
 	const scrollIncrement = 0.72;
 	const handleScroll = async () => {
 		clearInterval(timer);
-		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
-			if (render[render.length - 1] === '▋') {
-				render = render.slice(0, -1);
+		if (numScrolled > numScrollsHandled) {
+			for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+				if (render[render.length - 1] === '▋') {
+					render = render.slice(0, -1);
+				}
+				render += ascii[numScrollsHandled % ascii.length];
+				render += '▋'
+				numScrollsHandled++;
 			}
-			render += ascii[numScrollsHandled % ascii.length];
-			render += '▋'
-			numScrollsHandled++;
+		}
+		if (numScrolled < numScrollsHandled) {
+			for (let i = 0; i < numScrollsHandled - numScrolled; i++) {
+				if (render[render.length - 1] === '▋') {
+					render = render.slice(0, -1);
+				}
+				render = render.slice(0, -1);
+				numScrollsHandled--;
+			}
 		}
 		timer = startCursorBlinking();
 	}
 	const startCursorBlinking = () => {
 		return setInterval(() => {
+			if (render.slice(-8) === '<br><br>') {
+				render = render.slice(0, -4);
+			}
 			if (render[render.length - 1] === '▋') {
 				render = render.slice(0, -1);
-				if (render.slice(0, -3) === '<br>') {
+				if (render.slice(-4) === '<br>') {
 					render += '<br>';
 				}
 			} else {
@@ -51,32 +63,10 @@
 	$: numScrolled = Math.floor(scrollY / scrollIncrement) + initalNumberOfChars;
 	let numScrollsHandled = 0;
 	let timer = startCursorBlinking();
-	$: if (numScrolled > numScrollsHandled) {
+	$: if (numScrolled !== numScrollsHandled) {
 		handleScroll();
 	}
 </script>
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
-<svelte:fragment slot="sidebarLeft">
-	<!-- Insert the list: -->
-	<nav class="list-nav">
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/about">About</a></li>
-		</ul>
-	</nav>
-	<!-- --- -->
-</svelte:fragment>
-<div class="container mx-auto p-8 space-y-8">
-	<h1 class="h1">Hello Skeleton</h1>
-	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-	<section>
-		<a class="btn variant-filled-primary" href="https://kit.svelte.dev/">SvelteKit</a>
-		<a class="btn variant-filled-secondary" href="https://tailwindcss.com/">Tailwind</a>
-		<a class="btn variant-filled-tertiary" href="https://github.com/">GitHub</a>
-	</section>
-</div>
-	<Avatar src="https://i.pravatar.cc/" />
-</AppShell>
 <svelte:window bind:scrollY={scrollY} />
 <div id="view">
 	<div id="append_pipes">
