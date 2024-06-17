@@ -46,7 +46,7 @@
 
 		'\t\t\t\toriginal scaling is 32x32 pixels<br>' +
 		'\t\t\t\t(from hat to toe I am a full 32px tall)</pre><br>'
-	let render = '|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>▋';
+	let render = '▋';
 	let scrollY = 0;
 	$: numScrolled = Math.floor(scrollY / scrollIncrement) + initalNumberOfChars;
 	let numScrollsHandled = 0;
@@ -79,10 +79,6 @@
 </AppShell>
 <svelte:window bind:scrollY={scrollY} />
 <div id="view">
-	<LightSwitch />
-	<div class="p-10">
-    <Timeline />
-  </div>
 	<div id="append_pipes">
 		<pre>
 			{@html render}
