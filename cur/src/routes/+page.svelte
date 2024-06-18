@@ -2,7 +2,7 @@
 	import '../app.postcss';
 	const timerInterval = 515;
 	const initalNumberOfChars = 0;
-	const scrollIncrement = 0.72;
+	const scrollIncrement = 0.5;
 	const handleScroll = async () => {
 		clearInterval(timer);
 		if (numScrolled > numScrollsHandled) {
@@ -70,7 +70,15 @@
 </script>
 
 <svelte:window bind:scrollY={scrollY} />
-
+<div id="view">
+	<div class="sticky top-28 h-1/2 card p-4 m-4">
 	<pre>
 		{@html render}
 	</pre>
+	</div>
+</div>
+<style lang="postcss">
+	#view {
+		height: 1000vh;
+	}
+</style>
