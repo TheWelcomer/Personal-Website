@@ -54,11 +54,7 @@
 		'.-/::.  |   |""|-._    ^   ~~~~<br>' +
 		'  `===-\'-----\'""`  \'-.              ~<br>' +
 		'                 __.-\'      ^<br>' +
-		'<br>' +
-		'LET’S BUILD A LIGHTHOUSE!!!!!!!!!!!!!!<br>' +
-
-		'\t\t\t\toriginal scaling is 32x32 pixels<br>' +
-		'\t\t\t\t(from hat to toe I am a full 32px tall)</pre><br>'
+		'</pre><br>';
 	let render = '▋';
 	let scrollY = 0;
 	$: numScrolled = Math.floor(scrollY / scrollIncrement) + initalNumberOfChars;
@@ -71,10 +67,15 @@
 
 <svelte:window bind:scrollY={scrollY} />
 <div id="view">
-	<div class="sticky top-28 h-1/2 card p-4 m-4">
-	<pre>
-		{@html render}
-	</pre>
+	<div class="h-1/5">
+		<pre class="sticky top-28 h-96 card p-4 m-4">
+			{@html render}
+		</pre>
+	</div>
+	<div class="h-1/5">
+		<pre class="sticky top-28 h-96 card p-4 m-4">
+			{@html render}
+		</pre>
 	</div>
 </div>
 <style lang="postcss">
