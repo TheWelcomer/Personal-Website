@@ -4,46 +4,55 @@
 	const TIMER_INTERVAL = 515;
 	const TO_PRINT = [
 		{
-			text: 'Hello, World!',
-			speed: 1,
+			initial: '',
+			text: '@<span style="color:blue">@Hello, World!@</span><span style="color:yellow">@My name is donald winkelman!@</span>',
+			speed: 20,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'I am a software engineer.',
-			speed: 2,
+			speed: 30,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'There was a house in new orleanes. They call the rising sun.',
 			speed: 3,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one. My mother was a tailor. She sewed my new blue jeans. My father was a gambling man. Down in New Orleans.',
 			speed: 4,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'Now the only thing a gambler needs is a suitcase and a trunk. And the only time he\'s satisfied is when he\'s on a drunk.',
 			speed: 5,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'Oh mother, tell your children not to do what I have done. Spend your lives in sin and misery in the house of the rising sun.',
 			speed: 6,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'Well, I got one foot on the platform. The other foot on the train. I\'m going back to New Orleans to wear that ball and chain.',
 			speed: 7,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'Well, there is a house in New Orleans. They call the rising sun.',
 			speed: 8,
 			handled: 0
 		},
 		{
+			initial: '',
 			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one.',
 			speed: 9,
 			handled: 0
@@ -56,11 +65,23 @@
 				if (render[currentCard][render[currentCard].length - 1] === '▋') {
 					render[currentCard] = render[currentCard].slice(0, -1);
 				}
-				if (TO_PRINT[currentCard].handled < TO_PRINT[currentCard].text.length) {
-					render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
-					render[currentCard] += '▋'
+				if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
+					return;
+				}
+				if (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] === '@') {
+					TO_PRINT[currentCard].handled++;
+					while (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] !== '@') {
+						if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
+							return;
+						}
+						render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
+						TO_PRINT[currentCard].handled++;
+					}
 					TO_PRINT[currentCard].handled++;
 				}
+				render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
+				render[currentCard] += '▋'
+				TO_PRINT[currentCard].handled++;
 				numScrollsHandled++;
 			}
 		}
@@ -104,6 +125,9 @@
 		});
 	});
 	let render = ['', '', '', '', '', '', '', '', ''];
+	render.forEach((cardText, i) => {
+		render[i] = TO_PRINT[i].initial || '';
+	});
 	let timer = startCursorBlinking();
 	$: if (numScrolled !== numScrollsHandled) {
 		handleScroll();
