@@ -59,12 +59,16 @@
 		},
 	]
 	const handleScroll = async () => {
+		if (!printing) {
+			return;
+		}
 		clearInterval(timer);
 		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
 			if (render[currentCard][render[currentCard].length - 1] === '▋') {
 				render[currentCard] = render[currentCard].slice(0, -1);
 			}
 			if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
+				printing = false;
 				break;
 			}
 			if (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] === '@') {
@@ -102,6 +106,7 @@
 	$: numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed);
 	let numScrollsHandled = 0;
 	let currentCard = 0;
+	let printing = true;
 	onMount(() => {
 		const cards = document.querySelectorAll('.card');
 		const observer = new IntersectionObserver(
@@ -109,6 +114,7 @@
 				if (entry.boundingClientRect.top < 0) {
 					let thinksCurrentCard = parseInt(entry.target.classList[0][4]);
 					if (thinksCurrentCard > currentCard) {
+						printing = true;
 						currentCard = thinksCurrentCard;
 						numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed);
 						numScrollsHandled = numScrolled;
