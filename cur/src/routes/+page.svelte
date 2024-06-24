@@ -5,55 +5,50 @@
 	const TO_PRINT = [
 		{
 			text: 'Hello, World!',
-			speed: 1
+			speed: 1,
+			handled: 0
 		},
 		{
 			text: 'I am a software engineer.',
-			speed: 2
+			speed: 2,
+			handled: 0
 		},
 		{
 			text: 'There was a house in new orleanes. They call the rising sun.',
-			speed: 3
+			speed: 3,
+			handled: 0
 		},
 		{
 			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one. My mother was a tailor. She sewed my new blue jeans. My father was a gambling man. Down in New Orleans.',
-			speed: 4
+			speed: 4,
+			handled: 0
 		},
 		{
 			text: 'Now the only thing a gambler needs is a suitcase and a trunk. And the only time he\'s satisfied is when he\'s on a drunk.',
-			speed: 5
+			speed: 5,
+			handled: 0
 		},
 		{
 			text: 'Oh mother, tell your children not to do what I have done. Spend your lives in sin and misery in the house of the rising sun.',
-			speed: 6
+			speed: 6,
+			handled: 0
 		},
 		{
 			text: 'Well, I got one foot on the platform. The other foot on the train. I\'m going back to New Orleans to wear that ball and chain.',
-			speed: 7
+			speed: 7,
+			handled: 0
 		},
 		{
 			text: 'Well, there is a house in New Orleans. They call the rising sun.',
-			speed: 8
+			speed: 8,
+			handled: 0
 		},
 		{
 			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one.',
-			speed: 9
+			speed: 9,
+			handled: 0
 		},
 	]
-	const ASCII = '<pre>        .n.                     |<br>' +
-			'       /___\\          _.---.  \\ _ /<br>' +
-			'       [|||]         (_._ ) )--;_) =-<br>' +
-			'       [___]           \'---\'.__,\' \\<br>' +
-			'       }-=-{                    |<br>' +
-			'       |-" |<bnr>' +
-			'       |.-"|                p<br>' +
-			'~^=~^~-|_.-|~^-~^~ ~^~ -^~^~|\\ ~^-~^~-<br>' +
-			'^   .=.| _.|__  ^       ~  /| \\<br>' +
-			' ~ /:. \\" _|_/\\    ~      /_|__\\  ^<br>' +
-			'.-/::.  |   |""|-._    ^   ~~~~<br>' +
-			'  `===-\'-----\'""`  \'-.              ~<br>' +
-			'                 __.-\'      ^<br>' +
-			'</pre><br>';
 	const handleScroll = async () => {
 		clearInterval(timer);
 		if (numScrolled > numScrollsHandled) {
@@ -61,8 +56,11 @@
 				if (render[currentCard][render[currentCard].length - 1] === '▋') {
 					render[currentCard] = render[currentCard].slice(0, -1);
 				}
-				render[currentCard] += ASCII[numScrollsHandled % ASCII.length];
-				render[currentCard] += '▋'
+				if (TO_PRINT[currentCard].handled < TO_PRINT[currentCard].text.length) {
+					render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
+					render[currentCard] += '▋'
+					TO_PRINT[currentCard].handled++;
+				}
 				numScrollsHandled++;
 			}
 		}
@@ -112,8 +110,8 @@
 		console.log('numScrolled:', numScrolled, 'numScrollsHandled:', numScrollsHandled);
 	}
 </script>
-
 <svelte:window bind:scrollY={scrollY} />
+<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>
 <div id="view">
 	<div class="card_div">
 		<div class="card1 sticky top-28 h-96 card p-4 m-4">
