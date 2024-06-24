@@ -5,85 +5,81 @@
 	const TO_PRINT = [
 		{
 			initial: '',
-			text: '@<span style="color:blue">@Hello, World!@</span><span style="color:yellow">@My name is donald winkelman!@</span>',
+			text: '@<span style="color: red; font-size: 18px;">@This @<span style="font-weight: bold;">@text@</span>@ is red, 18px in size, and bold.@</span>@',
+			speed: 10,
+			handled: 0
+		},
+		{
+			initial: '',
+			text: '@<span style="font-weight: bold;">@This text is bold. @<span style="text-decoration: underline; background-color: lightgray;">@This part has underline and a light gray background.@</span></span>@',
+			speed: 15,
+			handled: 0
+		},
+		{
+			initial: '',
+			text: '@<span style="font-style: italic;">@This @<span style="color: green;">@text@</span>@ is italicized and green. @<span style="letter-spacing: 1px;">@This part has increased letter spacing.@</span></span>@',
 			speed: 20,
 			handled: 0
 		},
 		{
 			initial: '',
-			text: 'I am a software engineer.',
-			speed: 30,
-			handled: 0
-		},
-		{
-			initial: '',
-			text: 'There was a house in new orleanes. They call the rising sun.',
-			speed: 3,
-			handled: 0
-		},
-		{
-			initial: '',
-			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one. My mother was a tailor. She sewed my new blue jeans. My father was a gambling man. Down in New Orleans.',
-			speed: 4,
-			handled: 0
-		},
-		{
-			initial: '',
-			text: 'Now the only thing a gambler needs is a suitcase and a trunk. And the only time he\'s satisfied is when he\'s on a drunk.',
+			text: '@<span style="text-decoration: underline;">@This @<span style="font-size: 20px;">@text@</span>@ is underlined. @<span style="font-style: italic;">@This part is italicized.@</span></span>@',
 			speed: 5,
 			handled: 0
 		},
 		{
 			initial: '',
-			text: 'Oh mother, tell your children not to do what I have done. Spend your lives in sin and misery in the house of the rising sun.',
-			speed: 6,
+			text: '@<span style="font-size: 20px;">@This text is 20px in size. @<span style="color: blue; text-transform: uppercase;">@This part is blue and uppercase.@</span></span>@',
+			speed: 20,
 			handled: 0
 		},
 		{
 			initial: '',
-			text: 'Well, I got one foot on the platform. The other foot on the train. I\'m going back to New Orleans to wear that ball and chain.',
-			speed: 7,
+			text: '@<span style="background-color: yellow;">@This @<span style="font-weight: bold;">@text@</span>@ has a yellow background. @<span style="border: 1px solid black;">@This part has a black border.@</span></span>@',
+			speed: 10,
 			handled: 0
 		},
 		{
 			initial: '',
-			text: 'Well, there is a house in New Orleans. They call the rising sun.',
-			speed: 8,
+			text: '@<span style="letter-spacing: 2px;">@This @<span style="color: purple;">@text@</span>@ has increased letter spacing. @<span style="text-shadow: 1px 1px 2px black;">@This part has a text shadow.@</span></span>@',
+			speed: 100,
 			handled: 0
 		},
 		{
 			initial: '',
-			text: 'And it\'s been the ruin of many young men. And God, I know I\'m one.',
-			speed: 9,
+			text: '@<span style="text-transform: uppercase;">@This @<span style="font-weight: bold;">@text@</span>@ is uppercase. @<span style="background-color: lightblue;">@This part has a light blue background.@</span></span>@',
+			speed: 1,
+			handled: 0
+		},
+		{
+			initial: '',
+			text: '@<span style="color: blue; font-weight: bold;">@This @<span style="text-decoration: underline; font-size: 24px;">@text@</span>@ is blue, bold, underlined, and 24px in size.@</span>@',
+			speed: 10,
 			handled: 0
 		},
 	]
 	const handleScroll = async () => {
 		clearInterval(timer);
-		if (numScrolled > numScrollsHandled) {
-			for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
-				if (render[currentCard][render[currentCard].length - 1] === '▋') {
-					render[currentCard] = render[currentCard].slice(0, -1);
-				}
-				if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
-					return;
-				}
-				if (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] === '@') {
-					TO_PRINT[currentCard].handled++;
-					while (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] !== '@') {
-						if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
-							return;
-						}
-						render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
-						TO_PRINT[currentCard].handled++;
-					}
-					TO_PRINT[currentCard].handled++;
-				}
-				render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
-				render[currentCard] += '▋'
-				TO_PRINT[currentCard].handled++;
-				numScrollsHandled++;
+		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+			if (render[currentCard][render[currentCard].length - 1] === '▋') {
+				render[currentCard] = render[currentCard].slice(0, -1);
 			}
+			if (TO_PRINT[currentCard].handled >= TO_PRINT[currentCard].text.length) {
+				break;
+			}
+			if (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] === '@') {
+				TO_PRINT[currentCard].handled++;
+				while (TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled] !== '@') {
+					render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
+					TO_PRINT[currentCard].handled++;
+				}
+				TO_PRINT[currentCard].handled++;
+				break;
+			}
+			render[currentCard] += TO_PRINT[currentCard].text[TO_PRINT[currentCard].handled];
+			render[currentCard] += '▋'
+			TO_PRINT[currentCard].handled++;
+			numScrollsHandled++;
 		}
 		timer = startCursorBlinking();
 	}
@@ -129,7 +125,7 @@
 		render[i] = TO_PRINT[i].initial || '';
 	});
 	let timer = startCursorBlinking();
-	$: if (numScrolled !== numScrollsHandled) {
+	$: if (numScrolled > numScrollsHandled) {
 		handleScroll();
 		console.log('numScrolled:', numScrolled, 'numScrollsHandled:', numScrollsHandled);
 	}
