@@ -4,8 +4,8 @@
 	const TIMER_INTERVAL = 515;
 	const TO_PRINT = [
 		{
-			initial: '',
-			text: '@<span style="color: red; font-size: 18px;">@This @<span style="font-weight: bold;">@text@</span>@ is red, 18px in size, and bold.@</span>@',
+			initial: '↓ Scroll to see the text ↓',
+			text: '@<span style="color: #4cd982; font-size: 30px; font-family: IBM Plex Mono, sans-serif;"><br>@Hello World!! @<span style="font-weight: bold;">@text@</span>@ is red, 18px in size, and bold.@</span>@',
 			speed: 10,
 			handled: 0
 		},
@@ -137,7 +137,7 @@
 	}
 </script>
 <svelte:window bind:scrollY={scrollY} />
-<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>
+<!--<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>-->
 <div id="view">
 	<div class="card_div">
 		<div class="card1 sticky top-28 h-96 card p-4 m-4">
@@ -237,7 +237,8 @@
 	.card_div {
 		height: 200vh;
 	}
-	.card_div.isSticky {
-		background-color: #000000;
+	@font-face{
+		font-family: 'IBM Plex Mono';
+		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
 	}
 </style>
