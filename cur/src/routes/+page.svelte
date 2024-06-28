@@ -5,22 +5,20 @@
 	const TO_PRINT = [
 		{
 			initial:
-							'<div class="font-inter align-middle inline-block">' +
+							'<div class="font-inter">' +
 								'↓ Scroll to see the text ↓' +
 							'</div>',
-			text: '@<div class="font-ibm text-sky-600 text-6xl inline-block align-middle">@' +
-					'Hallo, I\'m ' +
-					'@<div class="text-rose-600 inline-block">@' +
-					'The Welcomer!!' +
-					'@</div>' +
+			text:
+					'@<div class="font-ibm text-sky-600 text-6xl">@' +
+						'Hallo, I\'m ' +
+						'@<div class="text-rose-600 inline-block">@' +
+							'The Welcomer!!' +
+						'@</div>' +
+					'</div>' +
 					'<br>' +
-					'<br>' +
-					'<div class="text-rose-600 inline-block">@' +
-					'' +
-					'@</div>' +
-					'~@' +
-					'Wanderer of systems and science!' +
-					'@<div>@',
+					'<div class="font-inter text-sky-600 text-2xl">~@' +
+						'Wanderer of systems and science!' +
+						'@<div class="">@',
 			speed: [50, 10],
 			handled: 0
 		},
