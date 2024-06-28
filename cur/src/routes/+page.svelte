@@ -241,4 +241,8 @@
 		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
 	}
+	@font-face {
+		font-family: 'Inter';
+		src: url('../lib/fonts/Inter/Inter-Regular.woff2') format('woff2');
+	}
 </style>
