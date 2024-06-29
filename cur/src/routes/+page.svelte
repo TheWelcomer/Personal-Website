@@ -9,22 +9,38 @@
 								'↓ Scroll to see the text ↓' +
 							'</div>',
 			text:
-					'@<div class="font-ibm text-sky-600 text-6xl">@' +
+					'@<div class="font-ibm italic text-sky-600 text-6xl">@' +
 						'Hallo, I\'m ' +
-						'@<div class="text-rose-600 inline-block">@' +
+						'@<div class="text-rose-600">@' +
 							'The Welcomer!!' +
 						'@</div>' +
 					'</div>' +
 					'<br>' +
-					'<div class="font-inter text-sky-600 text-2xl">~@' +
+					'<br>' +
+					'<div class="font-ibm text-sky-600 text-2xl">~@' +
 						'Wanderer of systems and science!' +
-						'@<div class="">@',
+						'@<div class="text-right">@' +
+						'... and delving spots         ' +
+						'@<br>@' +
+						'... and backwoods         ' +
+						'@<br>@' +
+						'... and all things blue ' +
+						'@<br>@',
 			speed: [50, 10],
 			handled: 0
 		},
 		{
 			initial: '',
-			text: '@<span style="font-weight: bold;">@This text is bold. @<span style="text-decoration: underline; background-color: lightgray;">@This part has underline and a light gray background.@</span></span>@',
+			text:
+						'@<div class="font-inter text-sky-600 text-2xl">@' +
+							'I\'m a CS Major at the University of Massachusetts Amherst graduating in December 2024 with a passion ' +
+							'for exploring fields with wonderful people and inspiring works. From building recyclable plastic ' +
+							'concrete, a self-designed trail kiosk, a hammock using a garden hose, and many other projects in ' +
+							'Scouting, I learned early on I was an engineer at heart. Creating my website to deliver groceries ' +
+							'over the pandemic, I felt empowered to use software to help my friends and community. The simple ' +
+							'act of creation is at the center of who I am, and connecting thousands of components to ' +
+							'bring an app to life has been the most logically satisfying craft I\'ve discovered. I seek ' +
+							'to master this process slowly, enjoying my journey along the way.',
 			speed: [15],
 		},
 		{
@@ -157,7 +173,7 @@
 </script>
 <svelte:window bind:scrollY={scrollY} />
 <!--<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>-->
-<div class="card_div">
+<div class="card_div card_div1">
 	<div class="card1 sticky top-28 h-96 card p-4 m-4">
 		<div class="text1 text whitespace-pre-wrap">
 			{@html render[0]}
@@ -167,9 +183,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div2">
 	<div class="card2 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text2 text whitespace-pre-wrap">
 			{@html render[1]}
 		</div>
 		<div class="visual1 visual">
@@ -177,9 +193,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div3">
 	<div class="card3 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text3 text whitespace-pre-wrap">
 			{@html render[2]}
 		</div>
 		<div class="visual1 visual">
@@ -187,9 +203,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div4">
 	<div class="card4 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text4 text whitespace-pre-wrap">
 			{@html render[3]}
 		</div>
 		<div class="visual1 visual">
@@ -197,9 +213,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div5">
 	<div class="card5 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text5 text whitespace-pre-wrap">
 			{@html render[4]}
 		</div>
 		<div class="visual1 visual">
@@ -207,9 +223,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div6">
 	<div class="card6 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text6 text whitespace-pre-wrap">
 			{@html render[5]}
 		</div>
 		<div class="visual1 visual">
@@ -217,9 +233,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div7">
 	<div class="card7 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text7 text whitespace-pre-wrap">
 			{@html render[6]}
 		</div>
 		<div class="visual1 visual">
@@ -227,9 +243,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div8">
 	<div class="card8 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text8 text whitespace-pre-wrap">
 			{@html render[7]}
 		</div>
 		<div class="visual1 visual">
@@ -237,9 +253,9 @@
 		</div>
 	</div>
 </div>
-<div class="card_div">
+<div class="card_div card_div9">
 	<div class="card9 sticky top-28 h-96 card p-4 m-4">
-		<div class="text1 text whitespace-pre-wrap">
+		<div class="text9 text whitespace-pre-wrap">
 			{@html render[8]}
 		</div>
 		<div class="visual1 visual">
@@ -248,18 +264,52 @@
 	</div>
 </div>
 <style lang="postcss">
-	#view {
-		height: 2000vh;
+	.card_div1 {
+		height: 400vh;
 	}
-	.card_div {
-		height: 600vh;
+	.card_div2 {
+		height: 700vh;
+	}
+	.card_div3 {
+		height: 700vh;
+	}
+	.card_div4 {
+		height: 700vh;
+	}
+	.card_div5 {
+		height: 700vh;
+	}
+	.card_div6 {
+		height: 700vh;
+	}
+	.card_div7 {
+		height: 700vh;
+	}
+	.card_div8 {
+		height: 700vh;
+	}
+	.card_div9 {
+		height: 700vh;
 	}
 	@font-face{
 		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
 	}
 	@font-face {
+		font-family: 'IBM Plex Mono';
+		src: url('../lib/fonts/IBM Plex Mono/italic.woff2') format('woff2');
+		font-style: italic;
+	}
+	@font-face {
 		font-family: 'Inter';
 		src: url('../lib/fonts/Inter/Inter-Regular.woff2') format('woff2');
+	}
+	@font-face {
+		font-family: 'Roboto Mono';
+		src: url('../lib/fonts/Roboto Mono/RobotoMono-Regular.woff2') format('woff2');
+	}
+	@font-face {
+		font-family: 'Ubuntu Sans Mono';
+		src: url('../lib/fonts/Ubuntu Sans Mono/UbuntuSansMono-Regular.woff2') format('woff2');
 	}
 </style>

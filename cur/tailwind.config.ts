@@ -8,8 +8,10 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				'inter': ['Inter'],
-				'ibm': ['IBM Plex Mono' , 'monospace'],
+				'inter': ['Inter', 'sans-serif'],
+				'ibm': ['IBM Plex Mono' , 'sans-serif'],
+				'roboto': ['Roboto Mono', 'sans-serif'],
+				'ubuntu': ['Ubuntu Mono', 'sans-serif'],
 			},
 		},
 	},
