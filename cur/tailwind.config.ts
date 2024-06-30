@@ -14,6 +14,15 @@ module.exports = {
 				'roboto': ['Roboto Mono', 'sans-serif'],
 				'ubuntu': ['Ubuntu Mono', 'sans-serif'],
 			},
+			animation: {
+				fadeIn: 'fadeIn 1s ease-in-out',
+			},
+			keyframes: {
+				fadeIn: {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' },
+				},
+			},
 		},
 	},
 	plugins: [

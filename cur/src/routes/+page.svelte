@@ -152,10 +152,10 @@
 						handled = 0;
 						currentCard++;
 						cards[currentCard].classList.remove('opacity-0');
-						cards[currentCard].classList.add('fade-in');
+						cards[currentCard].classList.add('animate-fadeIn');
 						currentVisual++;
 						visuals[currentVisual].classList.remove('opacity-0');
-						visuals[currentVisual].classList.add('fade-in');
+						visuals[currentVisual].classList.add('animate-fadeIn');
 						speed = 0
 						numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 						numScrollsHandled = numScrolled;
@@ -181,7 +181,7 @@
 					if (thinksCurrentVisual > currentVisual) {
 						currentVisual++;
 						visuals[currentVisual].classList.remove('opacity-0');
-						visuals[currentVisual].classList.add('fade-in');
+						visuals[currentVisual].classList.add('animate-fadeIn');
 					}
 				}
 			}
@@ -204,13 +204,13 @@
 <!--<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>-->
 <div class="card_0 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_0 sticky top-28 min-h-96 ml-4 card p-4 w-full fade-in">
+		<div class="text_0 sticky top-28 min-h-96 ml-4 card p-4 w-full animate-fadeIn">
 			{@html render[0]}
 		</div>
 	</div>
 	<div class="visual_list_0 visual_list">
 		<div class="visual_div_0 visual_div mb-4">
-			<div class="visual_0 visual sticky top-24 p-4 fade-in">
+			<div class="visual_0 visual sticky top-24 p-4 animate-fadeIn">
 				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
 			</div>
 		</div>
@@ -373,17 +373,6 @@
 	}
 	.visual_div {
 		height: 180vh;
-	}
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-	.fade-in {
-		animation: fadeIn 1s ease-in-out;
 	}
 	@font-face{
 		font-family: 'IBM Plex Mono';
