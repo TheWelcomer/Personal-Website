@@ -3,13 +3,88 @@
 	import '../app.postcss';
 
 	onMount(() => {
-		const TIMER_INTERVAL = window.innerWidth < 768 ? 600 : 515;
+		TIMER_INTERVAL = window.innerWidth < 768 ? 600 : 515;
 	});
 
 	const TO_PRINT = [
-		// ... (keep the existing TO_PRINT array as is)
+		{
+			initial:
+							'<div class="font-inter">' +
+								'↓ Scroll to see the text ↓' +
+							'</div>',
+			text:
+					'@<div class="font-ibm italic text-sky-600 text-6xl">@' +
+						'Hallo, I\'m ' +
+						'@<div class="text-rose-600">@' +
+							'The Welcomer!!' +
+						'@</div>' +
+					'</div>' +
+					'<br>' +
+					'<br>' +
+					'<div class="font-ibm text-sky-600 text-2xl">~@' +
+						'Wanderer of systems and science!' +
+						'@<div class="text-right">@' +
+						'... and delving spots         ' +
+						'@<br>@' +
+						'... and backwoods         ' +
+						'@<br>@' +
+						'... and all things blue ' +
+						'@<br>@',
+			speed: [50, 10],
+			handled: 0
+		},
+		{
+			initial: '',
+			text:
+						'@<div class="font-ibm italic text-sky-600 text-2xl">@' +
+							'I\'m a CS Major at UMass Amherst graduating in December 2024 with a passion ' +
+							'for exploring fields with wonderful people and inspiring works. From building recyclable plastic ' +
+							'concrete, a self-designed trail kiosk, a hammock using a garden hose, and many other projects, ' +
+							'I learned early on I was an engineer at heart. Creating my website to deliver groceries ' +
+							'over the pandemic, I felt empowered to use software to help my friends and community. The simple ' +
+							'act of creation is at the center of who I am, and connecting thousands of components to ' +
+							'bring an app to life has been the most logically satisfying craft I\'ve discovered. I seek ' +
+							'to master this process slowly, enjoying my journey along the way.',
+			speed: [10],
+		},
+		{
+			initial: '',
+			text: '@<span style="font-style: italic;">@This @<span style="color: green;">@text@</span>@ is italicized and green. @<span style="letter-spacing: 1px;">@This part has increased letter spacing.@</span></span>@',
+			speed: [20],
+		},
+		{
+			initial: '',
+			text: '@<span style="text-decoration: underline;">@This @<span style="font-size: 20px;">@text@</span>@ is underlined. @<span style="font-style: italic;">@This part is italicized.@</span></span>@',
+			speed: [5],
+		},
+		{
+			initial: '',
+			text: '@<span style="font-size: 20px;">@This text is 20px in size. @<span style="color: blue; text-transform: uppercase;">@This part is blue and uppercase.@</span></span>@',
+			speed: [20],
+		},
+		{
+			initial: '',
+			text: '@<span style="background-color: yellow;">@This @<span style="font-weight: bold;">@text@</span>@ has a yellow background. @<span style="border: 1px solid black;">@This part has a black border.@</span></span>@',
+			speed: [10],
+		},
+		{
+			initial: '',
+			text: '@<span style="letter-spacing: 2px;">@This @<span style="color: purple;">@text@</span>@ has increased letter spacing. @<span style="text-shadow: 1px 1px 2px black;">@This part has a text shadow.@</span></span>@',
+			speed: [100],
+		},
+		{
+			initial: '',
+			text: '@<span style="text-transform: uppercase;">@This @<span style="font-weight: bold;">@text@</span>@ is uppercase. @<span style="background-color: lightblue;">@This part has a light blue background.@</span></span>@',
+			speed: [1],
+		},
+		{
+			initial: '',
+			text: '@<span style="color: blue; font-weight: bold;">@This @<span style="text-decoration: underline; font-size: 24px;">@text@</span>@ is blue, bold, underlined, and 24px in size.@</span>@',
+			speed: [10],
+		},
 	]
 
+	let TIMER_INTERVAL = 515;
 	let scrollY = 0;
 	let speed = 0;
 	let handled = 0;
@@ -21,11 +96,58 @@
 	let printing = true;
 
 	const handleScroll = async () => {
-		// ... (keep the existing handleScroll function as is)
+		if (!printing) {
+			return;
+		}
+		if (currentCard === 0 && handled === 0) {
+			render[currentCard] = '';
+		}
+		clearInterval(timer);
+		for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+			if (render[currentCard][render[currentCard].length - 1] === '▋') {
+				render[currentCard] = render[currentCard].slice(0, -1);
+			}
+			if (handled >= TO_PRINT[currentCard].text.length) {
+				printing = false;
+				break;
+			}
+			if (TO_PRINT[currentCard].text[handled] === '@') {
+				handled++;
+				while (TO_PRINT[currentCard].text[handled] !== '@') {
+					if (TO_PRINT[currentCard].text[handled] === '~') {
+						speed++;
+						numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
+						numScrollsHandled = numScrolled;
+						handled++;
+						continue;
+					}
+					render[currentCard] += TO_PRINT[currentCard].text[handled];
+					handled++;
+				}
+				handled++;
+				break;
+			}
+			render[currentCard] += TO_PRINT[currentCard].text[handled];
+			render[currentCard] += '▋'
+			handled++;
+			numScrollsHandled++;
+		}
+		timer = startCursorBlinking();
 	}
-
 	const startCursorBlinking = () => {
-		// ... (keep the existing startCursorBlinking function as is)
+		return setInterval(() => {
+			if (render[currentCard].length >= 8 && render[currentCard].slice(-8) === '<br><br>') {
+				render[currentCard] = render[currentCard].slice(0, -4);
+			}
+			if (render[currentCard][render[currentCard].length - 1] === '▋') {
+				render[currentCard] = render[currentCard].slice(0, -1);
+				if (render[currentCard].slice(-4) === '<br>') {
+					render[currentCard] += '<br>';
+				}
+			} else {
+				render[currentCard] += '▋';
+			}
+		}, TIMER_INTERVAL);
 	}
 
 	const handleTouchStart = (e: TouchEvent) => {
