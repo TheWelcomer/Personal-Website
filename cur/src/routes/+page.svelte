@@ -139,17 +139,23 @@
 	$: numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 	let numScrollsHandled = 0;
 	let currentCard = 0;
+	let currentVisual = 0;
 	let printing = true;
 	onMount(() => {
 		const cards = document.querySelectorAll('.card');
 		const observer = new IntersectionObserver(
 			([entry]) => {
 				if (entry.boundingClientRect.top < 0) {
-					let thinksCurrentCard = parseInt(entry.target.classList[0][4]);
+					let thinksCurrentCard = parseInt(entry.target.classList[0][5]) + 1;
 					if (thinksCurrentCard > currentCard) {
 						printing = true;
 						handled = 0;
-						currentCard = thinksCurrentCard;
+						currentCard++;
+						cards[currentCard].classList.remove('opacity-0');
+						cards[currentCard].classList.add('fade-in');
+						currentVisual++;
+						visuals[currentVisual].classList.remove('opacity-0');
+						visuals[currentVisual].classList.add('fade-in');
 						speed = 0
 						numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 						numScrollsHandled = numScrolled;
@@ -159,6 +165,29 @@
 		);
 		cards.forEach((card) => {
 			observer.observe(card);
+		});
+		const visuals = document.querySelectorAll('.visual');
+		const visualObserver = new IntersectionObserver(
+			([entry]) => {
+				if (entry.boundingClientRect.top < 0) {
+					let thinksCurrentVisual = parseInt(entry.target.classList[0].slice(7)) + 1;
+					try {
+						if (document.querySelector(`.visual_${thinksCurrentVisual}`).parentElement.parentElement.classList[0] !== `visual_list_${currentCard}`) {
+							console.log('returning');
+							return;
+						}
+					} catch (e) {
+					}
+					if (thinksCurrentVisual > currentVisual) {
+						currentVisual++;
+						visuals[currentVisual].classList.remove('opacity-0');
+						visuals[currentVisual].classList.add('fade-in');
+					}
+				}
+			}
+		);
+		visuals.forEach((visual) => {
+			visualObserver.observe(visual);
 		});
 	});
 	let render = ['', '', '', '', '', '', '', '', ''];
@@ -173,168 +202,188 @@
 </script>
 <svelte:window bind:scrollY={scrollY} />
 <!--<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>-->
-<div class="card_1 card_class grid grid-cols-2 gap-4">
+<div class="card_0 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_1 sticky top-28 min-h-96 ml-4 card p-4 w-full">
+		<div class="text_0 sticky top-28 min-h-96 ml-4 card p-4 w-full fade-in">
 			{@html render[0]}
 		</div>
 	</div>
-	<div class="visual_list_1 visual_list top-28 min-h-96">
-		<div class="visual_div_1_1 mb-4">
-			<div class="visual_1_1 visual sticky top-28 p-4">
-				<img class="h-auto max-w-full rounded-lg" src="../lib/images/chin.JPG" alt="Chin" />
+	<div class="visual_list_0 visual_list">
+		<div class="visual_div_0 visual_div mb-4">
+			<div class="visual_0 visual sticky top-24 p-4 fade-in">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
 			</div>
 		</div>
-		<div class="visual_div_1_2 mb-4">
-			<div class="visual_1_2 visual sticky top-28 p-4">
-				<img class="h-auto max-w-full rounded-lg" src="../lib/images/snow.JPG" alt="Snow" />
+		<div class="visual_div_1 visual_div mb-4">
+			<div class="visual_1 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/juice.jpeg" alt="Snow" />
 			</div>
 		</div>
-		<div class="visual_div_1_2 mb-4">
-			<div class="visual_1_2 visual sticky top-28 p-4">
-				<img class="h-auto max-w-full rounded-lg" src="../lib/images/juice.JPG" alt="Juice" />
+		<div class="visual_div_2 visual_div mb-4">
+			<div class="visual_2 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/phil.jpeg" alt="Juice" />
 			</div>
 		</div>
-		<div class="visual_div_1_2 mb-4">
-			<div class="visual_1_2 visual sticky top-28 p-4">
-				<img class="h-auto max-w-full rounded-lg" src="../lib/images/phil.JPG" alt="Philmont" />
+		<div class="visual_div_3 visual_div mb-4">
+			<div class="visual_3 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/snow.jpeg" alt="Philmont" />
 			</div>
 		</div>
 	</div>
 </div>
-<!--<div class="">-->
-<!--	<div class="card_div card_div1 inline-flex w-1/2">-->
-<!--		<div class="card1 sticky top-28 min-h-96 card p-4 m-4 inline-flex w-1/2">-->
-<!--			<div class="text1 text whitespace-pre-wrap">-->
-<!--				{@html render[0]}-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--	<div class="visual_div1 visual_div inline-flex w-1/2">-->
-<!--		<div class="visual_1_1 visual sticky top-28 block">-->
-<!--			{@html '<p>hello world</p>'}-->
-<!--		</div>-->
-<!--		<div class="visual_1_2 visual sticky top-28 block">-->
-<!--			{@html '<p>hello world</p>'}-->
-<!--		</div>-->
-<!--		<div class="visual_1_3 visual sticky top-28 block">-->
-<!--			{@html '<p>hello world</p>'}-->
-<!--		</div>-->
-<!--	</div>-->
-<!--</div>-->
-<div class="card_div card_div2">
-	<div class="card2 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text2 text whitespace-pre-wrap">
+<div class="card_1 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_1 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[1]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_1 visual_list">
+		<div class="visual_div_4 visual_div mb-4">
+			<div class="visual_4 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div3">
-	<div class="card3 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text3 text whitespace-pre-wrap">
+<div class="card_2 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_2 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[2]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_2 visual_list">
+		<div class="visual_div_5 visual_div mb-4">
+			<div class="visual_5 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div4">
-	<div class="card4 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text4 text whitespace-pre-wrap">
+<div class="card_3 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_3 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[3]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_3 visual_list">
+		<div class="visual_div_6 visual_div mb-4">
+			<div class="visual_6 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div5">
-	<div class="card5 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text5 text whitespace-pre-wrap">
+<div class="card_4 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_4 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[4]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_4 visual_list">
+		<div class="visual_div_7 visual_div mb-4">
+			<div class="visual_7 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div6">
-	<div class="card6 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text6 text whitespace-pre-wrap">
+<div class="card_5 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_5 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[5]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_5 visual_list">
+		<div class="visual_div_8 visual_div mb-4">
+			<div class="visual_8 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div7">
-	<div class="card7 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text7 text whitespace-pre-wrap">
+<div class="card_6 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_6 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[6]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_6 visual_list">
+		<div class="visual_div_9 visual_div mb-4">
+			<div class="visual_9 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div8">
-	<div class="card8 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text8 text whitespace-pre-wrap">
+<div class="card_7 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_7 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[7]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_7 visual_list">
+		<div class="visual_div_10 visual_div mb-4">
+			<div class="visual_10 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card_div card_div9">
-	<div class="card9 sticky top-28 min-h-96 card p-4 m-4">
-		<div class="text9 text whitespace-pre-wrap">
+<div class="card_8 card_class grid grid-cols-2 gap-4">
+	<div class="text-container">
+		<div class="text_8 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
 			{@html render[8]}
 		</div>
-		<div class="visual1 visual">
-
+	</div>
+	<div class="visual_list_8 visual_list">
+		<div class="visual_div_11 visual_div mb-4">
+			<div class="visual_11 visual sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+			</div>
 		</div>
 	</div>
 </div>
 <style lang="postcss">
+	.card_0 {
+		height: 800vh;
+	}
 	.card_1 {
-		height: 700vh;
+		height: 800vh;
 	}
-	.card_div2 {
-		height: 700vh;
+	.card_2 {
+		height: 800vh;
 	}
-	.card_div3 {
-		height: 700vh;
+	.card_3 {
+		height: 800vh;
 	}
-	.card_div4 {
-		height: 700vh;
+	.card_4 {
+		height: 800vh;
 	}
-	.card_div5 {
-		height: 700vh;
+	.card_5 {
+		height: 800vh;
 	}
-	.card_div6 {
-		height: 700vh;
+	.card_6 {
+		height: 800vh;
 	}
-	.card_div7 {
-		height: 700vh;
+	.card_7 {
+		height: 800vh;
 	}
-	.card_div8 {
-		height: 700vh;
+	.card_8 {
+		height: 800vh;
 	}
-	.card_div9 {
-		height: 700vh;
+	.visual_div {
+		height: 180vh;
 	}
-	.visual_div_1_1 {
-		height: 100vh;
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
-	.visual_div_1_2 {
-		height: 200vh;
+	.fade-in {
+		animation: fadeIn 1s ease-in-out;
 	}
 	@font-face{
 		font-family: 'IBM Plex Mono';
