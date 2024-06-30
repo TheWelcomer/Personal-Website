@@ -142,6 +142,9 @@
 	let currentVisual = 0;
 	let printing = true;
 	onMount(() => {
+		window.onbeforeunload = function () {
+			window.scrollTo(0, 0);
+		}
 		const cards = document.querySelectorAll('.card');
 		const observer = new IntersectionObserver(
 			([entry]) => {
