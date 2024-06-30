@@ -183,8 +183,10 @@
 					}
 					if (thinksCurrentVisual > currentVisual) {
 						currentVisual++;
-						visuals[currentVisual].classList.remove('opacity-0');
-						visuals[currentVisual].classList.add('animate-fadeIn');
+						if (entry.target.classList.contains('opacity-0')) {
+							entry.target.classList.remove('opacity-0');
+							entry.target.classList.add('animate-fadeIn');
+						}
 					}
 				}
 			}
@@ -207,7 +209,7 @@
 <!--<iframe frameborder="0" src="https://itch.io/embed/2792618" width="552" height="167"><a href="https://dwinkelmanumassedu.itch.io/pacman-clone-starter">Pacman Clone Starter by dwinkelman@umass.edu</a></iframe>-->
 <div class="card_0 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_0 sticky top-28 min-h-96 ml-4 card p-4 w-full animate-fadeIn">
+		<div class="text_0 sticky top-28 min-h-96 ml-4 card p-4 w-full animate-fadeIn break-words">
 			{@html render[0]}
 		</div>
 	</div>
@@ -236,7 +238,7 @@
 </div>
 <div class="card_1 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_1 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_1 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[1]}
 		</div>
 	</div>
@@ -250,7 +252,7 @@
 </div>
 <div class="card_2 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_2 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_2 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[2]}
 		</div>
 	</div>
@@ -264,7 +266,7 @@
 </div>
 <div class="card_3 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_3 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_3 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[3]}
 		</div>
 	</div>
@@ -278,7 +280,7 @@
 </div>
 <div class="card_4 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_4 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_4 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[4]}
 		</div>
 	</div>
@@ -292,7 +294,7 @@
 </div>
 <div class="card_5 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_5 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_5 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[5]}
 		</div>
 	</div>
@@ -306,7 +308,7 @@
 </div>
 <div class="card_6 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_6 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_6 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[6]}
 		</div>
 	</div>
@@ -320,7 +322,7 @@
 </div>
 <div class="card_7 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_7 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_7 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[7]}
 		</div>
 	</div>
@@ -334,7 +336,7 @@
 </div>
 <div class="card_8 card_class grid grid-cols-2 gap-4">
 	<div class="text-container">
-		<div class="text_8 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0">
+		<div class="text_8 sticky top-28 min-h-96 ml-4 card p-4 w-full opacity-0 break-words">
 			{@html render[8]}
 		</div>
 	</div>
