@@ -83,6 +83,8 @@
 			speed: [10],
 		},
 	]
+
+	// Constants
 	const TIMER_INTERVAL = 515;
 
 	// Variables
