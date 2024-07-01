@@ -154,6 +154,7 @@
 						printing = true;
 						handled = 0;
 						currentCard++;
+						entry.target.innerHTML.replace('▋', '');
 						cards[currentCard].classList.remove('opacity-0');
 						cards[currentCard].classList.add('animate-fadeIn');
 						currentVisual++;
@@ -220,18 +221,18 @@
 			</div>
 		</div>
 		<div class="visual_div_1 visual_div mb-4">
-			<div class="visual_1 visual sticky top-24 p-4 opacity-0">
-				<img class="h-auto max-h-screen rounded-lg" src="/images/juice.jpeg" alt="Snow" />
+			<div class="visual_1 visual sticky top-24 p-4">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/juice.jpeg" alt="Juice" />
 			</div>
 		</div>
 		<div class="visual_div_2 visual_div mb-4">
-			<div class="visual_2 visual sticky top-24 p-4 opacity-0">
-				<img class="h-auto max-h-screen rounded-lg" src="/images/phil.jpeg" alt="Juice" />
+			<div class="visual_2 visual sticky top-24 p-4">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
 			</div>
 		</div>
 		<div class="visual_div_3 visual_div mb-4">
-			<div class="visual_3 visual sticky top-24 p-4 opacity-0">
-				<img class="h-auto max-h-screen rounded-lg" src="/images/snow.jpeg" alt="Philmont" />
+			<div class="visual_3 visual sticky top-24 p-4">
+				<img class="h-auto max-h-screen rounded-lg" src="/images/snow.jpeg" alt="Snow" />
 			</div>
 		</div>
 	</div>
