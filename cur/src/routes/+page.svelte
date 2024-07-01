@@ -179,9 +179,6 @@
 							currentCard++;
 							cards[currentCard].classList.remove('opacity-0');
 							cards[currentCard].classList.add('animate-fadeIn');
-							currentVisual++;
-							visuals[currentVisual].classList.remove('opacity-0');
-							visuals[currentVisual].classList.add('animate-fadeIn');
 							speed = 0
 							numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 							numScrollsHandled = numScrolled;
