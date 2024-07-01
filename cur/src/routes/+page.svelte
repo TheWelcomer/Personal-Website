@@ -284,7 +284,7 @@
 
 <!--Styles-->
 <style lang="postcss">
-	// Card lengths
+	/* Card lengths */
 	.card_0 {
 		height: 800vh;
 	}
@@ -313,12 +313,12 @@
 		height: 800vh;
 	}
 
-	// Visual lengths
+	/* Visual lengths */
 	.visual_container {
 		height: 180vh;
 	}
 
-	// Fonts
+	/* Fonts */
 	@font-face{
 		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
