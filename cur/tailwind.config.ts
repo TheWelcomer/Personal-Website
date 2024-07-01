@@ -23,7 +23,10 @@ module.exports = {
 					'100%': { opacity: '1' },
 				},
 			},
-		},
+			maxHeight: {
+				'86.2vh': '86.2vh',
+			}
+		}
 	},
 	plugins: [
 		skeleton({

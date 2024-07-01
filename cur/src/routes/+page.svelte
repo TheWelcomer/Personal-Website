@@ -174,13 +174,15 @@
 		const observer = new IntersectionObserver(
 				([entry]) => {
 					if (entry.boundingClientRect.top < 0) {
-						let thinksCurrentCard = parseInt(entry.target.classList[0][5]) + 1;
+						let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
 						if (thinksCurrentCard > currentCard) {
 							printing = true;
 							charsPrinted = 0;
 							currentCard++;
-							cards[currentCard].classList.remove('opacity-0');
-							cards[currentCard].classList.add('animate-fadeIn');
+							if (cards[currentCard].classList.contains('opacity-0')) {
+								cards[currentCard].classList.remove('opacity-0');
+								cards[currentCard].classList.add('animate-fadeIn');
+							}
 							speed = 0
 							numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 							numScrollsHandled = numScrolled;
@@ -199,12 +201,13 @@
 		const visualObserver = new IntersectionObserver(
 			([entry]) => {
 				if (entry.boundingClientRect.top < 0) {
-					let thinksCurrentVisual = parseInt(entry.target.classList[0].slice(7)) + 1;
+					console.log(entry.target.classList[1]);
+					let thinksCurrentVisual = parseInt(entry.target.classList[1].slice(7)) + 1;
 					if (thinksCurrentVisual > currentVisual) {
 						currentVisual++;
-						if (entry.target.classList.contains('opacity-0')) {
-							entry.target.classList.remove('opacity-0');
-							entry.target.classList.add('animate-fadeIn');
+						if (visuals[currentVisual].classList.contains('opacity-0')) {
+							visuals[currentVisual].classList.remove('opacity-0');
+							visuals[currentVisual].classList.add('animate-fadeIn');
 						}
 					}
 				}
@@ -231,52 +234,40 @@
 <svelte:window bind:scrollY={scrollY} />
 
 <!-- Cards and visuals -->
-<div class="card_0 card_class grid grid-cols-2 gap-4">
+<div class="card_0 card_class grid grid-cols-2">
 	<!-- Cards -->
 	<div class="cards">
-		<div class="super_card">
-			<div class="card_container">
-				<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 w-full animate-fadeIn break-words">
-					{@html render[0]}
-				</div>
+		<div class="super_card super_card_0">
+			<div class="card card_0 sticky top-28 min-h-96 mt-4 ml-4 p-4 animate-fadeIn break-words">
+				{@html render[0]}
 			</div>
 		</div>
-		<div class="super_card">
-			<div class="card_container">
-				<div class="card card_1 sticky top-28 min-h-96 ml-4 p-4 w-full opacity-0 break-words">
-					{@html render[1]}
-				</div>
+		<div class="super_card super_card_1">
+			<div class="card card_1 sticky top-28 min-h-96 ml-4 p-4 w-full opacity-0 break-words">
+				{@html render[1]}
 			</div>
 		</div>
 	</div>
 	<!-- Visuals -->
 	<div class="visuals">
-		<div class="super_visual">
-			<div class="visual_container mb-4">
-				<div class="visual sticky top-24 p-4 animate-fadeIn">
-					<img class="h-auto max-h-screen rounded-lg" src="/images/chin.jpeg" alt="Chin" />
-				</div>
+		<div class="super_visual super_visual_0">
+			<div class="visual visual_0 sticky top-24 p-4 animate-fadeIn">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpeg" alt="Chin" />
 			</div>
 		</div>
-		<div class="super_visual">
-			<div class="visual_container mb-4">
-				<div class="visual sticky top-24 p-4 opacity-0">
-					<img class="h-auto max-h-screen rounded-lg" src="/images/juice.jpeg" alt="Juice" />
-				</div>
+		<div class="super_visual super_visual_1">
+			<div class="visual visual_1 sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpeg" alt="Juice" />
 			</div>
 		</div>
-		<div class="super_visual">
-			<div class="visual_container mb-4">
-				<div class="visual sticky top-24 p-4">
-					<img class="h-auto max-h-screen rounded-lg" src="/images/snow.jpeg" alt="Snow" />
-				</div>
+		<div class="super_visual super_visual_2">
+			<div class="visual visual_2 sticky top-24 p-4">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpeg" alt="Snow" />
 			</div>
 		</div>
-		<div class="super_visual">
-			<div class="visual_container mb-4">
-				<div class="visual sticky top-24 p-4 opacity-0">
-					<img class="h-auto max-h-screen rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
-				</div>
+		<div class="super_visual super_visual_3">
+			<div class="visual visual_3 sticky top-24 p-4 opacity-0">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
 			</div>
 		</div>
 	</div>
@@ -285,10 +276,10 @@
 <!--Styles-->
 <style lang="postcss">
 	/* Card lengths */
-	.card_0 {
+	.super_card_0 {
 		height: 800vh;
 	}
-	.card_1 {
+	.super_card_1 {
 		height: 800vh;
 	}
 	.card_2 {
@@ -314,7 +305,7 @@
 	}
 
 	/* Visual lengths */
-	.visual_container {
+	.super_visual {
 		height: 180vh;
 	}
 
