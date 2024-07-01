@@ -176,6 +176,8 @@
 					if (entry.boundingClientRect.top < 0) {
 						let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
 						if (thinksCurrentCard > currentCard) {
+							cards[currentCard].innerHTML = cards[currentCard].innerHTML.replace('▋', '');
+							cards[currentCard].innerHTML.replace('▋', '');
 							printing = true;
 							charsPrinted = 0;
 							currentCard++;
@@ -183,7 +185,7 @@
 								cards[currentCard].classList.remove('opacity-0');
 								cards[currentCard].classList.add('animate-fadeIn');
 							}
-							speed = 0
+							speed = 0;
 							numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
 							numScrollsHandled = numScrolled;
 						}
@@ -201,7 +203,6 @@
 		const visualObserver = new IntersectionObserver(
 			([entry]) => {
 				if (entry.boundingClientRect.top < 0) {
-					console.log(entry.target.classList[1]);
 					let thinksCurrentVisual = parseInt(entry.target.classList[1].slice(7)) + 1;
 					if (thinksCurrentVisual > currentVisual) {
 						currentVisual++;
@@ -224,7 +225,6 @@
 	// Call handleScroll whenever the user scrolls
 	$: if (numScrolled > numScrollsHandled) {
 		handleScroll();
-		console.log('numScrolled:', numScrolled, 'numScrollsHandled:', numScrollsHandled);
 	}
 </script>
 
@@ -238,36 +238,46 @@
 	<!-- Cards -->
 	<div class="cards">
 		<div class="super_card super_card_0">
-			<div class="card card_0 sticky top-28 min-h-96 mt-4 ml-4 p-4 animate-fadeIn break-words">
+			<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 animate-fadeIn break-words">
 				{@html render[0]}
 			</div>
 		</div>
 		<div class="super_card super_card_1">
-			<div class="card card_1 sticky top-28 min-h-96 ml-4 p-4 w-full opacity-0 break-words">
+			<div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 opacity-0 break-words">
 				{@html render[1]}
+			</div>
+		</div>
+		<div class="super_card super_card_2">
+			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 opacity-0 break-words">
+				{@html render[2]}
 			</div>
 		</div>
 	</div>
 	<!-- Visuals -->
 	<div class="visuals">
 		<div class="super_visual super_visual_0">
-			<div class="visual visual_0 sticky top-24 p-4 animate-fadeIn">
+			<div class="visual visual_0 sticky top-28 ml-4 animate-fadeIn">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpeg" alt="Chin" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_1">
-			<div class="visual visual_1 sticky top-24 p-4 opacity-0">
+			<div class="visual visual_1 sticky top-28 ml-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpeg" alt="Juice" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_2">
-			<div class="visual visual_2 sticky top-24 p-4">
+			<div class="visual visual_2 sticky top-28 ml-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpeg" alt="Snow" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_3">
-			<div class="visual visual_3 sticky top-24 p-4 opacity-0">
+			<div class="visual visual_3 sticky top-28 ml-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
+			</div>
+		</div>
+		<div class="super_visual super_visual_4">
+			<div class="visual visual_4 sticky top-28 ml-4 mt-4 opacity-0">
+				<iframe class="h-auto max-h-86.2vh rounded-lg" src="https://www.care-pack.us"></iframe>
 			</div>
 		</div>
 	</div>
@@ -277,36 +287,33 @@
 <style lang="postcss">
 	/* Card lengths */
 	.super_card_0 {
-		height: 800vh;
+		height: calc(400vh + 16px);
 	}
 	.super_card_1 {
-		height: 800vh;
+		height: calc(400vh + 16px);
 	}
-	.card_2 {
-		height: 800vh;
+	.super_card_2 {
+		height: 1200vh;
 	}
-	.card_3 {
-		height: 800vh;
-	}
-	.card_4 {
-		height: 800vh;
-	}
-	.card_5 {
-		height: 800vh;
-	}
-	.card_6 {
-		height: 800vh;
-	}
-	.card_7 {
-		height: 800vh;
-	}
-	.card_8 {
+	.super_card_3 {
 		height: 800vh;
 	}
 
 	/* Visual lengths */
-	.super_visual {
-		height: 180vh;
+	.super_visual_0 {
+		height: 200vh;
+	}
+	.super_visual_1 {
+		height: 200vh;
+	}
+	.super_visual_2 {
+		height: 200vh;
+	}
+	.super_visual_3 {
+		height: 200vh;
+	}
+	.super_visual_4 {
+		height: 800vh;
 	}
 
 	/* Fonts */
