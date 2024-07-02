@@ -10,35 +10,35 @@
 	const TO_PRINT = [
 		{
 			initial:
-					'<div class="font-inter">' +
-					'↓ Scroll to see the text ↓' +
+					'<div class="font-ibm">' +
+						'↓ Scroll to see the text ↓' +
 					'</div>',
 			text:
-					'@<div class="font-ibm italic text-sky-600 text-6xl">@' +
-					'Hallo, I\'m ' +
-					'@<div class="text-rose-600">@' +
-					'The Welcomer!!' +
-					'@</div>' +
-					'</div>' +
-					'<br>' +
-					'<br>' +
-					'<div class="font-ibm text-sky-600 text-2xl">~@' +
-					'Wanderer of systems and science!' +
-					'@<div class="text-right">@' +
-					'... and delving spots         ' +
-					'@<br>@' +
-					'... and backwoods         ' +
-					'@<br>@' +
-					'... and all things blue ' +
-					'@<br>@',
-			speed: [50, 10],
+					'@<div class="font-ibm font-bold italic text-blue-700 text-6xl">@' +
+						'Hallo, I\'m  @<span class="text-rose-600">@The Welcomer!!',
+			speed: [50],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-ibm italic text-sky-600 text-2xl">@' +
-					'I\'m a CS Major at UMass Amherst graduating in December 2024 with a passion ' +
-					'for exploring fields with wonderful people and inspiring works. From building recyclable plastic ' +
+					'@<div class="font-ibm text-emerald-300 text-2xl">@' +
+						'Wanderer of systems and science!' +
+						'@<div class="text-right">@' +
+							'... and delving spots         ' +
+							'@<br>@' +
+							'... and @<span class="text-emerald-700">@backwoods@</span>@          ' +
+							'@<br>@' +
+							'... and all things @<span class="text-sky-600">@blue ' +
+							'@<br>@',
+			speed: [10],
+		},
+		{
+			initial: '',
+			text:
+					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'I\'m a @<div class="text-">CS Major</div>@ at @<div>UMass Amherst</div>@ graduating in December 2024 with a passion ' +
+					'for exploring fields with wonderful people and inspiring works.' +
+					'From building recyclable plastic ' +
 					'concrete, a self-designed trail kiosk, a hammock using a garden hose, and many other projects, ' +
 					'I learned early on I was an engineer at heart. Creating my website to deliver groceries ' +
 					'over the pandemic, I felt empowered to use software to help my friends and community. The simple ' +
@@ -108,6 +108,9 @@
 		if (!printing) {
 			return;
 		}
+		if (render[currentCard].length >= 18 && render[currentCard].slice(-32) === '<span class="opacity-0">▋</span>') {
+			render[currentCard] = render[currentCard].slice(0, -32);
+		}
 		if (currentCard === 0 && charsPrinted === 0) {
 			render[currentCard] = '';
 		}
@@ -152,10 +155,14 @@
 			}
 			if (render[currentCard][render[currentCard].length - 1] === '▋') {
 				render[currentCard] = render[currentCard].slice(0, -1);
+				render[currentCard] += '<span class="opacity-0">▋</span>';
 				if (render[currentCard].slice(-4) === '<br>') {
 					render[currentCard] += '<br>';
 				}
 			} else {
+				if (render[currentCard].slice(-32) === '<span class="opacity-0">▋</span>') {
+					render[currentCard] = render[currentCard].slice(0, -32);
+				}
 				render[currentCard] += '▋';
 			}
 		}, TIMER_INTERVAL);
@@ -238,17 +245,17 @@
 	<!-- Cards -->
 	<div class="cards">
 		<div class="super_card super_card_0">
-			<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 animate-fadeIn break-words">
+			<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 break-words whitespace-pre-wrap animate-fadeIn">
 				{@html render[0]}
 			</div>
 		</div>
 		<div class="super_card super_card_1">
-			<div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 opacity-0 break-words">
+			<div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
 				{@html render[1]}
 			</div>
 		</div>
 		<div class="super_card super_card_2">
-			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 opacity-0 break-words">
+			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[2]}
 			</div>
 		</div>
@@ -256,27 +263,27 @@
 	<!-- Visuals -->
 	<div class="visuals">
 		<div class="super_visual super_visual_0">
-			<div class="visual visual_0 sticky top-28 ml-4 animate-fadeIn">
+			<div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpeg" alt="Chin" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_1">
-			<div class="visual visual_1 sticky top-28 ml-4 mt-4">
+			<div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpeg" alt="Juice" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_2">
-			<div class="visual visual_2 sticky top-28 ml-4 mt-4">
+			<div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpeg" alt="Snow" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_3">
-			<div class="visual visual_3 sticky top-28 ml-4 mt-4">
+			<div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
 				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_4">
-			<div class="visual visual_4 sticky top-28 ml-4 mt-4 opacity-0">
+			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
 				<iframe class="h-auto max-h-86.2vh rounded-lg" src="https://www.care-pack.us"></iframe>
 			</div>
 		</div>
@@ -317,7 +324,7 @@
 	}
 
 	/* Fonts */
-	@font-face{
+	@font-face {
 		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
 	}
@@ -325,6 +332,17 @@
 		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/italic.woff2') format('woff2');
 		font-style: italic;
+	}
+	@font-face {
+		font-family: 'IBM Plex Mono';
+		src: url('../lib/fonts/IBM Plex Mono/bolditalic.woff2') format('woff2');
+		font-weight: bold;
+		font-style: italic;
+	}
+	@font-face {
+		font-family: 'IBM Plex Mono';
+		src: url('../lib/fonts/IBM Plex Mono/bold.woff2') format('woff2');
+		font-weight: bold;
 	}
 	@font-face {
 		font-family: 'Inter';
