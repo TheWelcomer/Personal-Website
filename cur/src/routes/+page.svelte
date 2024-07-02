@@ -15,7 +15,7 @@
 					'</div>',
 			text:
 					'@<div class="font-ibm font-bold italic text-blue-700 text-6xl">@' +
-						'Hallo, I\'m  @<span class="text-rose-600">@The Welcomer!!',
+						'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
 			speed: [50],
 		},
 		{
@@ -26,9 +26,9 @@
 						'@<div class="text-right">@' +
 							'... and delving spots         ' +
 							'@<br>@' +
-							'... and @<span class="text-emerald-700">@backwoods@</span>@          ' +
+							'... and @<span class="text-emerald-800">@backwoods@</span>@          ' +
 							'@<br>@' +
-							'... and all things @<span class="text-sky-600">@blue ' +
+							'... and all things @<span class="text-blue-700">@blue ' +
 							'@<br>@',
 			speed: [10],
 		},
@@ -36,7 +36,7 @@
 			initial: '',
 			text:
 					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-					'I\'m a @<div class="text-">CS Major</div>@ at @<div>UMass Amherst</div>@ graduating in December 2024 with a passion ' +
+					'I\'m a @<div class="text-">@CS Major @</div>@at @<div>UMass Amherst </div>@graduating in December 2024 with a passion ' +
 					'for exploring fields with wonderful people and inspiring works.' +
 					'From building recyclable plastic ' +
 					'concrete, a self-designed trail kiosk, a hammock using a garden hose, and many other projects, ' +
@@ -255,8 +255,13 @@
 			</div>
 		</div>
 		<div class="super_card super_card_2">
-			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
 				{@html render[2]}
+			</div>
+		</div>
+		<div class="super_card super_card_3">
+			<div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+				{@html render[3]}
 			</div>
 		</div>
 	</div>
@@ -283,8 +288,8 @@
 			</div>
 		</div>
 		<div class="super_visual super_visual_4">
-			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<iframe class="h-auto max-h-86.2vh rounded-lg" src="https://www.care-pack.us"></iframe>
+			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4">
+				<iframe class="max-h-86.2vh rounded-lg" src="https://www.youtube.com/embed/tyoxTi9Joks?si=fZDY6jH1N8K-bsIs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>
@@ -294,30 +299,30 @@
 <style lang="postcss">
 	/* Card lengths */
 	.super_card_0 {
-		height: calc(400vh + 16px);
+		height: calc(250vh + 16px);
 	}
 	.super_card_1 {
-		height: calc(400vh + 16px);
+		height: calc(250vh + 16px);
 	}
 	.super_card_2 {
-		height: 1200vh;
+		height: 250vh;
 	}
 	.super_card_3 {
-		height: 800vh;
+		height: 250vh;
 	}
 
 	/* Visual lengths */
 	.super_visual_0 {
-		height: 200vh;
+		height: 125vh;
 	}
 	.super_visual_1 {
-		height: 200vh;
+		height: 125vh;
 	}
 	.super_visual_2 {
-		height: 200vh;
+		height: 125vh;
 	}
 	.super_visual_3 {
-		height: 200vh;
+		height: 125vh;
 	}
 	.super_visual_4 {
 		height: 800vh;
