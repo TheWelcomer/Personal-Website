@@ -14,44 +14,41 @@
 						'↓ Scroll to see the text ↓' +
 					'</div>',
 			text:
-					'@<div class="font-ibm font-bold italic text-blue-700 text-6xl">@' +
-						'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
+						'@<div class="font-ibm font-bold italic text-blue-700 text-6xl">@' +
+							'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
 			speed: [50],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-ibm text-emerald-300 text-2xl">@' +
-						'Wanderer of systems and science!' +
-						'@<div class="text-right">@' +
-							'... and delving spots         ' +
-							'@<br>@' +
-							'... and @<span class="text-emerald-800">@backwoods@</span>@          ' +
-							'@<br>@' +
-							'... and all things @<span class="text-blue-700">@blue ' +
-							'@<br>@',
+						'@<span class="font-ibm italic text-emerald-500 text-2xl">@' +
+							'Wanderer of @<span class="text-teal-700">@systems @</span>@and @<span class="text-cyan-700">science!@</span>' +
+							'@<div class="text-right">@' +
+								'... and @<span class="text-zinc-600">@delving spots@</span>@         ' +
+								'@<br>@' +
+								'... and @<span class="text-emerald-700">@backwoods@</span>@          ' +
+								'@<br>@' +
+								'... and all things @<span class="text-blue-700">@blue ' +
+								'@<br>@',
 			speed: [10],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-					'I\'m a @<div class="text-">@CS Major @</div>@at @<div>UMass Amherst </div>@graduating in December 2024 with a passion ' +
-					'for exploring fields with wonderful people and inspiring works.' +
-					'From building recyclable plastic ' +
-					'concrete, a self-designed trail kiosk, a hammock using a garden hose, and many other projects, ' +
-					'I learned early on I was an engineer at heart. Creating my website to deliver groceries ' +
-					'over the pandemic, I felt empowered to use software to help my friends and community. The simple ' +
-					'act of creation is at the center of who I am, and connecting thousands of components to ' +
-					'bring an app to life has been the most logically satisfying craft I\'ve discovered. I seek ' +
-					'to master this process slowly, enjoying my journey along the way.',
+						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-rose-600">UMass Amherst </span>@graduating in December 2024 with a passion ' +
+						'for exploring fields with wonderful people and inspiring works.',
 			speed: [10],
 		},
-		{
-			initial: '',
-			text: '@<span style="font-style: italic;">@This @<span style="color: green;">@text@</span>@ is italicized and green. @<span style="letter-spacing: 1px;">@This part has increased letter spacing.@</span></span>@',
-			speed: [20],
-		},
+		// {
+		// 	initial: '',
+		// 	text:
+		// 				'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+		// 				'The simple act of creation is at the center of who I am, and connecting thousands of components to ' +
+		// 				'bring an app to life has been the most logically satisfying craft I\'ve discovered. I seek ' +
+		// 				'to master this process slowly, enjoying my journey along the way.',
+		// 	speed: [20],
+		// },
 		{
 			initial: '',
 			text: '@<span style="text-decoration: underline;">@This @<span style="font-size: 20px;">@text@</span>@ is underlined. @<span style="font-style: italic;">@This part is italicized.@</span></span>@',
@@ -189,6 +186,7 @@
 							charsPrinted = 0;
 							currentCard++;
 							if (cards[currentCard].classList.contains('opacity-0')) {
+								lockScroll(1000);
 								cards[currentCard].classList.remove('opacity-0');
 								cards[currentCard].classList.add('animate-fadeIn');
 							}
@@ -225,7 +223,12 @@
 			visualObserver.observe(visual);
 		});
 	});
-
+	function lockScroll(ms: number) {
+		document.body.style.overflow = 'hidden';
+		setTimeout(() => {
+			document.body.style.overflow = '';
+		}, ms);
+	}
 	// Start cursor blinking
 	let timer = startCursorBlinking();
 
@@ -255,7 +258,7 @@
 			</div>
 		</div>
 		<div class="super_card super_card_2">
-			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[2]}
 			</div>
 		</div>
@@ -264,32 +267,48 @@
 				{@html render[3]}
 			</div>
 		</div>
+		<div class="super_card super_card_4">
+			<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+				{@html render[4]}
+			</div>
+		</div>
 	</div>
+
 	<!-- Visuals -->
 	<div class="visuals">
 		<div class="super_visual super_visual_0">
 			<div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpeg" alt="Chin" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Chin" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_1">
 			<div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpeg" alt="Juice" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Juice" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_2">
 			<div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpeg" alt="Snow" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Snow" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_3">
 			<div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpeg" alt="Philmont" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpg" alt="Philmont" />
 			</div>
 		</div>
-		<div class="super_visual super_visual_4">
-			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4">
-				<iframe class="max-h-86.2vh rounded-lg" src="https://www.youtube.com/embed/tyoxTi9Joks?si=fZDY6jH1N8K-bsIs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				<div class="super_visual super_visual_4">
+			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass Group" />
+			</div>
+		</div>
+		<div class="super_visual super_visual_5">
+			<div class="visual visual_5 sticky top-28 ml-4 mr-4 mt-4">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton Group" />
+			</div>
+		</div>
+		<div class="super_visual super_visual_6">
+			<div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4"></div>
 			</div>
 		</div>
 	</div>
@@ -305,7 +324,7 @@
 		height: calc(250vh + 16px);
 	}
 	.super_card_2 {
-		height: 250vh;
+		height: calc(250vh + 16px)
 	}
 	.super_card_3 {
 		height: 250vh;
@@ -325,7 +344,10 @@
 		height: 125vh;
 	}
 	.super_visual_4 {
-		height: 800vh;
+		height: 125vh;
+	}
+	.super_visual_5 {
+		height: 250vh;
 	}
 
 	/* Fonts */
@@ -335,7 +357,7 @@
 	}
 	@font-face {
 		font-family: 'IBM Plex Mono';
-		src: url('../lib/fonts/IBM Plex Mono/italic.woff2') format('woff2');
+		src: url('../lib/fonts/IBM Plex Mono/semibolditalic.woff2') format('woff2');
 		font-style: italic;
 	}
 	@font-face {
