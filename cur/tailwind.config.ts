@@ -25,7 +25,10 @@ module.exports = {
 			},
 			maxHeight: {
 				'86.2vh': '86.2vh',
-			}
+			},
+			colors: {
+				'maroon': '#9d2235',
+			},
 		}
 	},
 	plugins: [

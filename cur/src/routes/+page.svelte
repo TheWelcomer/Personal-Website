@@ -35,10 +35,12 @@
 		{
 			initial: '',
 			text:
+						'@<div class="font-ibm bold italic text-blue-700 text-6xl justify-center">@Bio@</div>~@' +
+						'<br>' +
 						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-rose-600">UMass Amherst </span>@graduating in December 2024 with a passion ' +
+						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
 						'for exploring fields with wonderful people and inspiring works.',
-			speed: [10],
+			speed: [100, 10],
 		},
 		// {
 		// 	initial: '',
@@ -51,7 +53,7 @@
 		// },
 		{
 			initial: '',
-			text: '@<span style="text-decoration: underline;">@This @<span style="font-size: 20px;">@text@</span>@ is underlined. @<span style="font-style: italic;">@This part is italicized.@</span></span>@',
+			text: '@<div class="font-ibm bold italic text-blue-700 text6xl">@',
 			speed: [5],
 		},
 		{
@@ -236,6 +238,20 @@
 	$: if (numScrolled > numScrollsHandled) {
 		handleScroll();
 	}
+
+	// // Handle iframe resizing
+	// onMount(() => {
+	// 	const videos = document.querySelectorAll('.video');
+	// 	videos.forEach((video) => {
+	// 		video.style.height = `${video.offsetWidth * 0.5625}px`;
+	// 	});
+	// 	window.addEventListener('resize', () => {
+	// 		videos.forEach((video) => {
+	// 			video.style.height = `${video.offsetWidth * 0.5625}px`;
+	// 		});
+	// 	});
+	// });
+
 </script>
 
 <!-- HTML -->
@@ -244,7 +260,7 @@
 <svelte:window bind:scrollY={scrollY} />
 
 <!-- Cards and visuals -->
-<div class="card_0 card_class grid grid-cols-2">
+<div class="card_class grid grid-cols-2">
 	<!-- Cards -->
 	<div class="cards">
 		<div class="super_card super_card_0">
@@ -263,13 +279,23 @@
 			</div>
 		</div>
 		<div class="super_card super_card_3">
-			<div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+			<div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[3]}
 			</div>
 		</div>
 		<div class="super_card super_card_4">
 			<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
 				{@html render[4]}
+			</div>
+		</div>
+		<div class="super_card super_card_5">
+			<div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+				{@html render[5]}
+			</div>
+		</div>
+		<div class="super_card super_card_6">
+			<div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+				{@html render[6]}
 			</div>
 		</div>
 	</div>
@@ -307,8 +333,8 @@
 			</div>
 		</div>
 		<div class="super_visual super_visual_6">
-			<div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4"></div>
+			<div class="visual visual_6 sticky video top-28 ml-4 mr-4 mt-4 overflow-hidden opacity-0">
+				<iframe class="h-96 w-full rounded-lg" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>
@@ -329,6 +355,15 @@
 	.super_card_3 {
 		height: 250vh;
 	}
+	.super_card_4 {
+		height: 500vh;
+	}
+	.super_card_5 {
+		height: 500vh;
+	}
+	.super_card_6 {
+		height: 250vh;
+	}
 
 	/* Visual lengths */
 	.super_visual_0 {
@@ -347,7 +382,10 @@
 		height: 125vh;
 	}
 	.super_visual_5 {
-		height: 250vh;
+		height: 125vh;
+	}
+	.super_visual_6 {
+		height: 12500vh;
 	}
 
 	/* Fonts */
