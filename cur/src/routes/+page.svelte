@@ -36,7 +36,7 @@
 			initial: '',
 			text:
 						'@<div class="font-ibm bold italic text-blue-700 text-6xl justify-center">@Bio@</div>~@' +
-						'<br>' +
+						'@<br>@' +
 						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
 						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
 						'for exploring fields with wonderful people and inspiring works.',
@@ -344,48 +344,48 @@
 <style lang="postcss">
 	/* Card lengths */
 	.super_card_0 {
-		height: calc(250vh + 16px);
+		height: calc(3000px + 16px);
 	}
 	.super_card_1 {
-		height: calc(250vh + 16px);
+		height: calc(3000px + 16px);
 	}
 	.super_card_2 {
-		height: calc(250vh + 16px)
+		height: calc(3000px + 16px)
 	}
 	.super_card_3 {
-		height: 250vh;
+		height: 3000px;
 	}
 	.super_card_4 {
-		height: 500vh;
+		height: 6000px;
 	}
 	.super_card_5 {
-		height: 500vh;
+		height: 6000px;
 	}
 	.super_card_6 {
-		height: 250vh;
+		height: 3000px;
 	}
 
 	/* Visual lengths */
 	.super_visual_0 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_1 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_2 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_3 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_4 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_5 {
-		height: 125vh;
+		height: 1500px;
 	}
 	.super_visual_6 {
-		height: 12500vh;
+		height: 6000px;
 	}
 
 	/* Fonts */
