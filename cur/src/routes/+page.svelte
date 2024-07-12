@@ -14,14 +14,14 @@
 						'↓ Scroll to see the text ↓' +
 					'</div>',
 			text:
-						'@<div class="font-ibm font-bold italic text-blue-700 text-6xl">@' +
+						'@<div class="font-ibm font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@' +
 							'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
 			speed: [50],
 		},
 		{
 			initial: '',
 			text:
-						'@<span class="font-ibm italic text-emerald-500 text-2xl">@' +
+						'@<span class="font-ibm italic text-emerald-500 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 							'Wanderer of @<span class="text-teal-700">@systems @</span>@and @<span class="text-cyan-700">science!@</span>' +
 							'@<div class="text-right">@' +
 								'... and @<span class="text-zinc-600">@delving spots@</span>@         ' +
@@ -35,9 +35,9 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-ibm bold italic text-blue-700 text-6xl justify-center">@Bio@</div>~@' +
+						'@<div class="font-ibm italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
 						'@<br>@' +
-						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
 						'for exploring fields with wonderful people and inspiring works',
 			speed: [100, 10],
@@ -45,55 +45,54 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-ibm bold italic text-indigo-400 text-2xl">@' +
+						'@<div class="font-ibm italic text-indigo-400 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 							'I\'m especially interested in the fields of @<span class="text-rose-600">@medical software@</span>@ and @<span class="text-indigo-600">@ML engineering@@',
 			speed: [10],
 		},
 		{
 			initial: '',
 			text:
-						'@<span class="font-ibm bold italic text-rose-600 text-6xl">@Projects' +
+						'@<div class="font-bold italic text-rose-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@Projects @~</div>' +
+						'<br>' +
+						'<span class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+						'<span class="text-yellow-300">@Pandemic Essential Goods Delivery@</span>@, @<span class="text-stone-500">@Self-Driving Car Model@</span>@, @<span class="text-teal-500">@Allergy Ordering App@</span>@, and @<span class="text-purple-600">@Crohn\'s Flare Prediction',
+			speed: [50, 10],
+		},
+		{
+			initial: '',
+			text:
+						'@<div class="font-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
+						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 						'@~<br>@' +
-						'@<br>@' +
-						'@<span class="font-ibm bold italic text-sky-600 text-2xl">@' +
-						'@<span class="text-yellow-300">@Pandemic Essential Goods Delivery@</span>@, @<span class="text-stone-500">@Self-Driving Car Model@</span>@, @<span class="text-teal-500">@Allergy Ordering App@</span>@, and @<span class="text-purple-600">@Crohn\'s Flare Prediction',
+						'Serving 30 customers, Care Pack ran from May 2020 to September 2020 across an area of 149,000 people at less than half the cost of instacart',
 			speed: [50, 10],
 		},
 		{
 			initial: '',
 			text:
-						'@<div class="font-ibm bold italic text-yellow-300 text-6xl justify-center">@Care Pack ' +
-						'@~<br>@' +
-						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-						'',
-			speed: [50, 10],
-		},
-		{
-			initial: '',
-			text:
-					'@<div class="font-ibm bold italic text-stone-500 text-6xl justify-center">@Self-Driving Car' +
+					'@<div class="font-bold italic text-stone-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Self-Driving Car ' +
 					'@~<br>@' +
-					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 					'',
 			speed: [50, 10],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-ibm bold italic text-teal-500 text-6xl justify-center">@UMass SAFER' +
+					'@<div class="font-bold italic text-teal-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
 					'@~<br>@' +
-					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 					'',
-			speed: [20, 10],
+			speed: [50, 10],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-ibm bold italic text-purple-600 text-6xl justify-center">@UMass CLog' +
+					'@<div class="font-bold italic text-purple-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass CLog ' +
 					'@~<br>@' +
-					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 					'',
-			speed: [20, 10],
+			speed: [50, 10],
 		},
 	]
 
@@ -390,19 +389,19 @@
 		height: calc(1500px + 8px);
 	}
 	.super_card_4 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 	.super_card_5 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 	.super_card_6 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 	.super_card_7 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 	.super_card_8 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 
 	/* Visual lengths */
