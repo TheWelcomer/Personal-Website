@@ -42,62 +42,58 @@
 						'for exploring fields with wonderful people and inspiring works',
 			speed: [100, 10],
 		},
-		// {
-		// 	initial: '',
-		// 	text:
-		// 				'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-		// 				'The simple act of creation is at the center of who I am, and connecting thousands of components to ' +
-		// 				'bring an app to life has been the most logically satisfying craft I\'ve discovered. I seek ' +
-		// 				'to master this process slowly, enjoying my journey along the way.',
-		// 	speed: [20],
-		// },
 		{
 			initial: '',
 			text:
 						'@<div class="font-ibm bold italic text-indigo-400 text-2xl">@' +
-							'I\'m especially interested in the fields of @<span>@medical software@</span>@ and @<span>@ML engineering@</span>@',
-			speed: [5],
-		},
-		{
-			initial: '',
-			text:
-						'@<div class="font-ibm bold italic text-blue-700 text-6xl">@' +
-						'@<span class="text-rose-600">@Projects@</span>@' +
-						'@<br>@' +
-						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-						'@<span class="">@Pandemic Essential Goods Delivery@</span>@, @<span class="">@Self-Driving Car@</span>@, @<span class="">@Allergy Ordering App@</span>@, and @<span class="">@Crohn\'s Flare Prediction',
-			speed: [5],
-		},
-		{
-			initial: '',
-			text:
-						'@<div class="font-ibm bold italic text-blue-700 text-6xl justify-center">@Bio@</div>~@' +
-						'@<br>@' +
-						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
-						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
-						'for exploring fields with wonderful people and inspiring works.',
-
-			speed: [20],
-		},
-		{
-			initial: '',
-			text: '@<span style="background-color: yellow;">@This @<span style="font-weight: bold;">@text@</span>@ has a yellow background. @<span style="border: 1px solid black;">@This part has a black border.@</span></span>@',
+							'I\'m especially interested in the fields of @<span class="text-rose-600">@medical software@</span>@ and @<span class="text-indigo-600">@ML engineering@@',
 			speed: [10],
 		},
 		{
 			initial: '',
-			text: '@<span style="letter-spacing: 2px;">@This @<span style="color: purple;">@text@</span>@ has increased letter spacing. @<span style="text-shadow: 1px 1px 2px black;">@This part has a text shadow.@</span></span>@',
-			speed: [100],
+			text:
+						'@<span class="font-ibm bold italic text-rose-600 text-6xl">@Projects' +
+						'@~<br>@' +
+						'@<br>@' +
+						'@<span class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'@<span class="text-yellow-300">@Pandemic Essential Goods Delivery@</span>@, @<span class="text-stone-500">@Self-Driving Car Model@</span>@, @<span class="text-teal-500">@Allergy Ordering App@</span>@, and @<span class="text-purple-600">@Crohn\'s Flare Prediction',
+			speed: [50, 10],
 		},
 		{
 			initial: '',
-			text: '@<span style="text-transform: uppercase;">@This @<span style="font-weight: bold;">@text@</span>@ is uppercase. @<span style="background-color: lightblue;">@This part has a light blue background.@</span></span>@',
-			speed: [1],
+			text:
+						'@<div class="font-ibm bold italic text-yellow-300 text-6xl justify-center">@Care Pack ' +
+						'@~<br>@' +
+						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'',
+			speed: [50, 10],
 		},
 		{
 			initial: '',
-			text: '@<span style="color: blue; font-weight: bold;">@This @<span style="text-decoration: underline; font-size: 24px;">@text@</span>@ is blue, bold, underlined, and 24px in size.@</span>@',
-			speed: [10],
+			text:
+					'@<div class="font-ibm bold italic text-stone-500 text-6xl justify-center">@Self-Driving Car' +
+					'@~<br>@' +
+					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'',
+			speed: [50, 10],
+		},
+		{
+			initial: '',
+			text:
+					'@<div class="font-ibm bold italic text-teal-500 text-6xl justify-center">@UMass SAFER' +
+					'@~<br>@' +
+					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'',
+			speed: [20, 10],
+		},
+		{
+			initial: '',
+			text:
+					'@<div class="font-ibm bold italic text-purple-600 text-6xl justify-center">@UMass CLog' +
+					'@~<br>@' +
+					'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+					'',
+			speed: [20, 10],
 		},
 	]
 
@@ -316,6 +312,16 @@
 				{@html render[6]}
 			</div>
 		</div>
+		<div class="super_card super_card_7">
+			<div class="card card_7 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+				{@html render[7]}
+			</div>
+		</div>
+		<div class="super_card super_card_8">
+			<div class="card card_8 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+				{@html render[8]}
+			</div>
+		</div>
 	</div>
 
 	<!-- Visuals -->
@@ -381,15 +387,21 @@
 		height: calc(3000px + 16px)
 	}
 	.super_card_3 {
-		height: calc(3000px + 8px);
+		height: calc(1500px + 8px);
 	}
 	.super_card_4 {
 		height: 3000px;
 	}
 	.super_card_5 {
-		height: 6000px;
+		height: 3000px;
 	}
 	.super_card_6 {
+		height: 3000px;
+	}
+	.super_card_7 {
+		height: 3000px;
+	}
+	.super_card_8 {
 		height: 3000px;
 	}
 
@@ -413,7 +425,7 @@
 		height: 1500px;
 	}
 	.super_visual_6 {
-		height: 3000px;
+		height: 1500px;
 	}
 	.super_visual_7 {
 		height: 3000px;
