@@ -39,7 +39,7 @@
 						'@<br>@' +
 						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
 						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
-						'for exploring fields with wonderful people and inspiring works.',
+						'for exploring fields with wonderful people and inspiring works',
 			speed: [100, 10],
 		},
 		// {
@@ -53,12 +53,30 @@
 		// },
 		{
 			initial: '',
-			text: '@<div class="font-ibm bold italic text-blue-700 text6xl">@',
+			text:
+						'@<div class="font-ibm bold italic text-indigo-400 text-2xl">@' +
+							'I\'m especially interested in the fields of @<span>@medical software@</span>@ and @<span>@ML engineering@</span>@',
 			speed: [5],
 		},
 		{
 			initial: '',
-			text: '@<span style="font-size: 20px;">@This text is 20px in size. @<span style="color: blue; text-transform: uppercase;">@This part is blue and uppercase.@</span></span>@',
+			text:
+						'@<div class="font-ibm bold italic text-blue-700 text-6xl">@' +
+						'@<span class="text-rose-600">@Projects@</span>@' +
+						'@<br>@' +
+						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'@<span class="">@Pandemic Essential Goods Delivery@</span>@, @<span class="">@Self-Driving Car@</span>@, @<span class="">@Allergy Ordering App@</span>@, and @<span class="">@Crohn\'s Flare Prediction',
+			speed: [5],
+		},
+		{
+			initial: '',
+			text:
+						'@<div class="font-ibm bold italic text-blue-700 text-6xl justify-center">@Bio@</div>~@' +
+						'@<br>@' +
+						'@<div class="font-ibm bold italic text-sky-600 text-2xl">@' +
+						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
+						'for exploring fields with wonderful people and inspiring works.',
+
 			speed: [20],
 		},
 		{
@@ -284,17 +302,17 @@
 			</div>
 		</div>
 		<div class="super_card super_card_4">
-			<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+			<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[4]}
 			</div>
 		</div>
 		<div class="super_card super_card_5">
-			<div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+			<div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[5]}
 			</div>
 		</div>
 		<div class="super_card super_card_6">
-			<div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+			<div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
 				{@html render[6]}
 			</div>
 		</div>
@@ -304,36 +322,46 @@
 	<div class="visuals">
 		<div class="super_visual super_visual_0">
 			<div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Chin" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/professional.jpg" alt="Photo of me in fancy clothing" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_1">
 			<div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Juice" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Me looking down at a funny angle" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_2">
 			<div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Snow" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Me drinking from a capri sun" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_3">
 			<div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/phil.jpg" alt="Philmont" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Playing in the snow with my family" />
 			</div>
 		</div>
-				<div class="super_visual super_visual_4">
+		<div class="super_visual super_visual_4">
 			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass Group" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass group" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_5">
 			<div class="visual visual_5 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton Group" />
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton group" />
 			</div>
 		</div>
 		<div class="super_visual super_visual_6">
-			<div class="visual visual_6 sticky video top-28 ml-4 mr-4 mt-4 overflow-hidden opacity-0">
+			<div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/wizard.jpg" alt="Me wearing a wizard hat" />
+			</div>
+		</div>
+		<div class="super_visual super_visual_7">
+			<div class="visual visual_7 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Personal website wireframe" />
+			</div>
+		</div>
+		<div class="super_visual super_visual_8">
+			<div class="visual visual_8 sticky video top-28 ml-4 mr-4 mt-4 overflow-hidden opacity-0">
 				<iframe class="h-96 w-full rounded-lg" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 			</div>
 		</div>
@@ -353,10 +381,10 @@
 		height: calc(3000px + 16px)
 	}
 	.super_card_3 {
-		height: 3000px;
+		height: calc(3000px + 8px);
 	}
 	.super_card_4 {
-		height: 6000px;
+		height: 3000px;
 	}
 	.super_card_5 {
 		height: 6000px;
@@ -385,7 +413,13 @@
 		height: 1500px;
 	}
 	.super_visual_6 {
-		height: 6000px;
+		height: 3000px;
+	}
+	.super_visual_7 {
+		height: 3000px;
+	}
+	.super_visual_8 {
+		height: 3000px;
 	}
 
 	/* Fonts */
