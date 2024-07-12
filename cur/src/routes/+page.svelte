@@ -64,7 +64,7 @@
 						'@<div class="font-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
 						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 						'@~<br>@' +
-						'Serving 30 customers, Care Pack ran from May 2020 to September 2020 across an area of 149,000 people at less than half the cost of instacart',
+						'Serving 30 unique customers at less than half the cost of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of 149,000 people',
 			speed: [50, 10],
 		},
 		{
