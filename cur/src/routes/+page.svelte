@@ -52,19 +52,19 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-bold italic text-rose-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@Projects @~</div>' +
+						'@<div class="font-bold italic text-rose-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@Top Projects @~</div>' +
 						'<br>' +
 						'<span class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'<span class="text-yellow-300">@Pandemic Essential Goods Delivery@</span>@, @<span class="text-stone-500">@Self-Driving Car Model@</span>@, @<span class="text-teal-500">@Allergy Ordering App@</span>@, and @<span class="text-purple-600">@Crohn\'s Flare Prediction',
-			speed: [50, 10],
+			speed: [35, 10],
 		},
 		{
 			initial: '',
 			text:
 						'@<div class="font-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
-						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-						'@~<br>@' +
-						'Serving 30 unique customers at less than half the cost of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of 149,000 people',
+						'@<div class="font-ibm italic text-yellow-100 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+						'~<br>@' +
+						'Serving @<span class="text-orange-300">30 </span>@unique customers at less than half the cost of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of 149,000 people',
 			speed: [50, 10],
 		},
 		{
@@ -72,8 +72,9 @@
 			text:
 					'@<div class="font-bold italic text-stone-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Self-Driving Car ' +
 					'@~<br>@' +
-					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-					'',
+					'@<div class="font-ibm italic text-stone-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+					'<br>@' +
+					'Vastly improved UMass club aggregator built with the help of feature requests from 8 students, 100% of which I fulfilled',
 			speed: [50, 10],
 		},
 		{
@@ -81,8 +82,9 @@
 			text:
 					'@<div class="font-bold italic text-teal-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
 					'@~<br>@' +
-					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-					'',
+					'@<div class="font-ibm italic text-teal-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+					'<br>@' +
+					'Helps mitigate Crohn’s flares by predicting which foods are harmful. Tester with severe Crohn’s loved the app and its potential to reduce severe pain for 200+ students with IBD',
 			speed: [50, 10],
 		},
 		{
@@ -90,8 +92,9 @@
 			text:
 					'@<div class="font-bold italic text-purple-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass CLog ' +
 					'@~<br>@' +
-					'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-					'',
+					'@<div class="font-ibm italic text-purple-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+					'<br>@' +
+					'Allergy ordering app 1,200% faster than outdated UMass SAFE. Organized meetings with UMass Dining, helping release UMass Dining app 2.0 with my safety features included',
 			speed: [50, 10],
 		},
 	]
@@ -273,7 +276,7 @@
 <svelte:window bind:scrollY={scrollY} />
 
 <!-- Cards and visuals -->
-<div class="card_class grid grid-cols-2">
+<div class="flexreel grid grid-cols-2">
 	<!-- Cards -->
 	<div class="cards">
 		<div class="super_card super_card_0">
@@ -375,6 +378,11 @@
 
 <!--Styles-->
 <style lang="postcss">
+	/* Flexreel length */
+	.flexreel {
+		height: 27000px;
+	}
+
 	/* Card lengths */
 	.super_card_0 {
 		height: calc(3000px + 16px);
@@ -401,7 +409,7 @@
 		height: calc(3000px + 8px);
 	}
 	.super_card_8 {
-		height: calc(3000px + 8px);
+		height: calc(3000 + 8px);
 	}
 
 	/* Visual lengths */
