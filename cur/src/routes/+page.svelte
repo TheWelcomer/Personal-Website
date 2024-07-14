@@ -10,11 +10,11 @@
 	const TO_PRINT = [
 		{
 			initial:
-					'<div class="font-ibm">' +
+					'<div class="font-bold font-italic text-4xl text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'↓ Scroll to see the text ↓' +
 					'</div>',
 			text:
-						'@<div class="font-ibm font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@' +
+						'@<div class="font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@' +
 							'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
 			speed: [50],
 		},
@@ -35,7 +35,7 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-ibm italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
+						'@<div class="font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
 						'@<br>@' +
 						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
@@ -64,7 +64,7 @@
 						'@<div class="font-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
 						'@<div class="font-ibm italic text-yellow-100 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'~<br>@' +
-						'Serving @<span class="text-orange-300">30 </span>@unique customers at less than half the cost of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of 149,000 people',
+						'Serving @<span class="text-yellow-300">@30 @</span>@unique customers at @<span class="text-yellow-300">@less than half the cost @</span>@of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of @<span class="text-yellow-300">@149,000 @</span>@people',
 			speed: [50, 10],
 		},
 		{
@@ -74,17 +74,17 @@
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-stone-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
-					'Vastly improved UMass club aggregator built with the help of feature requests from 8 students, 100% of which I fulfilled',
+					'Vastly improved UMass club aggregator built with the help of feature requests from @<span class="text-stone-500">@8 @</span>@students, @<span class="text-stone-500">@100% @</span>@of which I fulfilled',
 			speed: [50, 10],
 		},
 		{
 			initial: '',
 			text:
-					'@<div class="font-bold italic text-teal-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
+					'@<div class="font-bold italic text-teal-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-teal-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
-					'Helps mitigate Crohn’s flares by predicting which foods are harmful. Tester with severe Crohn’s loved the app and its potential to reduce severe pain for 200+ students with IBD',
+					'Allergy ordering app @<span class="text-teal-600">@1,200% @</span>@faster than outdated UMass SAFE. Organized meetings with UMass Dining, helping release UMass Dining app @<span class="text-teal-600">@2.0 @</span>@with my safety features included',
 			speed: [50, 10],
 		},
 		{
@@ -94,7 +94,7 @@
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-purple-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
-					'Allergy ordering app 1,200% faster than outdated UMass SAFE. Organized meetings with UMass Dining, helping release UMass Dining app 2.0 with my safety features included',
+					'Helps mitigate Crohn’s flares by predicting which foods are harmful. Tester with severe Crohn’s loved the app and its potential to reduce severe pain for @<span class="text-purple-600">@200+ @</span>@students with IBD',
 			speed: [50, 10],
 		},
 	]
