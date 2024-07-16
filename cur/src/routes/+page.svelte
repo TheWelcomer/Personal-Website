@@ -380,7 +380,7 @@
 <style lang="postcss">
 	/* Flexreel length */
 	.flexreel {
-		height: 27000px;
+		height: 26000px;
 	}
 
 	/* Card lengths */
@@ -409,7 +409,7 @@
 		height: calc(3000px + 8px);
 	}
 	.super_card_8 {
-		height: calc(3000 + 8px);
+		height: calc(3500px + 8px);
 	}
 
 	/* Visual lengths */
@@ -438,7 +438,7 @@
 		height: 3000px;
 	}
 	.super_visual_8 {
-		height: 3000px;
+		height: 3500px;
 	}
 
 	/* Fonts */
