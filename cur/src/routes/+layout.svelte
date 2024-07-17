@@ -4,7 +4,7 @@
 </script>
 <AppBar class="sticky top-0 w-full z-50" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
   <svelte:fragment slot="lead">
-    <a href="/">
+    <a type="font-bold button" class="btn md:btn-lg lg:btn-xl variant-filled" href="/">
       Intro
     </a>
     <a href="/projects">

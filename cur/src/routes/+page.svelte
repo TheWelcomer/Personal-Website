@@ -275,102 +275,109 @@
 <!-- Bind scrollY to the window's scrollY -->
 <svelte:window bind:scrollY={scrollY} />
 
-<!-- Cards and visuals -->
-<div class="flexreel grid grid-cols-2">
-	<!-- Cards -->
-	<div class="cards">
-		<div class="super_card super_card_0">
-			<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 break-words whitespace-pre-wrap animate-fadeIn">
-				{@html render[0]}
-			</div>
-		</div>
-		<div class="super_card super_card_1">
-			<div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
-				{@html render[1]}
-			</div>
-		</div>
-		<div class="super_card super_card_2">
-			<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[2]}
-			</div>
-		</div>
-		<div class="super_card super_card_3">
-			<div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[3]}
-			</div>
-		</div>
-		<div class="super_card super_card_4">
-			<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[4]}
-			</div>
-		</div>
-		<div class="super_card super_card_5">
-			<div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[5]}
-			</div>
-		</div>
-		<div class="super_card super_card_6">
-			<div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[6]}
-			</div>
-		</div>
-		<div class="super_card super_card_7">
-			<div class="card card_7 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[7]}
-			</div>
-		</div>
-		<div class="super_card super_card_8">
-			<div class="card card_8 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
-				{@html render[8]}
-			</div>
-		</div>
-	</div>
+<div class="relative">
+	<div class="container">
+		<div class="skipcont">
+			<button type="button" class="btn lg:btn-lg xl:btn-xl 2xl:btn-xl variant-filled fixed skipbtn">sm</button>
+			<!-- Cards and visuals -->
+			<div class="flexreel grid grid-cols-2">
+				<!-- Cards -->
+				<div class="cards">
+					<div class="super_card super_card_0">
+						<div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 break-words whitespace-pre-wrap animate-fadeIn">
+							{@html render[0]}
+						</div>
+					</div>
+					<div class="super_card super_card_1">
+						<div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap">
+							{@html render[1]}
+						</div>
+					</div>
+					<div class="super_card super_card_2">
+						<div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[2]}
+						</div>
+					</div>
+					<div class="super_card super_card_3">
+						<div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[3]}
+						</div>
+					</div>
+					<div class="super_card super_card_4">
+						<div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[4]}
+						</div>
+					</div>
+					<div class="super_card super_card_5">
+						<div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[5]}
+						</div>
+					</div>
+					<div class="super_card super_card_6">
+						<div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[6]}
+						</div>
+					</div>
+					<div class="super_card super_card_7">
+						<div class="card card_7 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[7]}
+						</div>
+					</div>
+					<div class="super_card super_card_8">
+						<div class="card card_8 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap opacity-0">
+							{@html render[8]}
+						</div>
+					</div>
+				</div>
 
-	<!-- Visuals -->
-	<div class="visuals">
-		<div class="super_visual super_visual_0">
-			<div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/professional.jpg" alt="Photo of me in fancy clothing" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_1">
-			<div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Me looking down at a funny angle" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_2">
-			<div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Me drinking from a capri sun" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_3">
-			<div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Playing in the snow with my family" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_4">
-			<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass group" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_5">
-			<div class="visual visual_5 sticky top-28 ml-4 mr-4 mt-4">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton group" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_6">
-			<div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/wizard.jpg" alt="Me wearing a wizard hat" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_7">
-			<div class="visual visual_7 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
-				<img class="h-auto max-h-86.2vh rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Personal website wireframe" />
-			</div>
-		</div>
-		<div class="super_visual super_visual_8">
-			<div class="visual visual_8 sticky video top-28 ml-4 mr-4 mt-4 overflow-hidden opacity-0">
-				<iframe class="h-96 w-full rounded-lg" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				<!-- Visuals -->
+				<div class="visuals">
+					<div class="super_visual super_visual_0">
+						<div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/professional.jpg" alt="Photo of me in fancy clothing" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_1">
+						<div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Me looking down at a funny angle" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_2">
+						<div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Me drinking from a capri sun" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_3">
+						<div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Playing in the snow with my family" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_4">
+						<div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass group" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_5">
+						<div class="visual visual_5 sticky top-28 ml-4 mr-4 mt-4">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton group" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_6">
+						<div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/wizard.jpg" alt="Me wearing a wizard hat" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_7">
+						<div class="visual visual_7 sticky top-28 ml-4 mr-4 mt-4 opacity-0">
+							<img class="h-auto max-h-86.2vh rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Personal website wireframe" />
+						</div>
+					</div>
+					<div class="super_visual super_visual_8">
+						<div class="visual visual_8 sticky video top-28 ml-4 mr-4 mt-4 overflow-hidden opacity-0">
+							<iframe class="h-96 w-full rounded-lg" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -378,9 +385,28 @@
 
 <!--Styles-->
 <style lang="postcss">
-	/* Flexreel length */
+	/* View Containers */
+	.container {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
 	.flexreel {
 		height: 26000px;
+	}
+	.flexreel, .skipcont {
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.skipcont {
+		height: 100%;
+		z-index: 1000;
+	}
+	.skipbtn {
+		margin-top: 90vh;
+		margin-left: 50vw;
 	}
 
 	/* Card lengths */
