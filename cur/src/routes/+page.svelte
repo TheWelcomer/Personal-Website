@@ -5,16 +5,15 @@
 	// Imports
 	import { onMount } from 'svelte';
 	import '../app.postcss';
-	import {AppBar, LightSwitch} from "@skeletonlabs/skeleton";
 	// Constants
 	const TO_PRINT = [
 		{
 			initial:
-					'<div class="font-bold font-italic text-4xl text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
+					'<div class="font-ibm-bold bold text-4xl text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'↓ Scroll to see the text ↓' +
 					'</div>',
 			text:
-						'@<div class="font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@' +
+						'@<div class="font-ibm-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@' +
 							'Hallo, I\'m @<br><span class="text-rose-600">@The Welcomer!!',
 			speed: [50],
 		},
@@ -35,7 +34,7 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
+						'@<div class="font-ibm-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
 						'@<br>@' +
 						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
 						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
@@ -52,7 +51,7 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-bold italic text-rose-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@Top Projects @~</div>' +
+						'@<div class="font-ibm-bold italic text-rose-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">@Top Projects @~</div>' +
 						'<br>' +
 						'<span class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'<span class="text-yellow-300">@Pandemic Essential Goods Delivery@</span>@, @<span class="text-stone-500">@Self-Driving Car Model@</span>@, @<span class="text-teal-500">@Allergy Ordering App@</span>@, and @<span class="text-purple-600">@Crohn\'s Flare Prediction',
@@ -61,7 +60,7 @@
 		{
 			initial: '',
 			text:
-						'@<div class="font-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
+						'@<div class="font-ibm-bold italic text-yellow-300 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Care Pack ' +
 						'@<div class="font-ibm italic text-yellow-100 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 						'~<br>@' +
 						'Serving @<span class="text-yellow-300">@30 @</span>@unique customers at @<span class="text-yellow-300">@less than half the cost @</span>@of Instacart, Care Pack ran from May 2020 to September 2020 across a neighborhood of @<span class="text-yellow-300">@149,000 @</span>@people',
@@ -70,7 +69,7 @@
 		{
 			initial: '',
 			text:
-					'@<div class="font-bold italic text-stone-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Self-Driving Car ' +
+					'@<div class="font-ibm-bold italic text-stone-500 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Self-Driving Car ' +
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-stone-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
@@ -80,7 +79,7 @@
 		{
 			initial: '',
 			text:
-					'@<div class="font-bold italic text-teal-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
+					'@<div class="font-ibm-bold italic text-teal-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass SAFER ' +
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-teal-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
@@ -90,7 +89,7 @@
 		{
 			initial: '',
 			text:
-					'@<div class="font-bold italic text-purple-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass CLog ' +
+					'@<div class="font-ibm-bold italic text-purple-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@UMass CLog ' +
 					'@~<br>@' +
 					'@<div class="font-ibm italic text-purple-300 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">' +
 					'<br>@' +
@@ -457,24 +456,20 @@
 	/* Fonts */
 	@font-face {
 		font-family: 'IBM Plex Mono';
-		src: url('../lib/fonts/IBM Plex Mono/medium.woff2') format('woff2');
-	}
-	@font-face {
-		font-family: 'IBM Plex Mono';
 		src: url('../lib/fonts/IBM Plex Mono/semibolditalic.woff2') format('woff2');
 		font-style: italic;
 	}
 	@font-face {
-		font-family: 'IBM Plex Mono';
+		font-family: 'IBM Plex Mono Bold';
 		src: url('../lib/fonts/IBM Plex Mono/bolditalic.woff2') format('woff2');
 		font-weight: bold;
 		font-style: italic;
 	}
-	@font-face {
-		font-family: 'IBM Plex Mono';
-		src: url('../lib/fonts/IBM Plex Mono/bold.woff2') format('woff2');
-		font-weight: bold;
-	}
+	/* @font-face { */
+	/* 	font-family: 'IBM Plex Mono'; */
+	/* 	src: url('../lib/fonts/IBM Plex Mono/bold.woff2') format('woff2'); */
+	/* 	font-weight: bold; */
+	/* } */
 	@font-face {
 		font-family: 'Inter';
 		src: url('../lib/fonts/Inter/Inter-Regular.woff2') format('woff2');

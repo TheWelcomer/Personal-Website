@@ -4,13 +4,13 @@
 </script>
 <AppBar class="fixed top-0 w-full z-50" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
   <svelte:fragment slot="lead">
-    <a type="font-bold button" class="btn md:btn-lg lg:btn-xl variant-filled" data-theme="skeleton" href="/">
+    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-xl variant-glass mr-2" data-theme="skeleton" href="/">
       Intro
     </a>
-    <a type="font-bold button" class="btn md:btn-lg lg:btn-xl variant-filled dark" data-theme="skeleton" href="/projects">
+    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-xl variant-glass mr-2" data-theme="skeleton" href="/projects">
       Projects
     </a>
-    <a type="font-bold button" class="btn md:btn-lg lg:btn-xl variant-filled dark" data-theme="skeleton" href="/devlog">
+    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-xl variant-glass" data-theme="skeleton" href="/devlog">
       Devlog
     </a>
   </svelte:fragment>

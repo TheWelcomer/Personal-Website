@@ -11,6 +11,7 @@ module.exports = {
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
 				'ibm': ['IBM Plex Mono' , 'sans-serif'],
+				'ibm-bold': ['IBM Plex Mono Bold', 'sans-serif'],
 				'roboto': ['Roboto Mono', 'sans-serif'],
 				'ubuntu': ['Ubuntu Mono', 'sans-serif'],
 			},
