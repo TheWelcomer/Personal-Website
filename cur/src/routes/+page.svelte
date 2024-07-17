@@ -5,7 +5,7 @@
 	// Imports
 	import { onMount } from 'svelte';
 	import '../app.postcss';
-
+	import {AppBar, LightSwitch} from "@skeletonlabs/skeleton";
 	// Constants
 	const TO_PRINT = [
 		{
@@ -255,19 +255,6 @@
 		handleScroll();
 	}
 
-	// // Handle iframe resizing
-	// onMount(() => {
-	// 	const videos = document.querySelectorAll('.video');
-	// 	videos.forEach((video) => {
-	// 		video.style.height = `${video.offsetWidth * 0.5625}px`;
-	// 	});
-	// 	window.addEventListener('resize', () => {
-	// 		videos.forEach((video) => {
-	// 			video.style.height = `${video.offsetWidth * 0.5625}px`;
-	// 		});
-	// 	});
-	// });
-
 </script>
 
 <!-- HTML -->
@@ -278,7 +265,6 @@
 <div class="relative">
 	<div class="container">
 		<div class="skipcont">
-			<button type="button" class="btn lg:btn-lg xl:btn-xl 2xl:btn-xl variant-filled fixed skipbtn">sm</button>
 			<!-- Cards and visuals -->
 			<div class="flexreel grid grid-cols-2">
 				<!-- Cards -->
@@ -393,6 +379,7 @@
 	}
 	.flexreel {
 		height: 26000px;
+		z-index: 1;
 	}
 	.flexreel, .skipcont {
 		width: 100%;
@@ -402,7 +389,7 @@
 	}
 	.skipcont {
 		height: 100%;
-		z-index: 1000;
+		z-index: 1;
 	}
 	.skipbtn {
 		margin-top: 90vh;
