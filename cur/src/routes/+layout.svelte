@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.postcss';
+  import '../app.postcss';
   import { LightSwitch, AppShell, Avatar, AppBar } from '@skeletonlabs/skeleton';
 </script>
 <AppBar class="fixed top-0 w-full z-50" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
