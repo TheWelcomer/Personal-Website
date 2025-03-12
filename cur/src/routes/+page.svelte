@@ -37,7 +37,7 @@
 						'@<div class="font-ibm-bold italic text-blue-700 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl justify-center">@Bio@</div>~@' +
 						'@<br>@' +
 						'@<div class="font-ibm italic text-sky-600 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">UMass Amherst </span>@graduating in December 2024 with a passion ' +
+						'I\'m a @<span class="text-teal-600">@CS Major @</span>@at @<span class="text-maroon">@UMass Amherst @</span>@graduating in December 2024 with a passion ' +
 						'for exploring fields with wonderful people and inspiring works',
 			speed: [100, 10],
 		},
@@ -45,7 +45,7 @@
 			initial: '',
 			text:
 						'@<div class="font-ibm italic text-indigo-400 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text4xl 2xl:text-5xl">@' +
-							'I\'m especially interested in the fields of @<span class="text-rose-600">@medical software@</span>@ and @<span class="text-indigo-600">@ML engineering@@',
+							'I\'m especially interested in the fields of @<span class="text-rose-600">@Data Science, @</span><span class="text-emerald-600">@Machine Learning @</span>@, and @<span class="text-indigo-600">@Medical Software',
 			speed: [10],
 		},
 		{
