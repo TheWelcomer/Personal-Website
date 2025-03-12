@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LightSwitch, AppShell, Avatar, AppBar } from '@skeletonlabs/skeleton';
+  import { injectAnalytics } from '@vercel/analytics/sveltekit'
 </script>
 <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
   <svelte:fragment slot="lead">
