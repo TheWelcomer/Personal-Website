@@ -7,8 +7,8 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	// Docs
-	import DocsLogoFull from '$lib/components/DocsLogos/DocsLogoFull.svelte';
-	import DocsIcon from '$lib/components/DocsIcon/DocsIcon.svelte';
+	import DocsLogoFull from '../../components/DocsLogos/DocsLogoFull.svelte';
+	import DocsIcon from '../../components/DocsIcon/DocsIcon.svelte';
 
 	// Components & Utilities
 	import { AppBar, LightSwitch, popup, getModalStore } from '@skeletonlabs/skeleton';
