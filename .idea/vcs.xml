@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pudding" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/puddinger/website" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/skeleton" vcs="Git" />
   </component>
 </project>
