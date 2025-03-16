@@ -281,34 +281,46 @@
               <iframe class="h-120 w-full rounded-lg" src="https://www.umassai.com/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
+          <!-- Update the visual 9 div with unique ID and improved sizing using Tailwind only -->
           <div class="super_visual super_visual_9">
             <div class="visual visual_9 sticky top-28 ml-4 mr-4 mt-4">
-              <div id="adobe-dc-view" style=""></div>
+              <div id="adobe-dc-view-1" class="h-screen w-full min-h-[85vh] rounded-lg"></div>
               <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
               <script type="text/javascript">
                 document.addEventListener("adobe_dc_view_sdk.ready", function(){
                   var adobeDCView =
-                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-1"});
                   adobeDCView.previewFile({
                     content:{location: {url: "/images/paper.pdf"}},
                     metaData:{fileName: "Bodea Brochure.pdf"}
-                  }, {embedMode: "SIZED_CONTAINER"});
+                  }, {
+                    embedMode: "SIZED_CONTAINER",
+                    showDownloadPDF: true,
+                    showPrintPDF: true,
+                    showFullScreen: true
+                  });
                 });
               </script>
             </div>
           </div>
+
+          <!-- Update the visual 10 div with unique ID and improved sizing using Tailwind only -->
           <div class="super_visual super_visual_10">
             <div class="visual visual_10 sticky top-28 ml-4 mr-4 mt-4">
-              <div id="adobe-dc-view" style=""></div>
-              <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+              <div id="adobe-dc-view-2" class="h-screen w-full min-h-[85vh] rounded-lg"></div>
               <script type="text/javascript">
                 document.addEventListener("adobe_dc_view_sdk.ready", function(){
                   var adobeDCView =
-                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-2"});
                   adobeDCView.previewFile({
                     content:{location: {url: "/images/poster.pdf"}},
                     metaData:{fileName: "Bodea Brochure.pdf"}
-                  }, {embedMode: "SIZED_CONTAINER"});
+                  }, {
+                    embedMode: "SIZED_CONTAINER",
+                    showDownloadPDF: true,
+                    showPrintPDF: true,
+                    showFullScreen: true
+                  });
                 });
               </script>
             </div>
