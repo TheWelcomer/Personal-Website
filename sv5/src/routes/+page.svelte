@@ -19,10 +19,33 @@
     let currentCard = $state(0);
     let currentVisual = $state(0);
     let printing = $state(true);
-    let render = $state(['', '', '', '', '', '', '', '', '']);
+
+    // Make sure TO_PRINT has enough items for 11 cards, fill with empty objects if needed
+    const ensureCardData = () => {
+        // Check if TO_PRINT exists and has the right length
+        if (!Array.isArray(TO_PRINT) || TO_PRINT.length < 11) {
+            console.warn('TO_PRINT is missing or doesn\'t have enough items');
+
+            // Initialize with default empty objects if needed
+            return Array(11).fill(0).map((_, i) => {
+                // Return the actual item if it exists, otherwise return an empty object
+                return (TO_PRINT && TO_PRINT[i]) || {
+                    initial: '',
+                    text: '',
+                    speed: [10]
+                };
+            });
+        }
+        return TO_PRINT;
+    };
+
+    // Get card data with fallbacks
+    const cardData = ensureCardData();
+
+    let render = $state(['', '', '', '', '', '', '', '', '', '', '']);
 
     // Derived state
-    let numScrolled = $derived(Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]));
+    let numScrolled = $derived(Math.floor(scrollY / cardData[currentCard].speed[speed]));
 
     // Effect to handle scrolling
     $effect(() => {
@@ -33,54 +56,62 @@
 
     // Adding initial card text
     render.forEach((cardText, i) => {
-        render[i] = TO_PRINT[i].initial || '';
+        render[i] = (cardData[i] && cardData[i].initial) || '';
     });
 
     // Handle scrolling
     const handleScroll = async () => {
-        if (!printing) {
-            return;
-        }
+        if (!printing) return;
+
         if (render[currentCard].length >= 18 && render[currentCard].slice(-32) === '<span class="opacity-0">▋</span>') {
             render[currentCard] = render[currentCard].slice(0, -32);
         }
+
         if (currentCard === 0 && charsPrinted === 0) {
             render[currentCard] = '';
         }
+
         clearInterval(timer);
+
+        const currentCardData = cardData[currentCard] || { text: '', speed: [10] };
+
         for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
                 render[currentCard] = render[currentCard].slice(0, -1);
             }
-            if (charsPrinted >= TO_PRINT[currentCard].text.length) {
+
+            if (charsPrinted >= currentCardData.text.length) {
                 printing = false;
                 break;
             }
-            if (TO_PRINT[currentCard].text[charsPrinted] === '@') {
+
+            if (currentCardData.text[charsPrinted] === '@') {
                 charsPrinted++;
-                while (TO_PRINT[currentCard].text[charsPrinted] !== '@') {
-                    if (TO_PRINT[currentCard].text[charsPrinted] === '~') {
+                while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
+                    if (currentCardData.text[charsPrinted] === '~') {
                         speed++;
-                        numScrollsHandled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
+                        numScrollsHandled = Math.floor(scrollY / currentCardData.speed[speed]);
                         charsPrinted++;
                         continue;
                     }
-                    if (TO_PRINT[currentCard].text[charsPrinted] === '+') {
+                    if (currentCardData.text[charsPrinted] === '+') {
                         render[currentCard] += '@';
                         charsPrinted++;
                         continue;
                     }
-                    render[currentCard] += TO_PRINT[currentCard].text[charsPrinted];
+                    render[currentCard] += currentCardData.text[charsPrinted];
                     charsPrinted++;
                 }
                 charsPrinted++;
                 break;
             }
-            render[currentCard] += TO_PRINT[currentCard].text[charsPrinted];
-            render[currentCard] += '▋'
+
+            render[currentCard] += currentCardData.text[charsPrinted];
+            render[currentCard] += '▋';
             charsPrinted++;
             numScrollsHandled++;
         }
+
         timer = startCursorBlinking();
     }
 
@@ -90,9 +121,11 @@
             if (render[currentCard].length >= 8 && render[currentCard].slice(-8) === '<br><br>') {
                 render[currentCard] = render[currentCard].slice(0, -4);
             }
+
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
                 render[currentCard] = render[currentCard].slice(0, -1);
                 render[currentCard] += '<span class="opacity-0">▋</span>';
+
                 if (render[currentCard].slice(-4) === '<br>') {
                     render[currentCard] += '<br>';
                 }
@@ -121,21 +154,23 @@
                     let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
                     if (thinksCurrentCard > currentCard) {
                         cards[currentCard].innerHTML = cards[currentCard].innerHTML.replace('▋', '');
-                        cards[currentCard].innerHTML.replace('▋', '');
                         printing = true;
                         charsPrinted = 0;
                         currentCard++;
+
                         if (cards[currentCard].classList.contains('opacity-0')) {
                             lockScroll(1000);
                             cards[currentCard].classList.remove('opacity-0');
                             cards[currentCard].classList.add('animate-fadeIn');
                         }
+
                         speed = 0;
-                        numScrollsHandled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
+                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
                     }
                 }
             }
         );
+
         cards.forEach((card) => {
             observer.observe(card);
         });
@@ -150,6 +185,7 @@
                     let thinksCurrentVisual = parseInt(entry.target.classList[1].slice(7)) + 1;
                     if (thinksCurrentVisual > currentVisual) {
                         currentVisual++;
+
                         if (visuals[currentVisual].classList.contains('opacity-0')) {
                             visuals[currentVisual].classList.remove('opacity-0');
                             visuals[currentVisual].classList.add('animate-fadeIn');
@@ -158,6 +194,7 @@
                 }
             }
         );
+
         visuals.forEach((visual) => {
             visualObserver.observe(visual);
         });
@@ -175,116 +212,87 @@
 </script>
 
 <!-- HTML -->
-
-<!-- Bind scrollY to the window's scrollY -->
 <svelte:window bind:scrollY={scrollY} />
 
-<!-- HTML with theme background class applied -->
+<!-- Add these font classes to make the styling work correctly -->
+<svelte:head>
+  <style>
+    .font-ibm-bold {
+      font-family: 'IBM Plex Mono Bold', monospace;
+      font-weight: bold;
+    }
+    .font-ibm {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  </style>
+</svelte:head>
+
 <div class="relative bg-theme-background">
-  <div class="container">
-    <div class="skipcont">
+  <div class="w-full h-full absolute">
+    <div class="w-full h-full absolute top-0 left-0 z-10">
       <!-- Cards and visuals -->
-      <div class="flexreel grid grid-cols-2">
+      <div class="grid grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
         <!-- Cards -->
         <div class="cards">
-          <div class="super_card super_card_0">
-            <div class="card card_0 sticky top-28 min-h-96 ml-4 p-4 break-words whitespace-pre-wrap animate-fadeIn font-ibm">
-              {@html render[0]}
+          {#each Array(11) as _, i}
+            <div class={`super_card_${i}`}>
+              <div class={`card card_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 p-4 break-words whitespace-pre-wrap ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                {@html render[i]}
+              </div>
             </div>
-          </div>
-          <div class="super_card super_card_1">
-            <div class="card card_1 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[1]}
-            </div>
-          </div>
-          <div class="super_card super_card_2">
-            <div class="card card_2 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[2]}
-            </div>
-          </div>
-          <div class="super_card super_card_3">
-            <div class="card card_3 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[3]}
-            </div>
-          </div>
-          <div class="super_card super_card_4">
-            <div class="card card_4 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[4]}
-            </div>
-          </div>
-          <div class="super_card super_card_5">
-            <div class="card card_5 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[5]}
-            </div>
-          </div>
-          <div class="super_card super_card_6">
-            <div class="card card_6 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[6]}
-            </div>
-          </div>
-          <div class="super_card super_card_7">
-            <div class="card card_7 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[7]}
-            </div>
-          </div>
-          <div class="super_card super_card_8">
-            <div class="card card_8 sticky top-28 min-h-96 mt-4 ml-4 p-4 break-words whitespace-pre-wrap font-ibm">
-              {@html render[8]}
-            </div>
-          </div>
+          {/each}
         </div>
 
         <!-- Visuals -->
         <div class="visuals">
           <div class="super_visual super_visual_0">
-            <div class="visual visual_0 sticky top-28 ml-4 mr-4 animate-fadeIn">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/professional.jpg" alt="Professional photo" />
+            <div class="visual visual_0 sticky top-28 min-h-96 ml-4 mr-4 p-4 flex justify-center items-center animate-fadeIn">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
             </div>
           </div>
           <div class="super_visual super_visual_1">
-            <div class="visual visual_1 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/chin.jpg" alt="Profile photo" />
+            <div class="visual visual_1 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
             </div>
           </div>
           <div class="super_visual super_visual_2">
-            <div class="visual visual_2 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/juice.jpg" alt="Casual photo" />
+            <div class="visual visual_2 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
             </div>
           </div>
           <div class="super_visual super_visual_3">
-            <div class="visual visual_3 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/snow.jpg" alt="Winter photo" />
+            <div class="visual visual_3 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
             </div>
           </div>
           <div class="super_visual super_visual_4">
-            <div class="visual visual_4 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass photo" />
+            <div class="visual visual_4 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass" />
             </div>
           </div>
           <div class="super_visual super_visual_5">
-            <div class="visual visual_5 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton photo" />
+            <div class="visual visual_5 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton" />
             </div>
           </div>
           <div class="super_visual super_visual_6">
-            <div class="visual visual_6 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/wizard.jpg" alt="Fun photo" />
+            <div class="visual visual_6 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Fun" />
             </div>
           </div>
           <div class="super_visual super_visual_7">
-            <div class="visual visual_7 sticky top-28 ml-4 mr-4 mt-4">
-              <img class="h-auto max-h-86.2vh rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Project photo" />
+            <div class="visual visual_7 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Project" />
             </div>
           </div>
           <div class="super_visual super_visual_8">
-            <div class="visual visual_8 sticky top-28 ml-4 mr-4 mt-4">
-              <iframe class="h-120 w-full rounded-lg" src="https://www.umassai.com/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="visual visual_8 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
-          <!-- Update the visual 9 div with unique ID and improved sizing using Tailwind only -->
           <div class="super_visual super_visual_9">
-            <div class="visual visual_9 sticky top-28 ml-4 mr-4 mt-4">
-              <div id="adobe-dc-view-1" class="h-screen w-full min-h-[85vh] rounded-lg"></div>
+            <div class="visual visual_9 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div id="adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
               <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
               <script type="text/javascript">
                 document.addEventListener("adobe_dc_view_sdk.ready", function(){
@@ -292,7 +300,7 @@
                     new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-1"});
                   adobeDCView.previewFile({
                     content:{location: {url: "/images/paper.pdf"}},
-                    metaData:{fileName: "Bodea Brochure.pdf"}
+                    metaData:{fileName: "Research Paper.pdf"}
                   }, {
                     embedMode: "SIZED_CONTAINER",
                     showDownloadPDF: true,
@@ -303,18 +311,16 @@
               </script>
             </div>
           </div>
-
-          <!-- Update the visual 10 div with unique ID and improved sizing using Tailwind only -->
           <div class="super_visual super_visual_10">
-            <div class="visual visual_10 sticky top-28 ml-4 mr-4 mt-4">
-              <div id="adobe-dc-view-2" class="h-screen w-full min-h-[85vh] rounded-lg"></div>
+            <div class="visual visual_10 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div id="adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
               <script type="text/javascript">
                 document.addEventListener("adobe_dc_view_sdk.ready", function(){
                   var adobeDCView =
                     new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-2"});
                   adobeDCView.previewFile({
                     content:{location: {url: "/images/poster.pdf"}},
-                    metaData:{fileName: "Bodea Brochure.pdf"}
+                    metaData:{fileName: "Conference Poster.pdf"}
                   }, {
                     embedMode: "SIZED_CONTAINER",
                     showDownloadPDF: true,
@@ -331,101 +337,35 @@
   </div>
 </div>
 
-<!--Styles-->
 <style lang="css">
-  /* View Containers */
-  .container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-  .flexreel {
-    height: 26000px;
-    z-index: 1;
-  }
-  .flexreel, .skipcont {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  .skipcont {
-    height: 100%;
-    z-index: 1;
-  }
-  .skipbtn {
-    margin-top: 90vh;
-    margin-left: 50vw;
-  }
+  /* Super card heights */
+  .super_card_0 { height: calc(4500px + 16px); }
+  .super_card_1 { height: calc(5000px + 16px); }
+  .super_card_2 { height: calc(4000px + 16px); }
+  .super_card_3 { height: calc(3500px + 8px); }
+  .super_card_4 { height: calc(4000px + 8px); }
+  .super_card_5 { height: calc(4000px + 8px); }
+  .super_card_6 { height: calc(3500px + 8px); }
+  .super_card_7 { height: calc(3500px + 8px); }
+  .super_card_8 { height: calc(4000px + 8px); }
+  .super_card_9 { height: calc(4000px + 8px); }
+  .super_card_10 { height: calc(4000px + 8px); }
 
-  /* Card lengths - Adjusted for combined bio and contact card */
-  .super_card_0 {
-    height: calc(4500px + 16px); /* Intro card */
-  }
-  .super_card_1 {
-    height: calc(5000px + 16px); /* Combined bio and contact card - increased height */
-  }
-  .super_card_2 {
-    height: calc(4000px + 16px); /* Technologies section */
-  }
-  .super_card_3 {
-    height: calc(3500px + 8px); /* Education section */
-  }
-  .super_card_4 {
-    height: calc(4000px + 8px); /* Experience MassAI */
-  }
-  .super_card_5 {
-    height: calc(4000px + 8px); /* Second experience section */
-  }
-  .super_card_6 {
-    height: calc(3500px + 8px); /* Projects section */
-  }
-  .super_card_7 {
-    height: calc(3500px + 8px); /* More projects */
-  }
-  .super_card_8 {
-    height: calc(4000px + 8px); /* Awards section */
-  }
-
-  /* Visual lengths - Adjusted to match card heights */
-  .super_visual_0 {
-    height: 2250px; /* Intro card */
-  }
-  .super_visual_1 {
-    height: 2500px; /* Bio and contact */
-  }
-  .super_visual_2 {
-    height: 2000px; /* Technologies */
-  }
-  .super_visual_3 {
-    height: 1750px; /* Education */
-  }
-  .super_visual_4 {
-    height: 2000px; /* Experience MassAI */
-  }
-  .super_visual_5 {
-    height: 2000px; /* Second experience */
-  }
-  .super_visual_6 {
-    height: 1750px; /* Projects */
-  }
-  .super_visual_7 {
-    height: 1750px; /* More projects */
-  }
-  .super_visual_8 {
-    height: 2000px; /* Awards */
-  }
-  .super_visual_9 {
-    height: 2000px; /* Awards */
-  }
-  .super_visual_10 {
-    height: 2000px; /* Awards */
-  }
+  /* Visual heights */
+  .super_visual_0 { height: 2250px; }
+  .super_visual_1 { height: 2500px; }
+  .super_visual_2 { height: 2000px; }
+  .super_visual_3 { height: 1750px; }
+  .super_visual_4 { height: 2000px; }
+  .super_visual_5 { height: 2000px; }
+  .super_visual_6 { height: 1750px; }
+  .super_visual_7 { height: 1750px; }
+  .super_visual_8 { height: 2000px; }
+  .super_visual_9 { height: 2000px; }
+  .super_visual_10 { height: 2000px; }
 
   /* Ensure all visuals are visible on page load */
-  .visual {
-    opacity: 1 !important;
-  }
+  .visual { opacity: 1 !important; }
 
   /* Fonts */
   @font-face {
@@ -456,7 +396,8 @@
     src: url('/fonts/Ubuntu Sans Mono/UbuntuSansMono-Regular.woff2') format('woff2');
     font-display: swap;
   }
-  /* Theme CSS Variables for Light/Dark Mode */
+
+  /* Theme CSS Variables for Light/Dark Mode - kept for inline styles to work */
   :root {
     /* Default Light Mode Colors */
     --color-primary: #3b82f6;      /* Blue 500 */
@@ -474,7 +415,7 @@
     --color-background: #ffffff;   /* White */
   }
 
-  /* Dark Mode Colors - Modified to use .dark class instead of media query */
+  /* Dark Mode Colors */
   :root.dark, html.dark {
     --color-primary: #60a5fa;    /* Blue 400 */
     --color-accent1: #34d399;    /* Emerald 400 */
@@ -491,22 +432,7 @@
     --color-background: #111827; /* Gray 900 */
   }
 
-  /* Theme Class Utilities */
-  .text-theme-primary { color: var(--color-primary) !important; }
-  .text-theme-accent1 { color: var(--color-accent1) !important; }
-  .text-theme-accent2 { color: var(--color-accent2) !important; }
-  .text-theme-accent3 { color: var(--color-accent3) !important; }
-  .text-theme-accent4 { color: var(--color-accent4) !important; }
-  .text-theme-accent5 { color: var(--color-accent5) !important; }
-  .text-theme-accent6 { color: var(--color-accent6) !important; }
-  .text-theme-text { color: var(--color-text) !important; }
-  .text-theme-neutral { color: var(--color-neutral) !important; }
-  .text-theme-link { color: var(--color-link) !important; }
-  .border-theme-link-border { border-color: var(--color-link-border) !important; }
-  .border-theme-border { border-color: var(--color-border) !important; }
-  .bg-theme-background { background-color: var(--color-background) !important; }
-
-  /* Smooth transition between modes */
+  /* Theme transitions */
   * {
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   }
