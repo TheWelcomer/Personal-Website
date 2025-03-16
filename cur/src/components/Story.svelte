@@ -1,11 +1,13 @@
-<script>
+<script lang="ts">
   import colors from "$data/thumbnail-colors.json";
-  export let collapse;
-  export let url;
-  export let url_alt;
-  export let slug;
-  export let tease;
-  export let month;
+  let {
+    collapse,
+    url,
+    url_alt,
+    slug,
+    tease,
+    month
+  } = $props();
 
   const DEFAULT_COLOR = {
     light: "hsl(0, 0%, 80%)",

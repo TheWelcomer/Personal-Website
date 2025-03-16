@@ -2,6 +2,8 @@
 
 <!-- Script -->
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	// Imports
 	import { onMount } from 'svelte';
 	import '../app.postcss';
@@ -11,15 +13,14 @@
 	const TIMER_INTERVAL = 515;
 
 	// Variables
-	let scrollY = 0;
-	$: numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
-	let numScrollsHandled = 0;
-	let speed = 0;
+	let scrollY = $state(0);
+	let numScrollsHandled = $state(0);
+	let speed = $state(0);
 	let charsPrinted = 0;
-	let currentCard = 0;
+	let currentCard = $state(0);
 	let currentVisual = 0;
 	let printing = true;
-	let render = ['', '', '', '', '', '', '', '', ''];
+	let render = $state(['', '', '', '', '', '', '', '', '']);
 
 	// Adding initial card text
 	render.forEach((cardText, i) => {
@@ -163,11 +164,17 @@
 	// Start cursor blinking
 	let timer = startCursorBlinking();
 
-	// Call handleScroll whenever the user scrolls
-	$: if (numScrolled > numScrollsHandled) {
-		handleScroll();
-	}
 
+	let numScrolled;
+	run(() => {
+		numScrolled = Math.floor(scrollY / TO_PRINT[currentCard].speed[speed]);
+	});
+	// Call handleScroll whenever the user scrolls
+	run(() => {
+		if (numScrolled > numScrollsHandled) {
+			handleScroll();
+		}
+	});
 </script>
 
 <!-- HTML -->

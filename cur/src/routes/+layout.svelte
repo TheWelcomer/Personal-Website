@@ -3,6 +3,11 @@
   import { Avatar, AppBar } from '@skeletonlabs/skeleton-svelte';
   import type { DrawerSettings } from '@skeletonlabs/skeleton-svelte';
   import { page } from '$app/stores';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
   initializeStores();
   const drawerStore = getDrawerStore();
   const drawerSettings: DrawerSettings = {
@@ -17,28 +22,32 @@
   drawerStore.open(drawerSettings);
 </script>
 <AppBar class="fixed top-0 w-full z-50" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
-  <svelte:fragment slot="lead">
-    <Drawer />
-    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" data-theme="skeleton" href="/">
-      Intro
-    </a>
-    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" data-theme="skeleton" href="/projects">
-      Projects
-    </a>
-    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal" data-theme="skeleton" href="/devlog">
-      Blog
-    </a>
-    <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal" data-theme="skeleton" href="/devlog">
-      Contact
-    </a>
-    {#if $page.url.pathname === '/'}
-      <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-filled" data-theme="skeleton" href="/devlog">
-        Skip Scroll
+  {#snippet lead()}
+  
+      <Drawer />
+      <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" data-theme="skeleton" href="/">
+        Intro
       </a>
-    {/if}
-  </svelte:fragment>
-  <svelte:fragment slot="trail">
-    <LightSwitch/>
-  </svelte:fragment>
+      <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" data-theme="skeleton" href="/projects">
+        Projects
+      </a>
+      <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal" data-theme="skeleton" href="/devlog">
+        Blog
+      </a>
+      <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal" data-theme="skeleton" href="/devlog">
+        Contact
+      </a>
+      {#if $page.url.pathname === '/'}
+        <a type="font-bold button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-filled" data-theme="skeleton" href="/devlog">
+          Skip Scroll
+        </a>
+      {/if}
+    
+  {/snippet}
+  {#snippet trail()}
+  
+      <LightSwitch/>
+    
+  {/snippet}
 </AppBar>
-<slot/>
+{@render children?.()}

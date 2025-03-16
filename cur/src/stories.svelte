@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { getContext } from "svelte";
   // import { ascending, descending } from "d3";
   import inView from "../actions/inView.js";
@@ -10,13 +12,13 @@
     window.scrollTo(0, y);
   };
 
-  export let highlight;
+  let { highlight } = $props();
 
   const { stories, copy } = getContext("Home");
 
-  let sectionEl;
+  let sectionEl = $state();
 
-  let sortedStories = stories.map((d) => ({ ...d }));
+  let sortedStories = $state(stories.map((d) => ({ ...d })));
 
   const reSort = () => {
     sortedStories.sort(
@@ -28,7 +30,9 @@
     sortedStories = sortedStories;
   };
 
-  $: highlight, reSort();
+  run(() => {
+    highlight, reSort();
+  });
 </script>
 
 <section id="stories" bind:this={sectionEl}>
