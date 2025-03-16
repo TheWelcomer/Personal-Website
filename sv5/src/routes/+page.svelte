@@ -379,26 +379,31 @@
   /* Fonts */
   @font-face {
     font-family: 'IBM Plex Mono';
-    src: url('../lib/fonts/IBM Plex Mono/semibolditalic.woff2') format('woff2');
+    src: url('https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@4.5.1/files/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
     font-style: italic;
+    font-display: swap;
   }
   @font-face {
     font-family: 'IBM Plex Mono Bold';
-    src: url('../lib/fonts/IBM Plex Mono/bolditalic.woff2') format('woff2');
+    src: url('/fonts/IBM Plex Mono/bolditalic.woff2') format('woff2');
     font-weight: bold;
     font-style: italic;
+    font-display: swap;
   }
   @font-face {
     font-family: 'Inter';
-    src: url('../lib/fonts/Inter/Inter-Regular.woff2') format('woff2');
+    src: url('/fonts/Inter/Inter-Regular.woff2') format('woff2');
+    font-display: swap;
   }
   @font-face {
     font-family: 'Roboto Mono';
-    src: url('../lib/fonts/Roboto Mono/RobotoMono-Regular.woff2') format('woff2');
+    src: url('/fonts/Roboto Mono/RobotoMono-Regular.woff2') format('woff2');
+    font-display: swap;
   }
   @font-face {
-    font-family: 'Ubuntu Sans Mono';
-    src: url('../lib/fonts/Ubuntu Sans Mono/UbuntuSansMono-Regular.woff2') format('woff2');
+    font-family: 'Ubuntu Mono';
+    src: url('/fonts/Ubuntu Sans Mono/UbuntuSansMono-Regular.woff2') format('woff2');
+    font-display: swap;
   }
   /* Theme CSS Variables for Light/Dark Mode */
   :root {

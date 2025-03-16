@@ -5,129 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5d32274-2e32-4287-bfde-0f8b8862830d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.npmrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/active-tab-highlighter-v2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/components/Navbar.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/+layout.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/resumeInfo.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/austin.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/austin_sunset.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/beam.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/chin.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/climate_changers.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/concrete_molding.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/crypt_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/crypt_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/crypt_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/crypt_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/dark_me.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/grandma's_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/grandma's_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/hack_princeton.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/hack_umass_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/juice.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/leaves.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/nyc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/pack.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/personal_web_wireframe.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/phil.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plasbrick_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plasbrick_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plascrete_cupbrick.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plascrete_molding.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plascrete_setting.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plascylinder_unmolding.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plastats_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plastats_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plastats_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plastats_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/plastats_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/poster-min.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/professional.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/snow.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/tamuhack_table.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/wizard-min.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/wizard.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/woo_view.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/svelte.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cur/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cur/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cur/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cur/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cur/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/../cur/src/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/JetClient/state.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/active-tab-highlighter-v2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/gbrowser_project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/material_theme_project_new.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/my-app.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/.npmrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/.npmrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/src/app.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/src/app.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/src/lib/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/src/routes/+page.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/static/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/svelte.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/my-app2/vite.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/app.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/app.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/lib/images/github.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/lib/images/svelte-logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/lib/images/svelte-welcome.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/lib/images/svelte-welcome.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/+layout.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/+page.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/+page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/Counter.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/Header.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/about/+page.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/about/+page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/+page.server.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/+page.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/game.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/how-to-play/+page.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/how-to-play/+page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/reduced-motion.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/src/routes/sverdle/words.server.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/static/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/static/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/svelte.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my-app/vite.config.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../pudding" beforeDir="false" afterPath="$PROJECT_DIR$/../pudding" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1742132326246</updated>
-      <workItem from="1742132327474" duration="5436000" />
+      <workItem from="1742132327474" duration="6973000" />
     </task>
     <servers />
   </component>
