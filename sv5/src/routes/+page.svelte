@@ -296,7 +296,7 @@
           <script type="text/javascript">
             document.addEventListener("adobe_dc_view_sdk.ready", function(){
               var adobeDCView =
-                new AdobeDC.View({clientId: "cc717576f1d54eb89be36fd2f1c7ac68", divId: "adobe-dc-view"});
+                new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
               adobeDCView.previewFile({
                 content:{location: {url: "/images/paper.pdf"}},
                 metaData:{fileName: "Bodea Brochure.pdf"}
