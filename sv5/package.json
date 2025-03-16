@@ -23,5 +23,8 @@
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.5.0",
 		"vite": "^6.0.0"
+	},
+	"dependencies": {
+		"svelte-pdf": "^1.0.27"
 	}
 }

@@ -6,6 +6,7 @@
     import { onMount } from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
+    import PdfViewer from 'svelte-pdf';
 
     // Constants
     const TIMER_INTERVAL = 515;
@@ -277,9 +278,31 @@
           </div>
           <div class="super_visual super_visual_8">
             <div class="visual visual_8 sticky top-28 ml-4 mr-4 mt-4">
-              <iframe class="h-96 w-full rounded-lg" src="https://www.youtube.com/embed/C0lpYQtMhu8?si=BwRp5bTAGB2_TKlG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <iframe class="h-120 w-full rounded-lg" src="https://www.umassai.com/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
+          <div class="super_visual super_visual_9">
+            <div class="visual visual_9 sticky top-28 ml-4 mr-4 mt-4">
+              <iframe class="h-120 w-full rounded-lg" src="/images/paper.pdf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="super_visual super_visual_10">
+            <div class="visual visual_10 sticky top-28 ml-4 mr-4 mt-4">
+              <iframe class="h-120 w-full rounded-lg" src="/images/poster.pdf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div id="adobe-dc-view" style="height: 360px; width: 500px;"></div>
+          <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+          <script type="text/javascript">
+            document.addEventListener("adobe_dc_view_sdk.ready", function(){
+              var adobeDCView =
+                new AdobeDC.View({clientId: "cc717576f1d54eb89be36fd2f1c7ac68", divId: "adobe-dc-view"});
+              adobeDCView.previewFile({
+                content:{location: {url: "/images/paper.pdf"}},
+                metaData:{fileName: "Bodea Brochure.pdf"}
+              }, {embedMode: "SIZED_CONTAINER"});
+            });
+          </script>
         </div>
       </div>
     </div>
@@ -368,6 +391,12 @@
     height: 1750px; /* More projects */
   }
   .super_visual_8 {
+    height: 2000px; /* Awards */
+  }
+  .super_visual_9 {
+    height: 2000px; /* Awards */
+  }
+  .super_visual_10 {
     height: 2000px; /* Awards */
   }
 
