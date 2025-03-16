@@ -283,26 +283,36 @@
           </div>
           <div class="super_visual super_visual_9">
             <div class="visual visual_9 sticky top-28 ml-4 mr-4 mt-4">
-              <iframe class="h-120 w-full rounded-lg" src="/images/paper.pdf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <div id="adobe-dc-view" style=""></div>
+              <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+              <script type="text/javascript">
+                document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                  var adobeDCView =
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
+                  adobeDCView.previewFile({
+                    content:{location: {url: "/images/paper.pdf"}},
+                    metaData:{fileName: "Bodea Brochure.pdf"}
+                  }, {embedMode: "SIZED_CONTAINER"});
+                });
+              </script>
             </div>
           </div>
           <div class="super_visual super_visual_10">
             <div class="visual visual_10 sticky top-28 ml-4 mr-4 mt-4">
-              <iframe class="h-120 w-full rounded-lg" src="/images/poster.pdf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <div id="adobe-dc-view" style=""></div>
+              <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+              <script type="text/javascript">
+                document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                  var adobeDCView =
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
+                  adobeDCView.previewFile({
+                    content:{location: {url: "/images/poster.pdf"}},
+                    metaData:{fileName: "Bodea Brochure.pdf"}
+                  }, {embedMode: "SIZED_CONTAINER"});
+                });
+              </script>
             </div>
           </div>
-          <div id="adobe-dc-view" style="height: 360px; width: 500px;"></div>
-          <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-          <script type="text/javascript">
-            document.addEventListener("adobe_dc_view_sdk.ready", function(){
-              var adobeDCView =
-                new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view"});
-              adobeDCView.previewFile({
-                content:{location: {url: "/images/paper.pdf"}},
-                metaData:{fileName: "Bodea Brochure.pdf"}
-              }, {embedMode: "SIZED_CONTAINER"});
-            });
-          </script>
         </div>
       </div>
     </div>
