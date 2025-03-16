@@ -1,12 +1,12 @@
-<!-- This is the intro page and contains a pudding.cool style series of cards and visuals that the user scrolls between. -->
-
-<!-- Script -->
+<!-- Script remains the same -->
 <script lang="ts">
     // Imports
     import { onMount } from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
     import PdfViewer from 'svelte-pdf';
+    import { Avatar, AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
+    import { page } from '$app/stores';
 
     // Constants
     const TIMER_INTERVAL = 515;
@@ -19,6 +19,9 @@
     let currentCard = $state(0);
     let currentVisual = $state(0);
     let printing = $state(true);
+
+    // Drawer state for the navbar
+    let drawerState = $state(false);
 
     // Make sure TO_PRINT has enough items for 11 cards, fill with empty objects if needed
     const ensureCardData = () => {
@@ -58,6 +61,15 @@
     render.forEach((cardText, i) => {
         render[i] = (cardData[i] && cardData[i].initial) || '';
     });
+
+    // Drawer functions
+    function drawerClose() {
+        drawerState = false;
+    }
+
+    function openDrawer() {
+        drawerState = true;
+    }
 
     // Handle scrolling
     const handleScroll = async () => {
@@ -227,114 +239,193 @@
   </style>
 </svelte:head>
 
-<div class="relative bg-theme-background">
-  <div class="w-full h-full absolute">
-    <div class="w-full h-full absolute top-0 left-0 z-10">
-      <!-- Cards and visuals -->
-      <div class="grid grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
-        <!-- Cards -->
-        <div class="cards">
-          {#each Array(11) as _, i}
-            <div class={`super_card_${i}`}>
-              <div class={`card card_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 p-4 break-words whitespace-pre-wrap ${i === 0 ? 'animate-fadeIn' : ''}`}>
-                {@html render[i]}
-              </div>
-            </div>
-          {/each}
-        </div>
+<!-- This outer wrapper ensures the navbar stays fixed regardless of scrolling -->
+<div class="outer-wrapper">
+  <!-- Fixed navbar container positioned outside the scrollable area -->
+  <div class="fixed-navbar-container">
+    <AppBar class="fixed top-0 left-0 right-0 w-full border-b border-surface-300-600-token shadow-lg bg-surface-100-800-token" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+      {#snippet lead()}
+      <!-- Menu button with Skeleton.dev styling -->
+      <button type="button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" onclick={openDrawer}>
+        Menu
+      </button>
 
-        <!-- Visuals -->
-        <div class="visuals">
-          <div class="super_visual super_visual_0">
-            <div class="visual visual_0 sticky top-28 min-h-96 ml-4 mr-4 p-4 flex justify-center items-center animate-fadeIn">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
+      <!-- Navigation buttons with Skeleton.dev styling -->
+      <a href="/" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
+        Intro
+      </a>
+      <a href="/projects" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
+        Projects
+      </a>
+      <a href="/devlog" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
+        Blog
+      </a>
+      <a href="/contact" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
+        Contact
+      </a>
+
+      <!-- Skip Scroll button with accent styling -->
+      {#if $page?.url?.pathname === '/'}
+        <a href="#bottom" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-filled">
+          Skip Scroll
+        </a>
+      {/if}
+      {/snippet}
+
+      {#snippet trail()}
+      {/snippet}
+    </AppBar>
+  </div>
+
+  <!-- Drawer Modal with Skeleton.dev styling -->
+  <Modal
+      open={drawerState}
+      onOpenChange={(e) => (drawerState = e.open)}
+      contentBase="bg-surface-800 text-white p-4 space-y-4 shadow-xl w-[280px] md:w-[480px] h-screen rounded-r-xl"
+      positionerJustify="justify-start"
+      positionerAlign=""
+      positionerPadding=""
+      backdropClasses="bg-gradient-to-tr from-surface-500/50 via-primary-500/50 to-secondary-500/50 backdrop-blur-sm"
+      transitionsPositionerIn={{ x: -480, duration: 200 }}
+      transitionsPositionerOut={{ x: -480, duration: 200 }}
+  >
+    {#snippet content()}
+    <header class="flex justify-between items-center mb-4">
+      <h2 class="h2 font-ibm-bold">Navigation</h2>
+      <button type="button" class="btn-icon variant-ghost-surface" onclick={drawerClose}>×</button>
+    </header>
+    <hr class="opacity-50" />
+    <article class="py-4">
+      <nav class="flex flex-col space-y-4">
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/">Home</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/projects">Projects</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/devlog">Blog</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/contact">Contact</a>
+      </nav>
+    </article>
+    <hr class="opacity-50" />
+    <footer class="mt-4">
+      <button type="button" class="btn variant-filled-primary w-full font-ibm-bold" onclick={drawerClose}>Close</button>
+    </footer>
+    {/snippet}
+  </Modal>
+
+  <!-- Main content with padding for the fixed navbar -->
+  <div class="content-container">
+    <div class="relative bg-theme-background pt-16">
+      <div class="w-full h-full absolute">
+        <div class="w-full h-full absolute top-0 left-0 z-10">
+          <!-- Cards and visuals -->
+          <div class="grid grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
+            <!-- Cards -->
+            <div class="cards">
+              {#each Array(11) as _, i}
+                <div class={`super_card_${i}`}>
+                  <div class={`card card_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 p-4 break-words whitespace-pre-wrap ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                    {@html render[i]}
+                  </div>
+                </div>
+              {/each}
             </div>
-          </div>
-          <div class="super_visual super_visual_1">
-            <div class="visual visual_1 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_2">
-            <div class="visual visual_2 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_3">
-            <div class="visual visual_3 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_4">
-            <div class="visual visual_4 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_5">
-            <div class="visual visual_5 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_6">
-            <div class="visual visual_6 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Fun" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_7">
-            <div class="visual visual_7 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Project" />
-            </div>
-          </div>
-          <div class="super_visual super_visual_8">
-            <div class="visual visual_8 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-          </div>
-          <div class="super_visual super_visual_9">
-            <div class="visual visual_9 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <div id="adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
-              <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-              <script type="text/javascript">
-                document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                  var adobeDCView =
-                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-1"});
-                  adobeDCView.previewFile({
-                    content:{location: {url: "/images/paper.pdf"}},
-                    metaData:{fileName: "Research Paper.pdf"}
-                  }, {
-                    embedMode: "SIZED_CONTAINER",
-                    showDownloadPDF: true,
-                    showPrintPDF: true,
-                    showFullScreen: true
-                  });
-                });
-              </script>
-            </div>
-          </div>
-          <div class="super_visual super_visual_10">
-            <div class="visual visual_10 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-              <div id="adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
-              <script type="text/javascript">
-                document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                  var adobeDCView =
-                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-2"});
-                  adobeDCView.previewFile({
-                    content:{location: {url: "/images/poster.pdf"}},
-                    metaData:{fileName: "Conference Poster.pdf"}
-                  }, {
-                    embedMode: "SIZED_CONTAINER",
-                    showDownloadPDF: true,
-                    showPrintPDF: true,
-                    showFullScreen: true
-                  });
-                });
-              </script>
+
+            <!-- Visuals -->
+            <div class="visuals">
+              <div class="super_visual super_visual_0">
+                <div class="visual visual_0 sticky top-28 min-h-96 ml-4 mr-4 p-4 flex justify-center items-center animate-fadeIn">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_1">
+                <div class="visual visual_1 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
+                </div>
+              </div>
+              <!-- Remaining visuals remain the same -->
+              <div class="super_visual super_visual_2">
+                <div class="visual visual_2 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_3">
+                <div class="visual visual_3 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_4">
+                <div class="visual visual_4 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_umass_2.jpg" alt="HackUMass" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_5">
+                <div class="visual visual_5 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/hack_princeton.jpg" alt="HackPrinceton" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_6">
+                <div class="visual visual_6 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Fun" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_7">
+                <div class="visual visual_7 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/personal_web_wireframe.jpg" alt="Project" />
+                </div>
+              </div>
+              <div class="super_visual super_visual_8">
+                <div class="visual visual_8 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+              </div>
+              <div class="super_visual super_visual_9">
+                <div class="visual visual_9 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <div id="adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+                  <script type="text/javascript">
+                    document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                      var adobeDCView =
+                        new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-1"});
+                      adobeDCView.previewFile({
+                        content:{location: {url: "/images/paper.pdf"}},
+                        metaData:{fileName: "Research Paper.pdf"}
+                      }, {
+                        embedMode: "SIZED_CONTAINER",
+                        showDownloadPDF: true,
+                        showPrintPDF: true,
+                        showFullScreen: true
+                      });
+                    });
+                  </script>
+                </div>
+              </div>
+              <div class="super_visual super_visual_10">
+                <div class="visual visual_10 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+                  <div id="adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                  <script type="text/javascript">
+                    document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                      var adobeDCView =
+                        new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "adobe-dc-view-2"});
+                      adobeDCView.previewFile({
+                        content:{location: {url: "/images/poster.pdf"}},
+                        metaData:{fileName: "Conference Poster.pdf"}
+                      }, {
+                        embedMode: "SIZED_CONTAINER",
+                        showDownloadPDF: true,
+                        showPrintPDF: true,
+                        showFullScreen: true
+                      });
+                    });
+                  </script>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Anchor for the "Skip Scroll" button -->
+  <div id="bottom"></div>
 </div>
 
 <style lang="css">
@@ -366,6 +457,39 @@
 
   /* Ensure all visuals are visible on page load */
   .visual { opacity: 1 !important; }
+
+  /* Outer wrapper to contain everything */
+  .outer-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  /* Fixed navbar container - position fixed to stay at top during scrolling */
+  .fixed-navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Maximum z-index to keep above all content */
+  }
+
+  /* Content container with appropriate padding for navbar */
+  .content-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin-top: 0; /* No margin needed since we use padding */
+  }
+
+  /* Anchor styling */
+  #bottom {
+    height: 0;
+    width: 0;
+    position: absolute;
+    bottom: 0;
+  }
 
   /* Fonts */
   @font-face {
@@ -415,8 +539,8 @@
     --color-background: #ffffff;   /* White */
   }
 
-  /* Dark Mode Colors */
-  :root.dark, html.dark {
+  /* Dark Mode Colors - removed html.dark selector */
+  :root.dark {
     --color-primary: #60a5fa;    /* Blue 400 */
     --color-accent1: #34d399;    /* Emerald 400 */
     --color-accent2: #a78bfa;    /* Violet 400 */
