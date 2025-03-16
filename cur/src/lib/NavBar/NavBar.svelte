@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 
 	// Types
-	import type { ModalSettings, DrawerSettings } from '@skeletonlabs/skeleton';
+	import type { ModalSettings, DrawerSettings } from '@skeletonlabs/skeleton-svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	// Docs
@@ -11,10 +11,9 @@
 	import DocsIcon from '../../components/DocsIcon/DocsIcon.svelte';
 
 	// Components & Utilities
-	import { AppBar, LightSwitch, popup, getModalStore } from '@skeletonlabs/skeleton';
+	import { AppBar } from '@skeletonlabs/skeleton-svelte';
 
 	// Stores
-	import { getDrawerStore } from '@skeletonlabs/skeleton';
 	import { storeTheme } from '$lib/stores/stores';
 	const drawerStore = getDrawerStore();
 
@@ -99,7 +98,7 @@
 		<!-- Explore -->
 		<div class="relative hidden lg:block">
 			<!-- trigger -->
-			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'features' }}>
+			<button class="btn hover:preset-tonal-primary" use:popup={{ event: 'click', target: 'features' }}>
 				<span>Explore</span>
 				<i class="fa-solid fa-caret-down opacity-50"></i>
 			</button>
@@ -159,7 +158,7 @@
 		<!-- Theme -->
 		<div>
 			<!-- trigger -->
-			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}>
+			<button class="btn hover:preset-tonal-primary" use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}>
 				<i class="fa-solid fa-palette text-lg md:!hidden"></i>
 				<span class="hidden md:inline-block">Theme</span>
 				<i class="fa-solid fa-caret-down opacity-50"></i>
@@ -183,7 +182,7 @@
 											type="submit"
 											name="theme"
 											value={type}
-											class:bg-primary-active-token={$storeTheme === type}
+											class:preset-filled-primary-500={$storeTheme === type}
 										>
 											<span>{icon}</span>
 											<span class="flex-auto text-left">{name}</span>
@@ -196,7 +195,7 @@
 					</nav>
 					<hr />
 					<div>
-						<a class="btn variant-filled w-full" href="/docs/generator">
+						<a class="btn preset-filled w-full" href="/docs/generator">
 							<i class="fa-solid fa-palette"></i>
 							<span>Create a Theme</span>
 						</a>
@@ -209,7 +208,7 @@
 		<!-- Sponsor -->
 		<div>
 			<!-- trigger -->
-			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'sponsor' }}>
+			<button class="btn hover:preset-tonal-primary" use:popup={{ event: 'click', target: 'sponsor' }}>
 				<i class="fa-solid fa-heart text-lg md:!hidden"></i>
 				<span class="hidden md:inline-block">Sponsor</span>
 				<i class="fa-solid fa-caret-down opacity-50"></i>
@@ -241,10 +240,10 @@
 					</nav>
 					<hr />
 					<div>
-						<a class="btn variant-filled w-full" href="/docs/sponsorship">
+						<a class="btn preset-filled w-full" href="/docs/sponsorship">
 							<i class="fa-solid fa-gift"></i>
 							<span>Incentives</span>
-							<span class="badge variant-filled-secondary">New</span>
+							<span class="badge preset-filled-secondary-500">New</span>
 						</a>
 					</div>
 				</div>
@@ -255,7 +254,7 @@
 		<!-- Version -->
 		<div class="relative hidden lg:block">
 			<!-- trigger -->
-			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'version' }}>
+			<button class="btn hover:preset-tonal-primary" use:popup={{ event: 'click', target: 'version' }}>
 				<span>Version</span>
 				<i class="fa-solid fa-caret-down opacity-50"></i>
 			</button>
@@ -277,7 +276,7 @@
 
 		<!-- Search -->
 		<div class="md:inline md:ml-4">
-			<button class="btn space-x-4 variant-soft hover:variant-soft-primary" on:click={triggerSearch}>
+			<button class="btn space-x-4 preset-tonal hover:preset-tonal-primary" on:click={triggerSearch}>
 				<i class="fa-solid fa-magnifying-glass text-sm"></i>
 				<small class="hidden md:inline-block">{isOsMac ? '⌘' : 'Ctrl'}+K</small>
 			</button>
@@ -285,10 +284,10 @@
 
 		<!-- Social -->
 		<section class="hidden sm:inline-flex space-x-1">
-			<a class="btn-icon hover:variant-soft-primary" href="https://github.com/skeletonlabs/skeleton" target="_blank" rel="noreferrer">
+			<a class="btn-icon hover:preset-tonal-primary" href="https://github.com/skeletonlabs/skeleton" target="_blank" rel="noreferrer">
 				<i class="fa-brands fa-github text-lg"></i>
 			</a>
-			<a class="btn-icon hover:variant-soft-primary" href="https://discord.gg/EXqV7W8MtY" target="_blank" rel="noreferrer">
+			<a class="btn-icon hover:preset-tonal-primary" href="https://discord.gg/EXqV7W8MtY" target="_blank" rel="noreferrer">
 				<i class="fa-brands fa-discord text-lg"></i>
 			</a>
 		</section>
