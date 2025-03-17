@@ -306,7 +306,7 @@
 
   <!-- Main content with padding for the fixed navbar -->
   <div class="content-container">
-    <div class="relative bg-theme-background pt-16">
+    <div class="relative bg-theme-background pt-12 sm:pt-16">
       <div class="w-full h-full absolute">
         <div class="w-full h-full absolute top-0 left-0 z-10">
           <!-- Cards and visuals - responsive grid layout -->
@@ -315,7 +315,7 @@
             <div class="cards md:block">
               {#each Array(11) as _, i}
                 <div class={`super_card_${i}`}>
-                  <div class={`card card_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 p-4 break-words whitespace-pre-wrap ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                  <div class={`card card_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 ${i > 0 ? 'mt-2 sm:mt-4' : ''} mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base ${i === 0 ? 'animate-fadeIn' : ''}`}>
                     {@html render[i]}
                   </div>
                 </div>
@@ -323,28 +323,28 @@
                 <!-- Insert visuals after each card on mobile only -->
                 <div class="block md:hidden">
                   <div class={`super_visual super_visual_${i} md:hidden`}>
-                    <div class={`visual visual_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 mr-4 p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                    <div class={`visual visual_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 ${i > 0 ? 'mt-2 sm:mt-4' : ''} mx-1 sm:mx-4 p-2 sm:p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
                       <!-- Copy of the visual content for this index -->
                       {#if i === 0}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
                       {:else if i === 1}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
                       {:else if i === 2}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
                       {:else if i === 3}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
                       {:else if i === 4}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
                       {:else if i === 5}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
                       {:else if i === 6}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
                       {:else if i === 7}
-                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
+                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
                       {:else if i === 8}
-                        <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                       {:else if i === 9}
-                        <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                        <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
                         <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
                         <script type="text/javascript">
                           document.addEventListener("adobe_dc_view_sdk.ready", function(){
@@ -362,7 +362,7 @@
                           });
                         </script>
                       {:else if i === 10}
-                        <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                        <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
                         <script type="text/javascript">
                           document.addEventListener("adobe_dc_view_sdk.ready", function(){
                             var adobeDCView =
@@ -544,12 +544,29 @@
     .super_card_8, .super_card_9, .super_card_10 {
       height: calc(1500px); /* Reduced height for mobile */
     }
+
+    /* Adjust visual height for mobile as well */
+    .super_visual_0, .super_visual_1, .super_visual_2, .super_visual_3,
+    .super_visual_4, .super_visual_5, .super_visual_6, .super_visual_7,
+    .super_visual_9, .super_visual_10, .super_visual_12, .super_visual_13 {
+      height: 750px; /* Half the desktop height */
+    }
+
+    .super_visual_8, .super_visual_11, .super_visual_14 {
+      height: 1250px; /* Half the desktop height for larger elements */
+    }
   }
 
   .visual {
     opacity: 1 !important;
     position: sticky !important; /* Explicitly set sticky positioning */
-    top: 7rem !important; /* Match the top-28 (7rem) used in your HTML */
+    top: 5rem !important; /* Reduce top spacing on mobile (was 7rem) */
+  }
+
+  @media (min-width: 640px) {
+    .visual {
+      top: 7rem !important; /* Match the top-28 (7rem) used in your HTML for larger screens */
+    }
   }
 
   /* Outer wrapper to contain everything */
@@ -654,4 +671,4 @@
   * {
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   }
-  </style>
+</style>
