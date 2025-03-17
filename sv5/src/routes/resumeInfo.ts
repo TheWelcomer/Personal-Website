@@ -1,4 +1,4 @@
-// Updated TO_PRINT array with robust theme implementation
+// Updated TO_PRINT array with adjusted speeds for smoother scrolling
 export const TO_PRINT = [
     {
         initial:
@@ -20,7 +20,7 @@ export const TO_PRINT = [
             '... and all things @<span class="font-semibold" style="color: var(--color-primary);">@blue@</span>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [5],  // Much faster speed
+        speed: [3],  // Slightly slower than original 5 for better readability
     },
     {
         initial: '',
@@ -48,9 +48,8 @@ export const TO_PRINT = [
             '<a href="https://github.com/TheWelcomer" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [3, 1],
+        speed: [4, 2],  // Adjusted from 3, 1 for more proportional timing
     },
-    // Remaining cards follow same pattern with inline styles
     {
         initial: '',
         text:
@@ -67,7 +66,7 @@ export const TO_PRINT = [
             '@<br><br>@' +
             '@<span class="font-semibold" style="color: var(--color-accent6);">@Methodologies: @</span>@Agile/Scrum, CI/CD, Kanban, Research Design' +
             '@</div>@',
-        speed: [3, 1],
+        speed: [4, 2],  // Consistent with card 2
     },
     {
         initial: '',
@@ -89,7 +88,7 @@ export const TO_PRINT = [
             '@<br>@' +
             'Sep. 2022 - Dec. 2024' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [3.5, 1.8],  // Slightly faster than the others to match content length
     },
     {
         initial: '',
@@ -111,9 +110,8 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Founded and led weekly @<a href="https://docs.google.com/spreadsheets/d/1IOpD45AzsHMJ_4i5vE1xt2t8s0ejw-KyQ4eBf-2xwZM/edit?usp=sharing" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@research reading group@</a>@, @<a href="https://drive.google.com/drive/u/0/folders/1z0agrdLdUp2aPWMWvZcES8WuadsheKq1?ths=true" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@ML workshops@</a>@, and @<a href="https://drive.google.com/drive/folders/1E6J2cl7Jh_uCL_es2TQSJEcpKjo1q4pT?usp=sharing" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@competitions@</a>@' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [4, 2],  // Consistent speed
     },
-    // Rest of the array continuing with the same inline style pattern...
     {
         initial: '',
         text:
@@ -140,7 +138,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Identified sentiment detection limitations using integrated gradients' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [4, 2],  // Consistent speed
     },
     {
         initial: '',
@@ -164,7 +162,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Engineered data augmentation pipeline, reducing overfitting and resolving gradient instability issues' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [3.5, 1.8],  // Slightly adjusted for better pacing
     },
     {
         initial: '',
@@ -184,7 +182,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Implemented automated data extraction system and real-time symptom tracking' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [3.5, 1.8],  // Matched with previous card
     },
     {
         initial: '',
@@ -209,6 +207,6 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Achieved by <500 scouts globally, Eagle Scout, 600+ volunteer hours' +
             '@</div>@',
-        speed: [4, 2],
+        speed: [4, 2],  // Back to standard speed for final card
     },
 ];

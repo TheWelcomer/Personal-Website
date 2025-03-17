@@ -429,30 +429,32 @@
 
 <style lang="css">
   /* Super card heights */
-  .super_card_0 { height: calc(4500px + 16px); }
-  .super_card_1 { height: calc(5000px + 16px); }
-  .super_card_2 { height: calc(4000px + 16px); }
-  .super_card_3 { height: calc(3500px + 8px); }
-  .super_card_4 { height: calc(4000px + 8px); }
-  .super_card_5 { height: calc(4000px + 8px); }
-  .super_card_6 { height: calc(3500px + 8px); }
-  .super_card_7 { height: calc(3500px + 8px); }
-  .super_card_8 { height: calc(4000px + 8px); }
-  .super_card_9 { height: calc(4000px + 8px); }
-  .super_card_10 { height: calc(4000px + 8px); }
+  <style lang="css">
+                     /* Super card heights - adjusted for smoother, more consistent scrolling */
+                   .super_card_0 { height: calc(2500px + 16px); }  /* Reduced from 4500px */
+  .super_card_1 { height: calc(3000px + 16px); }  /* Reduced from 5000px */
+  .super_card_2 { height: calc(2500px + 16px); }  /* Reduced from 4000px */
+  .super_card_3 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_4 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_5 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_6 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_7 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_8 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_9 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_10 { height: calc(2500px + 8px); }  /* Reduced from 4000px */
 
-  /* Visual heights */
-  .super_visual_0 { height: 2250px; }
-  .super_visual_1 { height: 2500px; }
-  .super_visual_2 { height: 2000px; }
-  .super_visual_3 { height: 1750px; }
-  .super_visual_4 { height: 2000px; }
-  .super_visual_5 { height: 2000px; }
-  .super_visual_6 { height: 1750px; }
-  .super_visual_7 { height: 1750px; }
-  .super_visual_8 { height: 2000px; }
-  .super_visual_9 { height: 2000px; }
-  .super_visual_10 { height: 2000px; }
+  /* Visual heights - adjusted to match the card heights */
+  .super_visual_0 { height: 1250px; }  /* Adjusted from 2250px */
+  .super_visual_1 { height: 1500px; }  /* Adjusted from 2500px */
+  .super_visual_2 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_3 { height: 1100px; }  /* Adjusted from 1750px */
+  .super_visual_4 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_5 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_6 { height: 1100px; }  /* Adjusted from 1750px */
+  .super_visual_7 { height: 1100px; }  /* Adjusted from 1750px */
+  .super_visual_8 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_9 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_10 { height: 1250px; } /* Adjusted from 2000px */
 
   /* Ensure all visuals are visible on page load */
   .visual { opacity: 1 !important; }
