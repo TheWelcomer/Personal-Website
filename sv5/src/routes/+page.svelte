@@ -429,7 +429,6 @@
 
 <style lang="css">
   /* Super card heights */
-  <style lang="css">
                      /* Super card heights - adjusted for smoother, more consistent scrolling */
                    .super_card_0 { height: calc(2500px + 16px); }  /* Reduced from 4500px */
   .super_card_1 { height: calc(3000px + 16px); }  /* Reduced from 5000px */
