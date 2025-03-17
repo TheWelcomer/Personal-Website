@@ -1,10 +1,11 @@
 <script lang="ts">
     import '../app.css';
     // Import any components you need for the layout
-    import { onMount } from 'svelte';
+    import { ModeWatcher } from "mode-watcher";
 </script>
 
 <!-- Your standard layout should simply pass through the slot content -->
+<ModeWatcher />
 <slot />
 
 <style>
