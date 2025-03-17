@@ -245,34 +245,29 @@
   <div class="fixed-navbar-container">
     <AppBar class="fixed top-0 left-0 right-0 w-full border-b border-surface-300-600-token shadow-lg bg-surface-100-800-token" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
       {#snippet lead()}
-      <!-- Menu button with Skeleton.dev styling -->
-      <button type="button" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2" onclick={openDrawer}>
-        Menu
+      <!-- Hamburger menu button (only visible on small screens) -->
+      <button type="button" class="btn font-ibm-bold md:hidden lg:hidden preset-tonal mr-2" on:click={openDrawer} aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
       </button>
 
-      <!-- Navigation buttons with Skeleton.dev styling -->
-      <a href="/" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
-        Intro
+      <!-- Navigation buttons with Skeleton.dev styling - hidden on small screens -->
+      <a href="/about" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
+        About Me
       </a>
-      <a href="/projects" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
-        Projects
+      <a href="/resume" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
+        Resume
       </a>
-      <a href="/devlog" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
+      <a href="/blog" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
         Blog
       </a>
-      <a href="/contact" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-tonal mr-2">
-        Contact
-      </a>
-
-      <!-- Skip Scroll button with accent styling -->
-      {#if $page?.url?.pathname === '/'}
-        <a href="#bottom" class="btn font-ibm-bold md:btn-lg lg:btn-lg preset-filled">
-          Skip Scroll
-        </a>
-      {/if}
       {/snippet}
 
       {#snippet trail()}
+      <!-- Keep this empty for now -->
       {/snippet}
     </AppBar>
   </div>
@@ -292,20 +287,19 @@
     {#snippet content()}
     <header class="flex justify-between items-center mb-4">
       <h2 class="h2 font-ibm-bold">Navigation</h2>
-      <button type="button" class="btn-icon variant-ghost-surface" onclick={drawerClose}>×</button>
+      <button type="button" class="btn-icon variant-ghost-surface" on:click={drawerClose} aria-label="Close">×</button>
     </header>
     <hr class="opacity-50" />
     <article class="py-4">
       <nav class="flex flex-col space-y-4">
-        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/">Home</a>
-        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/projects">Projects</a>
-        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/devlog">Blog</a>
-        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/contact">Contact</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/about">About Me</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/resume">Resume</a>
+        <a class="btn variant-ghost-surface w-full justify-start font-ibm" href="/blog">Blog</a>
       </nav>
     </article>
     <hr class="opacity-50" />
     <footer class="mt-4">
-      <button type="button" class="btn variant-filled-primary w-full font-ibm-bold" onclick={drawerClose}>Close</button>
+      <button type="button" class="btn variant-filled-primary w-full font-ibm-bold" on:click={drawerClose}>Close</button>
     </footer>
     {/snippet}
   </Modal>
@@ -443,14 +437,14 @@
     </div>
   </div>
 
-  <!-- Anchor for the "Skip Scroll" button -->
+  <!-- Anchor for the bottom of the page -->
   <div id="bottom"></div>
 </div>
 
 <style lang="css">
   /* Super card heights */
-                     /* Super card heights - adjusted for smoother, more consistent scrolling */
-                   .super_card_0 { height: calc(2500px); }  /* Reduced from 4500px */
+  /* Super card heights - adjusted for smoother, more consistent scrolling */
+  .super_card_0 { height: calc(2500px); }  /* Reduced from 4500px */
   .super_card_1 { height: calc(2500px); }  /* Reduced from 5000px */
   .super_card_2 { height: calc(2500px); }  /* Reduced from 4000px */
   .super_card_3 { height: calc(2500px); }   /* Reduced from 3500px */
@@ -519,6 +513,11 @@
     bottom: 0;
   }
 
+  /* Theme transitions */
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  }
+
   /* Fonts */
   @font-face {
     font-family: 'IBM Plex Mono';
@@ -549,7 +548,7 @@
     font-display: swap;
   }
 
-  /* Theme CSS Variables for Light/Dark Mode - kept for inline styles to work */
+  /* Theme CSS Variables for Light/Dark Mode */
   :root {
     /* Default Light Mode Colors */
     --color-primary: #3b82f6;      /* Blue 500 */
@@ -567,25 +566,20 @@
     --color-background: #ffffff;   /* White */
   }
 
-  /* Dark Mode Colors - removed html.dark selector */
+  /* Dark Mode Colors */
   :root.dark {
-    --color-primary: #60a5fa;    /* Blue 400 */
-    --color-accent1: #34d399;    /* Emerald 400 */
-    --color-accent2: #a78bfa;    /* Violet 400 */
-    --color-accent3: #22d3ee;    /* Cyan 400 */
-    --color-accent4: #6ee7b7;    /* Emerald 300 */
-    --color-accent5: #fb7185;    /* Rose 400 */
-    --color-accent6: #c4b5fd;    /* Violet 300 */
-    --color-text: #f9fafb;       /* Gray 50 */
-    --color-neutral: #d1d5db;    /* Gray 300 */
-    --color-link: #38bdf8;       /* Sky 400 */
+    --color-primary: #60a5fa; /* Blue 400 */
+    --color-accent1: #34d399; /* Emerald 400 */
+    --color-accent2: #a78bfa; /* Violet 400 */
+    --color-accent3: #22d3ee; /* Cyan 400 */
+    --color-accent4: #6ee7b7; /* Emerald 300 */
+    --color-accent5: #fb7185; /* Rose 400 */
+    --color-accent6: #c4b5fd; /* Violet 300 */
+    --color-text: #f9fafb; /* Gray 50 */
+    --color-neutral: #d1d5db; /* Gray 300 */
+    --color-link: #38bdf8; /* Sky 400 */
     --color-link-border: #0284c7; /* Sky 600 */
-    --color-border: #4b5563;     /* Gray 600 */
+    --color-border: #4b5563; /* Gray 600 */
     --color-background: #111827; /* Gray 900 */
   }
-
-  /* Theme transitions */
-  * {
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-  }
-</style>
+  </style>

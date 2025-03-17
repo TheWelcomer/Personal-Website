@@ -20,7 +20,7 @@ export const TO_PRINT = [
             '... and all things @<span class="font-semibold" style="color: var(--color-primary);">@blue@</span>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [10, 2],  // Slightly slower than original 5 for better readability
+        speed: [10, 4],  // Slightly slower than original 5 for better readability
     },
     {
         initial: '',
@@ -39,7 +39,7 @@ export const TO_PRINT = [
             '@<div class="mt-6 pt-4" style="border-top: 1px solid var(--color-border);">@' +
             '@<span class="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl font-semibold" style="color: var(--color-primary);">~@Contact Me@~</span>@' +
             '@<br><br>@' +
-            '<a href="mailto:dwinkelman@umass.edu" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@dwinkelman (at) umass.edu@</a>@' +
+            '<a href="mailto:dwinkelman@umass.edu" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@dwinkelman (at) umass (dot) edu@</a>@' +
             '@<br>@' +
             '@<span style="color: var(--color-neutral);">@(512) 705-6738@</span>@' +
             '@<br><br>@' +
