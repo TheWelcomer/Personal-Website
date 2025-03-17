@@ -313,99 +313,222 @@
           <div class="grid grid-cols-1 md:grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
             <!-- Cards column -->
             <div class="cards md:block">
-              <!-- Loop through all cards first -->
-              {#each Array(11) as _, i}
-                <div class={`super_card_${i}`}>
-                  <div class={`card card_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 ${i > 0 ? 'mt-2 sm:mt-4' : ''} mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base ${i === 0 ? 'animate-fadeIn' : ''}`}>
-                    {@html render[i]}
+              <!-- On mobile, show cards with their corresponding visuals -->
+              <!-- Card 0 with visuals 0 and 1 -->
+              <div class={`super_card_0`}>
+                <div class={`card card_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base animate-fadeIn`}>
+                  {@html render[0]}
+                </div>
+              </div>
+
+              <!-- Visual 0 and 1 after Card 0 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_0">
+                  <div class="visual visual_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center animate-fadeIn">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
                   </div>
                 </div>
-              {/each}
-
-              <!-- On mobile, show all visuals after all text cards -->
-              <div class="block md:hidden">
-                {#each Array(11) as _, i}
-                  <div class={`super_visual super_visual_${i}`}>
-                    <div class={`visual visual_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
-                      <!-- Visual content for each index -->
-                      {#if i === 0}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
-                      {:else if i === 1}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
-                      {:else if i === 2}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
-                      {:else if i === 3}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
-                      {:else if i === 4}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
-                      {:else if i === 5}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
-                      {:else if i === 6}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
-                      {:else if i === 7}
-                        <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
-                      {:else if i === 8}
-                        <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                      {:else if i === 9}
-                        <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-                        <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-                        <script type="text/javascript">
-                          document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                            var adobeDCView =
-                              new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
-                            adobeDCView.previewFile({
-                              content:{location: {url: "/images/paper.pdf"}},
-                              metaData:{fileName: "Research Paper.pdf"}
-                            }, {
-                              embedMode: "SIZED_CONTAINER",
-                              showDownloadPDF: true,
-                              showPrintPDF: true,
-                              showFullScreen: true
-                            });
-                          });
-                        </script>
-                      {:else if i === 10}
-                        <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-                        <script type="text/javascript">
-                          document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                            var adobeDCView =
-                              new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
-                            adobeDCView.previewFile({
-                              content:{location: {url: "/images/poster.pdf"}},
-                              metaData:{fileName: "Conference Poster.pdf"}
-                            }, {
-                              embedMode: "SIZED_CONTAINER",
-                              showDownloadPDF: true,
-                              showPrintPDF: true,
-                              showFullScreen: true
-                            });
-                          });
-                        </script>
-                      {/if}
-                    </div>
+                <div class="super_visual super_visual_1">
+                  <div class="visual visual_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
                   </div>
-                {/each}
+                </div>
+              </div>
 
-                <!-- Add the additional visuals for mobile -->
+              <!-- Card 1 with visuals 2 and 3 -->
+              <div class={`super_card_1`}>
+                <div class={`card card_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[1]}
+                </div>
+              </div>
+
+              <!-- Visual 2 and 3 after Card 1 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_2">
+                  <div class="visual visual_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_3">
+                  <div class="visual visual_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2 with visuals 4 and 5 -->
+              <div class={`super_card_2`}>
+                <div class={`card card_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[2]}
+                </div>
+              </div>
+
+              <!-- Visual 4 and 5 after Card 2 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_4">
+                  <div class="visual visual_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_5">
+                  <div class="visual visual_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3 with visuals 6 and 7 -->
+              <div class={`super_card_3`}>
+                <div class={`card card_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[3]}
+                </div>
+              </div>
+
+              <!-- Visual 6 and 7 after Card 3 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_6">
+                  <div class="visual visual_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_7">
+                  <div class="visual visual_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4 with visual 8 -->
+              <div class={`super_card_4`}>
+                <div class={`card card_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[4]}
+                </div>
+              </div>
+
+              <!-- Visual 8 after Card 4 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_8">
+                  <div class="visual visual_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 5 with visuals 9 and 10 -->
+              <div class={`super_card_5`}>
+                <div class={`card card_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[5]}
+                </div>
+              </div>
+
+              <!-- Visual 9 and 10 after Card 5 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_9">
+                  <div class="visual visual_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+                    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+                    <script type="text/javascript">
+                      document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                        var adobeDCView =
+                          new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
+                        adobeDCView.previewFile({
+                          content:{location: {url: "/images/paper.pdf"}},
+                          metaData:{fileName: "Research Paper.pdf"}
+                        }, {
+                          embedMode: "SIZED_CONTAINER",
+                          showDownloadPDF: true,
+                          showPrintPDF: true,
+                          showFullScreen: true
+                        });
+                      });
+                    </script>
+                  </div>
+                </div>
+                <div class="super_visual super_visual_10">
+                  <div class="visual visual_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+                    <script type="text/javascript">
+                      document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                        var adobeDCView =
+                          new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
+                        adobeDCView.previewFile({
+                          content:{location: {url: "/images/poster.pdf"}},
+                          metaData:{fileName: "Conference Poster.pdf"}
+                        }, {
+                          embedMode: "SIZED_CONTAINER",
+                          showDownloadPDF: true,
+                          showPrintPDF: true,
+                          showFullScreen: true
+                        });
+                      });
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 6 with visual 11 -->
+              <div class={`super_card_6`}>
+                <div class={`card card_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[6]}
+                </div>
+              </div>
+
+              <!-- Visual 11 after Card 6 (mobile only) -->
+              <div class="block md:hidden">
                 <div class="super_visual super_visual_11">
-                  <div class="visual visual_11 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                  <div class="visual visual_11 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
                     <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://beatcode.dev/" title="BeatCode Website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                   </div>
                 </div>
+              </div>
+
+              <!-- Card 7 with visuals 12 and 13 -->
+              <div class={`super_card_7`}>
+                <div class={`card card_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[7]}
+                </div>
+              </div>
+
+              <!-- Visual 12 and 13 after Card 7 (mobile only) -->
+              <div class="block md:hidden">
                 <div class="super_visual super_visual_12">
-                  <div class="visual visual_12 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                  <div class="visual visual_12 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
                     <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                   </div>
                 </div>
                 <div class="super_visual super_visual_13">
-                  <div class="visual visual_13 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                  <div class="visual visual_13 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
                     <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                   </div>
                 </div>
+              </div>
+
+              <!-- Card 8 with visual 14 -->
+              <div class={`super_card_8`}>
+                <div class={`card card_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[8]}
+                </div>
+              </div>
+
+              <!-- Visual 14 after Card 8 (mobile only) -->
+              <div class="block md:hidden">
                 <div class="super_visual super_visual_14">
-                  <div class="visual visual_14 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                  <div class="visual visual_14 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
                     <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                   </div>
+                </div>
+              </div>
+
+              <!-- Remaining cards without visuals -->
+              <div class={`super_card_9`}>
+                <div class={`card card_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[9]}
+                </div>
+              </div>
+
+              <div class={`super_card_10`}>
+                <div class={`card card_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
+                  {@html render[10]}
                 </div>
               </div>
             </div>
