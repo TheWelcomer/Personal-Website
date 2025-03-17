@@ -348,8 +348,8 @@
   </Modal>
 
   <!-- Main content with padding for the fixed navbar -->
-  <div class="content-container">
-    <div class="relative bg-theme-background pt-12 sm:pt-16">
+  <div class="content-container bg-theme-background">
+    <div class="relative pt-12 sm:pt-16">
       <div class="w-full h-full absolute">
         <div class="w-full h-full absolute top-0 left-0 z-10">
           <!-- Cards and visuals - responsive grid layout -->
