@@ -1,11 +1,9 @@
 <script lang="ts">
     // Imports
-    import { onMount } from 'svelte';
+    import { onMount , onDestroy} from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
-    import PdfViewer from 'svelte-pdf';
-    import { Avatar, AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
-    import { page } from '$app/stores';
+    import { AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
     import Sun from "lucide-svelte/icons/sun";
     import Moon from "lucide-svelte/icons/moon";
 
@@ -256,6 +254,75 @@
 
     // Start cursor blinking
     let timer = startCursorBlinking();
+
+    // Theme state
+    let currentTheme = $state('light'); // Default to light mode
+    let modeSub;
+
+    // Add this to your existing onMount handlers
+    onMount(() => {
+        // Initialize theme from localStorage
+        const savedMode = localStorage.getItem('mode-watcher-mode');
+        currentTheme = savedMode || 'light';
+
+        // Apply theme to document
+        applyThemeToDocument(currentTheme === 'dark' ? 'dark' : 'light');
+
+        // Subscribe to theme changes
+        modeSub = derivedMode.subscribe(mode => {
+            currentTheme = mode;
+            applyThemeToDocument(mode);
+        });
+
+        // Add window scroll handler to ensure theme is applied
+        const handleScroll = _.debounce(() => {
+            applyThemeToDocument(currentTheme);
+        }, 100);
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            if (modeSub) modeSub();
+            window.removeEventListener('scroll', handleScroll);
+        };
+    });
+
+    // Helper function to apply theme
+    function applyThemeToDocument(mode) {
+        const rootEl = document.documentElement;
+
+        // Apply dark mode class
+        if (mode === 'dark') {
+            rootEl.classList.add('dark');
+        } else {
+            rootEl.classList.remove('dark');
+        }
+
+        // Force background color update on all containers
+        const bgColor = getComputedStyle(rootEl).getPropertyValue('--color-background');
+
+        // Target all scrollable containers
+        document.querySelectorAll('.outer-wrapper, .content-container, [class^="super_card_"], [class^="super_visual_"]').forEach(el => {
+            el.style.backgroundColor = bgColor;
+        });
+
+        // Update the grid container background
+        const gridContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.h-\\[26000px\\]');
+        if (gridContainer) {
+            gridContainer.style.backgroundColor = bgColor;
+        }
+    }
+
+    // Custom theme toggle function that forces full update
+    function customToggleMode() {
+        toggleMode();
+
+        // Give a small delay before forcing update
+        setTimeout(() => {
+            applyThemeToDocument(currentTheme === 'dark' ? 'light' : 'dark');
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        }, 10);
+    }
 </script>
 <!-- HTML -->
 <svelte:window bind:scrollY={scrollY} />
@@ -271,6 +338,7 @@
       font-family: 'IBM Plex Mono', monospace;
     }
   </style>
+
 </svelte:head>
 
 <!-- This outer wrapper ensures the navbar stays fixed regardless of scrolling -->
@@ -298,7 +366,7 @@
       <a href="/blog" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
         Blog
       </a>
-      <Button on:click={toggleMode} variant="outline" size="icon">
+      <Button on:click={customToggleMode()} variant="outline" size="icon" class="justify-center align-middle">
         <Sun
             class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
         />
@@ -872,7 +940,70 @@
     }
   }
 
-  .bg-theme-background {
+  /* Add this to your global CSS file or <style> block */
+
+  /* Ensure theme variables are applied globally */
+  :root, html, body {
     background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  /* Apply theme to all super cards and super visuals */
+  [class^="super_card_"],
+  [class^="super_visual_"] {
+    background-color: var(--color-background) !important;
+  }
+
+  /* Apply theme to all cards and visuals */
+  .card, .visual {
+    color: var(--color-text);
+    background-color: transparent;
+  }
+
+  /* Add a theme class to handle the outer wrapper */
+  .outer-wrapper {
+    background-color: var(--color-background) !important;
+    min-height: 100vh;
+  }
+
+  /* Ensure all content within the super elements gets theme colors */
+  .content-container,
+  .cards,
+  .visuals {
+    background-color: var(--color-background) !important;
+  }
+
+  /* Fix for z-index stacking issues that might cause background color problems */
+  .fixed-navbar-container {
+    z-index: 1000;
+  }
+
+  .content-container {
+    z-index: 1;
+    position: relative;
+  }
+
+  /* Improve transitions between themes */
+  *, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Fix for any color issues in the AppBar component */
+  .AppBar {
+    background-color: var(--color-surface-100-800-token);
+    color: var(--color-text);
+    border-color: var(--color-surface-300-600-token);
+  }
+
+  /* Ensure absolute-positioned elements within the layout inherit theme */
+  .absolute {
+    background-color: inherit;
+  }
+
+  /* Make sure your long scrolling containers use theme colors */
+  .grid-cols-1,
+  .md\:grid-cols-2,
+  .h-\[26000px\] {
+    background-color: var(--color-background) !important;
   }
 </style>
