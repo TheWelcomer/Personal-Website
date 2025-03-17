@@ -157,34 +157,44 @@
         }
     });
 
-    // Handle active card switching
+    // Handle active visual switching - improved version
     onMount(() => {
-        const cards = document.querySelectorAll('.card');
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.boundingClientRect.top < 0) {
-                    let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
-                    if (thinksCurrentCard > currentCard) {
-                        cards[currentCard].innerHTML = cards[currentCard].innerHTML.replace('▋', '');
-                        printing = true;
-                        charsPrinted = 0;
-                        currentCard++;
+        const visuals = document.querySelectorAll('.visual');
+        console.log(`Found ${visuals.length} visuals`); // Debug: confirm how many visuals were found
 
-                        if (cards[currentCard].classList.contains('opacity-0')) {
-                            lockScroll(1000);
-                            cards[currentCard].classList.remove('opacity-0');
-                            cards[currentCard].classList.add('animate-fadeIn');
+        const visualObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.boundingClientRect.top < 0) {
+                        const visualClass = entry.target.classList[1]; // e.g., "visual_7"
+                        const visualIndex = parseInt(visualClass.slice(7)); // get the number after "visual_"
+                        console.log(`Visual ${visualIndex} intersecting, current: ${currentVisual}`); // Debug
+
+                        if (visualIndex > currentVisual) {
+                            // Update the current visual
+                            currentVisual = visualIndex;
+                            console.log(`Setting current visual to ${currentVisual}`); // Debug
+
+                            // Make sure the next visual is visible if it exists
+                            if (visualIndex + 1 < visuals.length &&
+                                visuals[visualIndex + 1].classList.contains('opacity-0')) {
+                                visuals[visualIndex + 1].classList.remove('opacity-0');
+                                visuals[visualIndex + 1].classList.add('animate-fadeIn');
+                            }
                         }
-
-                        speed = 0;
-                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
                     }
-                }
+                });
+            },
+            {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: "-10% 0px 0px 0px" // Adjust when the callback triggers
             }
         );
 
-        cards.forEach((card) => {
-            observer.observe(card);
+        // Observe all visuals
+        visuals.forEach((visual) => {
+            visualObserver.observe(visual);
+            console.log(`Observing ${visual.classList[1]}`); // Debug
         });
     });
 
@@ -450,17 +460,17 @@
 <style lang="css">
   /* Super card heights */
                      /* Super card heights - adjusted for smoother, more consistent scrolling */
-                   .super_card_0 { height: calc(2500px + 16px); }  /* Reduced from 4500px */
-  .super_card_1 { height: calc(2500px + 16px); }  /* Reduced from 5000px */
-  .super_card_2 { height: calc(2500px + 16px); }  /* Reduced from 4000px */
-  .super_card_3 { height: calc(2500px + 8px); }   /* Reduced from 3500px */
-  .super_card_4 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
-  .super_card_5 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
-  .super_card_6 { height: calc(2500px + 8px); }   /* Reduced from 3500px */
-  .super_card_7 { height: calc(2500px + 8px); }   /* Reduced from 3500px */
-  .super_card_8 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
-  .super_card_9 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
-  .super_card_10 { height: calc(2500px + 8px); }  /* Reduced from 4000px */
+                   .super_card_0 { height: calc(2500px); }  /* Reduced from 4500px */
+  .super_card_1 { height: calc(2500px); }  /* Reduced from 5000px */
+  .super_card_2 { height: calc(2500px); }  /* Reduced from 4000px */
+  .super_card_3 { height: calc(2500px); }   /* Reduced from 3500px */
+  .super_card_4 { height: calc(2500px); }   /* Reduced from 4000px */
+  .super_card_5 { height: calc(2500px); }   /* Reduced from 4000px */
+  .super_card_6 { height: calc(2500px); }   /* Reduced from 3500px */
+  .super_card_7 { height: calc(2500px); }   /* Reduced from 3500px */
+  .super_card_8 { height: calc(2500px); }   /* Reduced from 4000px */
+  .super_card_9 { height: calc(2500px); }   /* Reduced from 4000px */
+  .super_card_10 { height: calc(2500px); }  /* Reduced from 4000px */
 
   /* Visual heights - adjusted to match the card heights */
   .super_visual_0 { height: 1250px; }  /* Adjusted from 2250px */
@@ -478,7 +488,11 @@
   .super_visual_12 { height: 2500px; } /* Adjusted from 2000px */
 
   /* Ensure all visuals are visible on page load */
-  .visual { opacity: 1 !important; }
+  .visual {
+    opacity: 1 !important;
+    position: sticky !important; /* Explicitly set sticky positioning */
+    top: 7rem !important; /* Match the top-28 (7rem) used in your HTML */
+  }
 
   /* Outer wrapper to contain everything */
   .outer-wrapper {
