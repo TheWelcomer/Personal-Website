@@ -1,13 +1,11 @@
 <script lang="ts">
     // Imports
-    import { onMount , onDestroy} from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
     import { AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
-    import Sun from "lucide-svelte/icons/sun";
-    import Moon from "lucide-svelte/icons/moon";
-
-    import { toggleMode } from "mode-watcher";
+    import { get } from 'svelte/store';
+    import { toggleMode, derivedMode } from "mode-watcher";
     import { Button } from "$lib/components/ui/button/index.js";
 
     // Constants
@@ -221,6 +219,7 @@
             window.removeEventListener('orientationchange', resetMobileCardsPrinting);
         };
     });
+
     // Handle active visual switching
     onMount(() => {
         const visuals = document.querySelectorAll('.visual');
@@ -255,75 +254,91 @@
     // Start cursor blinking
     let timer = startCursorBlinking();
 
-    // Theme state
-    let currentTheme = $state('light'); // Default to light mode
-    let modeSub;
-
-    // Add this to your existing onMount handlers
+    // Theme management - improved implementation
     onMount(() => {
-        // Initialize theme from localStorage
-        const savedMode = localStorage.getItem('mode-watcher-mode');
-        currentTheme = savedMode || 'light';
+        // Get initial mode from localStorage or default to system
+        const savedMode = localStorage.getItem('mode-watcher-mode') || 'system';
 
-        // Apply theme to document
-        applyThemeToDocument(currentTheme === 'dark' ? 'dark' : 'light');
+        // Apply the initial theme
+        applyThemeToDocument(get(derivedMode));
 
-        // Subscribe to theme changes
-        modeSub = derivedMode.subscribe(mode => {
-            currentTheme = mode;
+        // Subscribe to theme changes using the store's subscribe method
+        const unsubscribeMode = derivedMode.subscribe(mode => {
+            // When the mode changes in the store, apply it to the DOM
             applyThemeToDocument(mode);
         });
 
-        // Add window scroll handler to ensure theme is applied
-        const handleScroll = _.debounce(() => {
-            applyThemeToDocument(currentTheme);
-        }, 100);
+        // Set up a throttled scroll handler
+        const handleThrottledScroll = throttle(() => {
+            applyThemeToDocument(get(derivedMode));
+        }, 200);
 
-        window.addEventListener('scroll', handleScroll);
+        // Add the scroll event listener
+        window.addEventListener('scroll', handleThrottledScroll);
 
+        // Clean up when component is destroyed
         return () => {
-            if (modeSub) modeSub();
-            window.removeEventListener('scroll', handleScroll);
+            unsubscribeMode();
+            window.removeEventListener('scroll', handleThrottledScroll);
         };
     });
 
-    // Helper function to apply theme
+    // Helper function to apply theme changes
     function applyThemeToDocument(mode) {
         const rootEl = document.documentElement;
 
-        // Apply dark mode class
+        // Make sure we're working with proper theme classes
         if (mode === 'dark') {
             rootEl.classList.add('dark');
+            rootEl.classList.remove('light');
         } else {
             rootEl.classList.remove('dark');
+            rootEl.classList.add('light');
         }
 
-        // Force background color update on all containers
+        // Force update all theme colors
         const bgColor = getComputedStyle(rootEl).getPropertyValue('--color-background');
+        const textColor = getComputedStyle(rootEl).getPropertyValue('--color-text');
 
-        // Target all scrollable containers
+        // Apply to all static elements - use a more specific selector to avoid iframes
         document.querySelectorAll('.outer-wrapper, .content-container, [class^="super_card_"], [class^="super_visual_"]').forEach(el => {
             el.style.backgroundColor = bgColor;
         });
 
-        // Update the grid container background
-        const gridContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.h-\\[26000px\\]');
-        if (gridContainer) {
-            gridContainer.style.backgroundColor = bgColor;
-        }
+        // Cards need to have text color set
+        document.querySelectorAll('.card').forEach(el => {
+            el.style.color = textColor;
+        });
+
+        // Set the background color on the grid container
+        document.querySelectorAll('.grid').forEach(container => {
+            container.style.backgroundColor = bgColor;
+        });
     }
 
-    // Custom theme toggle function that forces full update
-    function customToggleMode() {
-        toggleMode();
-
-        // Give a small delay before forcing update
-        setTimeout(() => {
-            applyThemeToDocument(currentTheme === 'dark' ? 'light' : 'dark');
-            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        }, 10);
+    // Simple throttle function
+    function throttle(func, limit) {
+        let lastFunc;
+        let lastRan;
+        return function() {
+            const context = this;
+            const args = arguments;
+            if (!lastRan) {
+                func.apply(context, args);
+                lastRan = Date.now();
+            } else {
+                clearTimeout(lastFunc);
+                lastFunc = setTimeout(function() {
+                    if ((Date.now() - lastRan) >= limit) {
+                        func.apply(context, args);
+                        lastRan = Date.now();
+                    }
+                }, limit - (Date.now() - lastRan));
+            }
+        };
     }
 </script>
+
 <!-- HTML -->
 <svelte:window bind:scrollY={scrollY} />
 
@@ -366,13 +381,30 @@
       <a href="/blog" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
         Blog
       </a>
-      <Button on:click={customToggleMode()} variant="outline" size="icon" class="justify-center align-middle">
-        <Sun
-            class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-        />
-        <Moon
-            class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-        />
+      <!-- In your HTML template, update the button to use toggleMode directly -->
+      <Button on:click={toggleMode} variant="outline" size="icon" class="relative">
+        <!-- Ensure the Sun icon properly displays in light mode -->
+        <div class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+        </div>
+
+        <!-- Ensure the Moon icon properly displays in dark mode -->
+        <div class="absolute top-0 left-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </div>
+
         <span class="sr-only">Toggle theme</span>
       </Button>
       {/snippet}
