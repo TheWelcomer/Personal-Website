@@ -1,4 +1,3 @@
-<!-- Script remains the same -->
 <script lang="ts">
     // Imports
     import { onMount } from 'svelte';
@@ -10,9 +9,12 @@
 
     // Constants
     const TIMER_INTERVAL = 515;
+    const MOBILE_BREAKPOINT = 768; // px
 
     // State variables
     let scrollY = $state(0);
+    let isMobile = $state(false);
+    let adjustedScrollY = $derived(isMobile ? scrollY / 2 : scrollY);
     let numScrollsHandled = $state(0);
     let speed = $state(0);
     let charsPrinted = $state(0);
@@ -47,8 +49,8 @@
 
     let render = $state(['', '', '', '', '', '', '', '', '', '', '']);
 
-    // Derived state
-    let numScrolled = $derived(Math.floor(scrollY / cardData[currentCard].speed[speed]));
+    // Derived state - using adjustedScrollY instead of scrollY
+    let numScrolled = $derived(Math.floor(adjustedScrollY / cardData[currentCard].speed[speed]));
 
     // Effect to handle scrolling
     $effect(() => {
@@ -87,40 +89,52 @@
 
         const currentCardData = cardData[currentCard] || { text: '', speed: [10] };
 
+        // Determine how many characters to print based on whether we're on mobile
+        // On mobile, we'll print twice as many characters per scroll event to compensate for the halved scroll speed
+        const charsPerIteration = isMobile ? 2 : 1;
+
         for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
                 render[currentCard] = render[currentCard].slice(0, -1);
             }
 
-            if (charsPrinted >= currentCardData.text.length) {
-                printing = false;
-                break;
-            }
+            // Process charsPerIteration characters in this loop
+            for (let j = 0; j < charsPerIteration; j++) {
+                if (charsPrinted >= currentCardData.text.length) {
+                    printing = false;
+                    break;
+                }
 
-            if (currentCardData.text[charsPrinted] === '@') {
-                charsPrinted++;
-                while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
-                    if (currentCardData.text[charsPrinted] === '~') {
-                        speed++;
-                        numScrollsHandled = Math.floor(scrollY / currentCardData.speed[speed]);
-                        charsPrinted++;
-                        continue;
-                    }
-                    if (currentCardData.text[charsPrinted] === '+') {
-                        render[currentCard] += '@';
-                        charsPrinted++;
-                        continue;
-                    }
-                    render[currentCard] += currentCardData.text[charsPrinted];
+                if (currentCardData.text[charsPrinted] === '@') {
                     charsPrinted++;
+                    while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
+                        if (currentCardData.text[charsPrinted] === '~') {
+                            speed++;
+                            numScrollsHandled = Math.floor(adjustedScrollY / currentCardData.speed[speed]);
+                            charsPrinted++;
+                            continue;
+                        }
+                        if (currentCardData.text[charsPrinted] === '+') {
+                            render[currentCard] += '@';
+                            charsPrinted++;
+                            continue;
+                        }
+                        render[currentCard] += currentCardData.text[charsPrinted];
+                        charsPrinted++;
+                    }
+                    charsPrinted++;
+                    // Exit the loop after special @ processing
+                    break;
+                }
+
+                render[currentCard] += currentCardData.text[charsPrinted];
+                // Only add cursor at the end of character processing
+                if (j === charsPerIteration - 1 || charsPrinted + 1 >= currentCardData.text.length) {
+                    render[currentCard] += '▋';
                 }
                 charsPrinted++;
-                break;
             }
 
-            render[currentCard] += currentCardData.text[charsPrinted];
-            render[currentCard] += '▋';
-            charsPrinted++;
             numScrollsHandled++;
         }
 
@@ -150,8 +164,16 @@
         }, TIMER_INTERVAL);
     }
 
-    // Handle scrolling to top on page refresh
+    // Handle scrolling to top on page refresh and detect mobile devices
     onMount(() => {
+        // Check if the device is mobile using window width
+        isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+
+        // Add event listener to update the mobile flag if the window is resized
+        window.addEventListener('resize', () => {
+            isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+        });
+
         window.onbeforeunload = function () {
             window.scrollTo(0, 0);
         }
@@ -177,7 +199,7 @@
                         }
 
                         speed = 0;
-                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
+                        numScrollsHandled = Math.floor(adjustedScrollY / cardData[currentCard].speed[speed]);
                     }
                 }
             }
