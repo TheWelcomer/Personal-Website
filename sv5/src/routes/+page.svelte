@@ -448,37 +448,34 @@
 </div>
 
 <style lang="css">
-  /* Super card heights - better balanced for improved scrolling experience */
-  .super_card_0 { height: calc(3000px + 16px); }  /* Increased for intro */
-  .super_card_1 { height: calc(3500px + 16px); }  /* Increased for bio */
-  .super_card_2 { height: calc(3000px + 16px); }  /* Kept consistent */
-  .super_card_3 { height: calc(2800px + 8px); }   /* Slightly increased */
-  .super_card_4 { height: calc(3000px + 8px); }   /* Increased for consistency */
-  .super_card_5 { height: calc(3000px + 8px); }   /* Increased for consistency */
-  .super_card_6 { height: calc(2800px + 8px); }   /* Increased for better viewing */
-  .super_card_7 { height: calc(2800px + 8px); }   /* Increased for better viewing */
-  .super_card_8 { height: calc(3000px + 8px); }   /* Increased for consistency */
-  .super_card_9 { height: calc(3000px + 8px); }   /* Increased for final section */
+  /* Super card heights */
+                     /* Super card heights - adjusted for smoother, more consistent scrolling */
+                   .super_card_0 { height: calc(2500px + 16px); }  /* Reduced from 4500px */
+  .super_card_1 { height: calc(3000px + 16px); }  /* Reduced from 5000px */
+  .super_card_2 { height: calc(2500px + 16px); }  /* Reduced from 4000px */
+  .super_card_3 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_4 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_5 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_6 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_7 { height: calc(2200px + 8px); }   /* Reduced from 3500px */
+  .super_card_8 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_9 { height: calc(2500px + 8px); }   /* Reduced from 4000px */
+  .super_card_10 { height: calc(2500px + 8px); }  /* Reduced from 4000px */
 
-  /* Visual heights - balanced to match the increased card heights */
-  .super_visual_0 { height: 1500px; }  /* Increased from 1250px */
-  .super_visual_1 { height: 1750px; }  /* Increased from 1250px */
-  .super_visual_2 { height: 1500px; }  /* Kept consistent */
-  .super_visual_3 { height: 1400px; }  /* Adjusted to match card 3 */
-  .super_visual_4 { height: 1500px; }  /* Increased for consistency */
-  .super_visual_5 { height: 1500px; }  /* Increased for consistency */
-  .super_visual_6 { height: 1400px; }  /* Increased for better viewing */
-  .super_visual_7 { height: 1400px; }  /* Increased for better viewing */
-  .super_visual_8 { height: 3000px; }  /* Increased to give more time for website iframe */
-  .super_visual_9 { height: 1500px; }  /* Increased for consistency */
-  .super_visual_10 { height: 1500px; } /* Increased for consistency */
-  .super_visual_11 { height: 3000px; } /* Increased for BeatCode website */
-  .super_visual_12 { height: 3000px; } /* Increased for YouTube video */
-  .super_visual_13 { height: 3000px; } /* Increased for YouTube video */
-  .super_visual_14 { height: 3000px; } /* Increased for YouTube video */
-
-  /* Ensure all visuals are visible on page load */
-  .visual { opacity: 1 !important; }
+  /* Visual heights - adjusted to match the card heights */
+  .super_visual_0 { height: 1250px; }  /* Adjusted from 2250px */
+  .super_visual_1 { height: 1250px; }  /* Adjusted from 2500px */
+  .super_visual_2 { height: 1500px; }  /* Adjusted from 2000px */
+  .super_visual_3 { height: 1500px; }  /* Adjusted from 1750px */
+  .super_visual_4 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_5 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_6 { height: 1100px; }  /* Adjusted from 1750px */
+  .super_visual_7 { height: 1100px; }  /* Adjusted from 1750px */
+  .super_visual_8 { height: 2500px; }  /* Adjusted from 2000px */
+  .super_visual_9 { height: 1250px; }  /* Adjusted from 2000px */
+  .super_visual_10 { height: 1250px; } /* Adjusted from 2000px */
+  .super_visual_11 { height: 1250px; } /* Adjusted from 2000px */
+  .super_visual_12 { height: 2500px; } /* Adjusted from 2000px */
 
   /* Ensure all visuals are visible on page load */
   .visual { opacity: 1 !important; }

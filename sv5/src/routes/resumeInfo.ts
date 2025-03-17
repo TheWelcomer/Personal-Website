@@ -1,4 +1,4 @@
-// Updated TO_PRINT array with optimized speeds for smoother scrolling
+// Updated TO_PRINT array with adjusted speeds for smoother scrolling and swapped projects
 export const TO_PRINT = [
     {
         initial:
@@ -20,7 +20,7 @@ export const TO_PRINT = [
             '... and all things @<span class="font-semibold" style="color: var(--color-primary);">@blue@</span>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [6],  // Slower for intro section for better readability
+        speed: [3],  // Slightly slower than original 5 for better readability
     },
     {
         initial: '',
@@ -48,7 +48,7 @@ export const TO_PRINT = [
             '<a href="https://github.com/TheWelcomer" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [10, 2],  // Title displays 5x slower, body text at 2 pixels per scroll
+        speed: [4, 2],  // Adjusted from 3, 1 for more proportional timing
     },
     {
         initial: '',
@@ -66,7 +66,7 @@ export const TO_PRINT = [
             '@<br><br>@' +
             '@<span class="font-semibold" style="color: var(--color-accent6);">@Methodologies: @</span>@Agile/Scrum, CI/CD, Kanban, Research Design' +
             '@</div>@',
-        speed: [10, 1.5],  // Title displays 5x slower, slightly faster body text due to more items
+        speed: [4, 2],  // Consistent with card 2
     },
     {
         initial: '',
@@ -88,7 +88,7 @@ export const TO_PRINT = [
             '@<br>@' +
             'Sep. 2022 - Dec. 2024' +
             '@</div>@',
-        speed: [10, 2],  // Title displays 5x slower, body text at 2 pixels per scroll
+        speed: [3.5, 1.8],  // Slightly faster than the others to match content length
     },
     {
         initial: '',
@@ -110,7 +110,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Founded and led weekly @<a href="https://docs.google.com/spreadsheets/d/1IOpD45AzsHMJ_4i5vE1xt2t8s0ejw-KyQ4eBf-2xwZM/edit?usp=sharing" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@research reading group@</a>@, @<a href="https://drive.google.com/drive/u/0/folders/1z0agrdLdUp2aPWMWvZcES8WuadsheKq1?ths=true" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@ML workshops@</a>@, and @<a href="https://drive.google.com/drive/folders/1E6J2cl7Jh_uCL_es2TQSJEcpKjo1q4pT?usp=sharing" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@competitions@</a>@' +
             '@</div>@',
-        speed: [10, 1.5],  // Title displays 5x slower, slightly faster body text due to longer content
+        speed: [4, 2],  // Consistent speed
     },
     {
         initial: '',
@@ -138,7 +138,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Identified sentiment detection limitations using integrated gradients' +
             '@</div>@',
-        speed: [10, 1.5],  // Consistent with previous section for experience continuity
+        speed: [4, 2],  // Consistent speed
     },
     {
         initial: '',
@@ -161,7 +161,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Led 7-person Agile team through implementation of authentication, club creation/discovery features' +
             '@</div>@',
-        speed: [10, 1.5],  // Title displays 5x slower, moderate body text speed
+        speed: [3.5, 1.8],  // Slightly adjusted for better pacing
     },
     {
         initial: '',
@@ -182,7 +182,7 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Implemented automated data extraction system and real-time symptom tracking' +
             '@</div>@',
-        speed: [10, 1.5],  // Consistent with previous project card
+        speed: [3.5, 1.8],  // Matched with previous card
     },
     {
         initial: '',
@@ -207,6 +207,6 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Achieved by <500 scouts globally, Eagle Scout, 600+ volunteer hours' +
             '@</div>@',
-        speed: [10, 2],  // Title displays 5x slower, slightly slower body text for final section
+        speed: [4, 2],  // Back to standard speed for final card
     },
 ];
