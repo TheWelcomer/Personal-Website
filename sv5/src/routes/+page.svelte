@@ -157,44 +157,34 @@
         }
     });
 
-    // Handle active visual switching - improved version
+    // Handle active card switching
     onMount(() => {
-        const visuals = document.querySelectorAll('.visual');
-        console.log(`Found ${visuals.length} visuals`); // Debug: confirm how many visuals were found
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.boundingClientRect.top < 0) {
+                    let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
+                    if (thinksCurrentCard > currentCard) {
+                        cards[currentCard].innerHTML = cards[currentCard].innerHTML.replace('▋', '');
+                        printing = true;
+                        charsPrinted = 0;
+                        currentCard++;
 
-        const visualObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.boundingClientRect.top < 0) {
-                        const visualClass = entry.target.classList[1]; // e.g., "visual_7"
-                        const visualIndex = parseInt(visualClass.slice(7)); // get the number after "visual_"
-                        console.log(`Visual ${visualIndex} intersecting, current: ${currentVisual}`); // Debug
-
-                        if (visualIndex > currentVisual) {
-                            // Update the current visual
-                            currentVisual = visualIndex;
-                            console.log(`Setting current visual to ${currentVisual}`); // Debug
-
-                            // Make sure the next visual is visible if it exists
-                            if (visualIndex + 1 < visuals.length &&
-                                visuals[visualIndex + 1].classList.contains('opacity-0')) {
-                                visuals[visualIndex + 1].classList.remove('opacity-0');
-                                visuals[visualIndex + 1].classList.add('animate-fadeIn');
-                            }
+                        if (cards[currentCard].classList.contains('opacity-0')) {
+                            lockScroll(1000);
+                            cards[currentCard].classList.remove('opacity-0');
+                            cards[currentCard].classList.add('animate-fadeIn');
                         }
+
+                        speed = 0;
+                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
                     }
-                });
-            },
-            {
-                threshold: 0.1, // Trigger when 10% of the element is visible
-                rootMargin: "-10% 0px 0px 0px" // Adjust when the callback triggers
+                }
             }
         );
 
-        // Observe all visuals
-        visuals.forEach((visual) => {
-            visualObserver.observe(visual);
-            console.log(`Observing ${visual.classList[1]}`); // Debug
+        cards.forEach((card) => {
+            observer.observe(card);
         });
     });
 
@@ -436,13 +426,13 @@
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
-              <div class="super_visual super_visual_12">
-                <div class="visual visual_12 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div class="super_visual super_visual_13">
+                <div class="visual visual_13 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
-              <div class="super_visual super_visual_12">
-                <div class="visual visual_12 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div class="super_visual super_visual_14">
+                <div class="visual visual_14 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
