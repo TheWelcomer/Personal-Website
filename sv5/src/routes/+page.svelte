@@ -309,21 +309,84 @@
     <div class="relative bg-theme-background pt-16">
       <div class="w-full h-full absolute">
         <div class="w-full h-full absolute top-0 left-0 z-10">
-          <!-- Cards and visuals -->
-          <div class="grid grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
-            <!-- Cards -->
-            <div class="cards">
+          <!-- Cards and visuals - responsive grid layout -->
+          <div class="grid grid-cols-1 md:grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
+            <!-- On mobile, show only a single column with cards and visuals interweaved -->
+            <div class="cards md:block">
               {#each Array(11) as _, i}
                 <div class={`super_card_${i}`}>
                   <div class={`card card_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 p-4 break-words whitespace-pre-wrap ${i === 0 ? 'animate-fadeIn' : ''}`}>
                     {@html render[i]}
                   </div>
                 </div>
+
+                <!-- Insert visuals after each card on mobile only -->
+                <div class="block md:hidden">
+                  <div class={`super_visual super_visual_${i} md:hidden`}>
+                    <div class={`visual visual_${i} sticky top-28 min-h-96 ${i > 0 ? 'mt-4' : ''} ml-4 mr-4 p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                      <!-- Copy of the visual content for this index -->
+                      {#if i === 0}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
+                      {:else if i === 1}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
+                      {:else if i === 2}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
+                      {:else if i === 3}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
+                      {:else if i === 4}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
+                      {:else if i === 5}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
+                      {:else if i === 6}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
+                      {:else if i === 7}
+                        <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
+                      {:else if i === 8}
+                        <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                      {:else if i === 9}
+                        <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                        <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+                        <script type="text/javascript">
+                          document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                            var adobeDCView =
+                              new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
+                            adobeDCView.previewFile({
+                              content:{location: {url: "/images/paper.pdf"}},
+                              metaData:{fileName: "Research Paper.pdf"}
+                            }, {
+                              embedMode: "SIZED_CONTAINER",
+                              showDownloadPDF: true,
+                              showPrintPDF: true,
+                              showFullScreen: true
+                            });
+                          });
+                        </script>
+                      {:else if i === 10}
+                        <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
+                        <script type="text/javascript">
+                          document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                            var adobeDCView =
+                              new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
+                            adobeDCView.previewFile({
+                              content:{location: {url: "/images/poster.pdf"}},
+                              metaData:{fileName: "Conference Poster.pdf"}
+                            }, {
+                              embedMode: "SIZED_CONTAINER",
+                              showDownloadPDF: true,
+                              showPrintPDF: true,
+                              showFullScreen: true
+                            });
+                          });
+                        </script>
+                      {/if}
+                    </div>
+                  </div>
+                </div>
               {/each}
             </div>
 
-            <!-- Visuals -->
-            <div class="visuals">
+            <!-- Visuals column - only visible on medium screens and up -->
+            <div class="visuals hidden md:block">
               <div class="super_visual super_visual_0">
                 <div class="visual visual_0 sticky top-28 min-h-96 ml-4 mr-4 p-4 flex justify-center items-center animate-fadeIn">
                   <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
@@ -334,6 +397,7 @@
                   <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
                 </div>
               </div>
+              <!-- Rest of visuals remain unchanged for desktop view -->
               <div class="super_visual super_visual_2">
                 <div class="visual visual_2 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
@@ -456,7 +520,7 @@
   .super_card_9 { height: calc(2500px); }   /* Reduced from 4000px */
   .super_card_10 { height: calc(2500px); }  /* Reduced from 4000px */
 
-  /* Visual heights - adjusted to match the card heights */
+  /* Visual heights - adjusted for desktop view */
   .super_visual_0 { height: 1250px; }  /* Adjusted from 2250px */
   .super_visual_1 { height: 1250px; }  /* Adjusted from 2500px */
   .super_visual_2 { height: 1250px; }  /* Adjusted from 2000px */
@@ -473,7 +537,15 @@
   .super_visual_13 { height: 1250px; } /* Adjusted from 2000px */
   .super_visual_14 { height: 2500px; } /* Adjusted from 2000px */
 
-  /* Ensure all visuals are visible on page load */
+  /* Mobile-specific height adjustments for the single column layout */
+  @media (max-width: 768px) {
+    .super_card_0, .super_card_1, .super_card_2, .super_card_3,
+    .super_card_4, .super_card_5, .super_card_6, .super_card_7,
+    .super_card_8, .super_card_9, .super_card_10 {
+      height: calc(1500px); /* Reduced height for mobile */
+    }
+  }
+
   .visual {
     opacity: 1 !important;
     position: sticky !important; /* Explicitly set sticky positioning */
@@ -513,11 +585,6 @@
     bottom: 0;
   }
 
-  /* Theme transitions */
-  * {
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-  }
-
   /* Fonts */
   @font-face {
     font-family: 'IBM Plex Mono';
@@ -548,7 +615,7 @@
     font-display: swap;
   }
 
-  /* Theme CSS Variables for Light/Dark Mode */
+  /* Theme CSS Variables for Light/Dark Mode - kept for inline styles to work */
   :root {
     /* Default Light Mode Colors */
     --color-primary: #3b82f6;      /* Blue 500 */
@@ -566,20 +633,25 @@
     --color-background: #ffffff;   /* White */
   }
 
-  /* Dark Mode Colors */
+  /* Dark Mode Colors - removed html.dark selector */
   :root.dark {
-    --color-primary: #60a5fa; /* Blue 400 */
-    --color-accent1: #34d399; /* Emerald 400 */
-    --color-accent2: #a78bfa; /* Violet 400 */
-    --color-accent3: #22d3ee; /* Cyan 400 */
-    --color-accent4: #6ee7b7; /* Emerald 300 */
-    --color-accent5: #fb7185; /* Rose 400 */
-    --color-accent6: #c4b5fd; /* Violet 300 */
-    --color-text: #f9fafb; /* Gray 50 */
-    --color-neutral: #d1d5db; /* Gray 300 */
-    --color-link: #38bdf8; /* Sky 400 */
+    --color-primary: #60a5fa;    /* Blue 400 */
+    --color-accent1: #34d399;    /* Emerald 400 */
+    --color-accent2: #a78bfa;    /* Violet 400 */
+    --color-accent3: #22d3ee;    /* Cyan 400 */
+    --color-accent4: #6ee7b7;    /* Emerald 300 */
+    --color-accent5: #fb7185;    /* Rose 400 */
+    --color-accent6: #c4b5fd;    /* Violet 300 */
+    --color-text: #f9fafb;       /* Gray 50 */
+    --color-neutral: #d1d5db;    /* Gray 300 */
+    --color-link: #38bdf8;       /* Sky 400 */
     --color-link-border: #0284c7; /* Sky 600 */
-    --color-border: #4b5563; /* Gray 600 */
+    --color-border: #4b5563;     /* Gray 600 */
     --color-background: #111827; /* Gray 900 */
+  }
+
+  /* Theme transitions */
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   }
   </style>
