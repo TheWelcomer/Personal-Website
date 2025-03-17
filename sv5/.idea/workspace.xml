@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d5d32274-2e32-4287-bfde-0f8b8862830d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../pudding" beforeDir="false" afterPath="$PROJECT_DIR$/../pudding" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/+layout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+layout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
