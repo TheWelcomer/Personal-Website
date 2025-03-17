@@ -1,21 +1,18 @@
+<!-- Script remains the same -->
 <script lang="ts">
     // Imports
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
-    import { AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
-    import { get } from 'svelte/store';
-    import { toggleMode, derivedMode } from "mode-watcher";
-    import { Button } from "$lib/components/ui/button/index.js";
+    import PdfViewer from 'svelte-pdf';
+    import { Avatar, AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
+    import { page } from '$app/stores';
 
     // Constants
     const TIMER_INTERVAL = 515;
-    const MOBILE_BREAKPOINT = 768; // px
 
     // State variables
     let scrollY = $state(0);
-    let isMobile = $state(false);
-    let adjustedScrollY = $derived(isMobile ? scrollY / 2 : scrollY);
     let numScrollsHandled = $state(0);
     let speed = $state(0);
     let charsPrinted = $state(0);
@@ -50,8 +47,8 @@
 
     let render = $state(['', '', '', '', '', '', '', '', '', '', '']);
 
-    // Derived state - using adjustedScrollY instead of scrollY
-    let numScrolled = $derived(Math.floor(adjustedScrollY / cardData[currentCard].speed[speed]));
+    // Derived state
+    let numScrolled = $derived(Math.floor(scrollY / cardData[currentCard].speed[speed]));
 
     // Effect to handle scrolling
     $effect(() => {
@@ -90,52 +87,40 @@
 
         const currentCardData = cardData[currentCard] || { text: '', speed: [10] };
 
-        // Determine how many characters to print based on whether we're on mobile
-        // On mobile, we'll print twice as many characters per scroll event to compensate for the halved scroll speed
-        const charsPerIteration = isMobile ? 2 : 1;
-
         for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
                 render[currentCard] = render[currentCard].slice(0, -1);
             }
 
-            // Process charsPerIteration characters in this loop
-            for (let j = 0; j < charsPerIteration; j++) {
-                if (charsPrinted >= currentCardData.text.length) {
-                    printing = false;
-                    break;
-                }
-
-                if (currentCardData.text[charsPrinted] === '@') {
-                    charsPrinted++;
-                    while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
-                        if (currentCardData.text[charsPrinted] === '~') {
-                            speed++;
-                            numScrollsHandled = Math.floor(adjustedScrollY / currentCardData.speed[speed]);
-                            charsPrinted++;
-                            continue;
-                        }
-                        if (currentCardData.text[charsPrinted] === '+') {
-                            render[currentCard] += '@';
-                            charsPrinted++;
-                            continue;
-                        }
-                        render[currentCard] += currentCardData.text[charsPrinted];
-                        charsPrinted++;
-                    }
-                    charsPrinted++;
-                    // Exit the loop after special @ processing
-                    break;
-                }
-
-                render[currentCard] += currentCardData.text[charsPrinted];
-                // Only add cursor at the end of character processing
-                if (j === charsPerIteration - 1 || charsPrinted + 1 >= currentCardData.text.length) {
-                    render[currentCard] += '▋';
-                }
-                charsPrinted++;
+            if (charsPrinted >= currentCardData.text.length) {
+                printing = false;
+                break;
             }
 
+            if (currentCardData.text[charsPrinted] === '@') {
+                charsPrinted++;
+                while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
+                    if (currentCardData.text[charsPrinted] === '~') {
+                        speed++;
+                        numScrollsHandled = Math.floor(scrollY / currentCardData.speed[speed]);
+                        charsPrinted++;
+                        continue;
+                    }
+                    if (currentCardData.text[charsPrinted] === '+') {
+                        render[currentCard] += '@';
+                        charsPrinted++;
+                        continue;
+                    }
+                    render[currentCard] += currentCardData.text[charsPrinted];
+                    charsPrinted++;
+                }
+                charsPrinted++;
+                break;
+            }
+
+            render[currentCard] += currentCardData.text[charsPrinted];
+            render[currentCard] += '▋';
+            charsPrinted++;
             numScrollsHandled++;
         }
 
@@ -165,16 +150,8 @@
         }, TIMER_INTERVAL);
     }
 
-    // Handle scrolling to top on page refresh and detect mobile devices
+    // Handle scrolling to top on page refresh
     onMount(() => {
-        // Check if the device is mobile using window width
-        isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-
-        // Add event listener to update the mobile flag if the window is resized
-        window.addEventListener('resize', () => {
-            isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-        });
-
         window.onbeforeunload = function () {
             window.scrollTo(0, 0);
         }
@@ -200,7 +177,7 @@
                         }
 
                         speed = 0;
-                        numScrollsHandled = Math.floor(adjustedScrollY / cardData[currentCard].speed[speed]);
+                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
                     }
                 }
             }
@@ -209,38 +186,6 @@
         cards.forEach((card) => {
             observer.observe(card);
         });
-
-        // Fix for mobile text printing issue
-        const resetMobileCardsPrinting = () => {
-            // Only apply on mobile devices
-            if (window.innerWidth < 640) {
-                // Give the browser some time to handle the initial render
-                setTimeout(() => {
-                    document.querySelectorAll('.mobile-card').forEach((card, index) => {
-                        // Reset the card's content to the initial state with minimal text
-                        if (index > 0) {
-                            // For cards after the first one, make sure they're not fully printed
-                            render[index] = cardData[index].initial || '';
-                            // Reset printing state for this card
-                            if (index >= currentCard) {
-                                printing = true;
-                            }
-                        }
-                    });
-                }, 200);
-            }
-        };
-
-        // Call the reset function on initial load
-        resetMobileCardsPrinting();
-
-        // Also call it when orientation changes (which might change device width)
-        window.addEventListener('orientationchange', resetMobileCardsPrinting);
-
-        // Clean up the event listener on component unmount
-        return () => {
-            window.removeEventListener('orientationchange', resetMobileCardsPrinting);
-        };
     });
 
     // Handle active visual switching
@@ -276,90 +221,6 @@
 
     // Start cursor blinking
     let timer = startCursorBlinking();
-
-    // Theme management - improved implementation
-    onMount(() => {
-        // Get initial mode from localStorage or default to system
-        const savedMode = localStorage.getItem('mode-watcher-mode') || 'system';
-
-        // Apply the initial theme
-        applyThemeToDocument(get(derivedMode));
-
-        // Subscribe to theme changes using the store's subscribe method
-        const unsubscribeMode = derivedMode.subscribe(mode => {
-            // When the mode changes in the store, apply it to the DOM
-            applyThemeToDocument(mode);
-        });
-
-        // Set up a throttled scroll handler
-        const handleThrottledScroll = throttle(() => {
-            applyThemeToDocument(get(derivedMode));
-        }, 200);
-
-        // Add the scroll event listener
-        window.addEventListener('scroll', handleThrottledScroll);
-
-        // Clean up when component is destroyed
-        return () => {
-            unsubscribeMode();
-            window.removeEventListener('scroll', handleThrottledScroll);
-        };
-    });
-
-    // Helper function to apply theme changes
-    function applyThemeToDocument(mode) {
-        const rootEl = document.documentElement;
-
-        // Make sure we're working with proper theme classes
-        if (mode === 'dark') {
-            rootEl.classList.add('dark');
-            rootEl.classList.remove('light');
-        } else {
-            rootEl.classList.remove('dark');
-            rootEl.classList.add('light');
-        }
-
-        // Force update all theme colors
-        const bgColor = getComputedStyle(rootEl).getPropertyValue('--color-background');
-        const textColor = getComputedStyle(rootEl).getPropertyValue('--color-text');
-
-        // Apply to all static elements - use a more specific selector to avoid iframes
-        document.querySelectorAll('.outer-wrapper, .content-container, [class^="super_card_"], [class^="super_visual_"]').forEach(el => {
-            el.style.backgroundColor = bgColor;
-        });
-
-        // Cards need to have text color set
-        document.querySelectorAll('.card').forEach(el => {
-            el.style.color = textColor;
-        });
-
-        // Set the background color on the grid container
-        document.querySelectorAll('.grid').forEach(container => {
-            container.style.backgroundColor = bgColor;
-        });
-    }
-
-    // Simple throttle function
-    function throttle(func, limit) {
-        let lastFunc;
-        let lastRan;
-        return function() {
-            const context = this;
-            const args = arguments;
-            if (!lastRan) {
-                func.apply(context, args);
-                lastRan = Date.now();
-            } else {
-                clearTimeout(lastFunc);
-                lastFunc = setTimeout(function() {
-                    if ((Date.now() - lastRan) >= limit) {
-                        func.apply(context, args);
-                        lastRan = Date.now();
-                    }
-                }, limit - (Date.now() - lastRan));
-            }
-        };
-    }
 </script>
 
 <!-- HTML -->
@@ -376,11 +237,10 @@
       font-family: 'IBM Plex Mono', monospace;
     }
   </style>
-
 </svelte:head>
 
 <!-- This outer wrapper ensures the navbar stays fixed regardless of scrolling -->
-<div class="outer-wrapper bg-theme-background">
+<div class="outer-wrapper">
   <!-- Fixed navbar container positioned outside the scrollable area -->
   <div class="fixed-navbar-container">
     <AppBar class="fixed top-0 left-0 right-0 w-full border-b border-surface-300-600-token shadow-lg bg-surface-100-800-token" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
@@ -404,32 +264,6 @@
       <a href="/blog" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
         Blog
       </a>
-      <!-- In your HTML template, update the button to use toggleMode directly -->
-      <Button on:click={toggleMode} variant="outline" size="icon" class="relative">
-        <!-- Ensure the Sun icon properly displays in light mode -->
-        <div class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2"></path>
-            <path d="M12 20v2"></path>
-            <path d="m4.93 4.93 1.41 1.41"></path>
-            <path d="m17.66 17.66 1.41 1.41"></path>
-            <path d="M2 12h2"></path>
-            <path d="M20 12h2"></path>
-            <path d="m6.34 17.66-1.41 1.41"></path>
-            <path d="m19.07 4.93-1.41 1.41"></path>
-          </svg>
-        </div>
-
-        <!-- Ensure the Moon icon properly displays in dark mode -->
-        <div class="absolute top-0 left-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-          </svg>
-        </div>
-
-        <span class="sr-only">Toggle theme</span>
-      </Button>
       {/snippet}
 
       {#snippet trail()}
@@ -471,87 +305,229 @@
   </Modal>
 
   <!-- Main content with padding for the fixed navbar -->
-  <div class="content-container bg-theme-background">
-    <div class="relative pt-12 sm:pt-16">
+  <div class="content-container">
+    <div class="relative bg-theme-background pt-12 sm:pt-16">
       <div class="w-full h-full absolute">
         <div class="w-full h-full absolute top-0 left-0 z-10">
           <!-- Cards and visuals - responsive grid layout -->
           <div class="grid grid-cols-1 md:grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
             <!-- Cards column -->
             <div class="cards md:block">
-              <!-- Card 0 -->
+              <!-- On mobile, show cards with their corresponding visuals -->
+              <!-- Card 0 with visuals 0 and 1 -->
               <div class={`super_card_0`}>
-                <div class={`card card_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base animate-fadeIn mobile-card`}>
+                <div class={`card card_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base animate-fadeIn`}>
                   {@html render[0]}
                 </div>
               </div>
 
-              <!-- Card 1 -->
+              <!-- Visual 0 and 1 after Card 0 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_0">
+                  <div class="visual visual_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center animate-fadeIn">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_1">
+                  <div class="visual visual_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 1 with visuals 2 and 3 -->
               <div class={`super_card_1`}>
-                <div class={`card card_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[1]}
                 </div>
               </div>
 
-              <!-- Card 2 -->
+              <!-- Visual 2 and 3 after Card 1 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_2">
+                  <div class="visual visual_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_3">
+                  <div class="visual visual_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2 with visuals 4 and 5 -->
               <div class={`super_card_2`}>
-                <div class={`card card_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[2]}
                 </div>
               </div>
 
-              <!-- Card 3 -->
+              <!-- Visual 4 and 5 after Card 2 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_4">
+                  <div class="visual visual_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_5">
+                  <div class="visual visual_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3 with visuals 6 and 7 -->
               <div class={`super_card_3`}>
-                <div class={`card card_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[3]}
                 </div>
               </div>
 
-              <!-- Card 4 -->
+              <!-- Visual 6 and 7 after Card 3 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_6">
+                  <div class="visual visual_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
+                  </div>
+                </div>
+                <div class="super_visual super_visual_7">
+                  <div class="visual visual_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4 with visual 8 -->
               <div class={`super_card_4`}>
-                <div class={`card card_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[4]}
                 </div>
               </div>
 
-              <!-- Card 5 -->
+              <!-- Visual 8 after Card 4 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_8">
+                  <div class="visual visual_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 5 with visuals 9 and 10 -->
               <div class={`super_card_5`}>
-                <div class={`card card_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[5]}
                 </div>
               </div>
 
-              <!-- Card 6 -->
+              <!-- Visual 9 and 10 after Card 5 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_9">
+                  <div class="visual visual_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+                    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+                    <script type="text/javascript">
+                      document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                        var adobeDCView =
+                          new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
+                        adobeDCView.previewFile({
+                          content:{location: {url: "/images/paper.pdf"}},
+                          metaData:{fileName: "Research Paper.pdf"}
+                        }, {
+                          embedMode: "SIZED_CONTAINER",
+                          showDownloadPDF: true,
+                          showPrintPDF: true,
+                          showFullScreen: true
+                        });
+                      });
+                    </script>
+                  </div>
+                </div>
+                <div class="super_visual super_visual_10">
+                  <div class="visual visual_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+                    <script type="text/javascript">
+                      document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                        var adobeDCView =
+                          new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
+                        adobeDCView.previewFile({
+                          content:{location: {url: "/images/poster.pdf"}},
+                          metaData:{fileName: "Conference Poster.pdf"}
+                        }, {
+                          embedMode: "SIZED_CONTAINER",
+                          showDownloadPDF: true,
+                          showPrintPDF: true,
+                          showFullScreen: true
+                        });
+                      });
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 6 with visual 11 -->
               <div class={`super_card_6`}>
-                <div class={`card card_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[6]}
                 </div>
               </div>
 
-              <!-- Card 7 -->
+              <!-- Visual 11 after Card 6 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_11">
+                  <div class="visual visual_11 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://beatcode.dev/" title="BeatCode Website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 7 with visuals 12 and 13 -->
               <div class={`super_card_7`}>
-                <div class={`card card_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[7]}
                 </div>
               </div>
 
-              <!-- Card 8 -->
+              <!-- Visual 12 and 13 after Card 7 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_12">
+                  <div class="visual visual_12 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <div class="super_visual super_visual_13">
+                  <div class="visual visual_13 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 8 with visual 14 -->
               <div class={`super_card_8`}>
-                <div class={`card card_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[8]}
                 </div>
               </div>
 
-              <!-- Card 9 -->
+              <!-- Visual 14 after Card 8 (mobile only) -->
+              <div class="block md:hidden">
+                <div class="super_visual super_visual_14">
+                  <div class="visual visual_14 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Remaining cards without visuals -->
               <div class={`super_card_9`}>
-                <div class={`card card_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[9]}
                 </div>
               </div>
 
-              <!-- Card 10 -->
               <div class={`super_card_10`}>
-                <div class={`card card_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base mobile-card`}>
+                <div class={`card card_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base`}>
                   {@html render[10]}
                 </div>
               </div>
@@ -569,6 +545,7 @@
                   <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
                 </div>
               </div>
+              <!-- Rest of visuals remain unchanged for desktop view -->
               <div class="super_visual super_visual_2">
                 <div class="visual visual_2 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
@@ -581,22 +558,22 @@
               </div>
               <div class="super_visual super_visual_4">
                 <div class="visual visual_4 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Winter" />
                 </div>
               </div>
               <div class="super_visual super_visual_5">
                 <div class="visual visual_5 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Winter" />
                 </div>
               </div>
               <div class="super_visual super_visual_6">
                 <div class="visual visual_6 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Winter" />
                 </div>
               </div>
               <div class="super_visual super_visual_7">
                 <div class="visual visual_7 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
-                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
+                  <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Winter" />
                 </div>
               </div>
               <div class="super_visual super_visual_8">
@@ -670,154 +647,12 @@
         </div>
       </div>
     </div>
-
-    <!-- Mobile visuals that appear after their corresponding cards -->
-    <!-- Visual 0 and 1 after Card 0 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_0">
-        <div class="visual visual_0 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center animate-fadeIn">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
-        </div>
-      </div>
-      <div class="super_visual super_visual_1">
-        <div class="visual visual_1 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/chin.jpg" alt="Profile" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 2 and 3 after Card 1 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_2">
-        <div class="visual visual_2 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/juice.jpg" alt="Casual" />
-        </div>
-      </div>
-      <div class="super_visual super_visual_3">
-        <div class="visual visual_3 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/snow.jpg" alt="Winter" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 4 and 5 after Card 2 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_4">
-        <div class="visual visual_4 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachnight.jpg" alt="Beach Night" />
-        </div>
-      </div>
-      <div class="super_visual super_visual_5">
-        <div class="visual visual_5 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/beachchair.jpg" alt="Beach Chair" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 6 and 7 after Card 3 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_6">
-        <div class="visual visual_6 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/wizard.jpg" alt="Wizard" />
-        </div>
-      </div>
-      <div class="super_visual super_visual_7">
-        <div class="visual visual_7 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/plasbrick_2.jpg" alt="Plasbrick" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 8 after Card 4 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_8">
-        <div class="visual visual_8 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.umassai.com/" title="UMass AI website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 9 and 10 after Card 5 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_9">
-        <div class="visual visual_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-          <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-          <script type="text/javascript">
-            document.addEventListener("adobe_dc_view_sdk.ready", function(){
-              var adobeDCView =
-                new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
-              adobeDCView.previewFile({
-                content:{location: {url: "/images/paper.pdf"}},
-                metaData:{fileName: "Research Paper.pdf"}
-              }, {
-                embedMode: "SIZED_CONTAINER",
-                showDownloadPDF: true,
-                showPrintPDF: true,
-                showFullScreen: true
-              });
-            });
-          </script>
-        </div>
-      </div>
-      <div class="super_visual super_visual_10">
-        <div class="visual visual_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-          <script type="text/javascript">
-            document.addEventListener("adobe_dc_view_sdk.ready", function(){
-              var adobeDCView =
-                new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
-              adobeDCView.previewFile({
-                content:{location: {url: "/images/poster.pdf"}},
-                metaData:{fileName: "Conference Poster.pdf"}
-              }, {
-                embedMode: "SIZED_CONTAINER",
-                showDownloadPDF: true,
-                showPrintPDF: true,
-                showFullScreen: true
-              });
-            });
-          </script>
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 11 after Card 6 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_11">
-        <div class="visual visual_11 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://beatcode.dev/" title="BeatCode Website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 12 and 13 after Card 7 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_12">
-        <div class="visual visual_12 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-      <div class="super_visual super_visual_13">
-        <div class="visual visual_13 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-
-    <!-- Visual 14 after Card 8 (mobile only) -->
-    <div class="block md:hidden">
-      <div class="super_visual super_visual_14">
-        <div class="visual visual_14 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-          <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Anchor for the bottom of the page -->
   <div id="bottom"></div>
 </div>
+
 <style lang="css">
   /* Super card heights */
   /* Super card heights - adjusted for smoother, more consistent scrolling */
@@ -983,82 +818,5 @@
   /* Theme transitions */
   * {
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-  }
-
-  /* Mobile-specific fixes */
-  @media (max-width: 639px) {
-    /* Adjust mobile text printing behavior */
-    .mobile-card {
-      /* Ensure text is more condensed on mobile */
-      line-height: 1.4;
-      letter-spacing: -0.01em;
-    }
-  }
-
-  /* Add this to your global CSS file or <style> block */
-
-  /* Ensure theme variables are applied globally */
-  :root, html, body {
-    background-color: var(--color-background);
-    color: var(--color-text);
-  }
-
-  /* Apply theme to all super cards and super visuals */
-  [class^="super_card_"],
-  [class^="super_visual_"] {
-    background-color: var(--color-background) !important;
-  }
-
-  /* Apply theme to all cards and visuals */
-  .card, .visual {
-    color: var(--color-text);
-    background-color: transparent;
-  }
-
-  /* Add a theme class to handle the outer wrapper */
-  .outer-wrapper {
-    background-color: var(--color-background) !important;
-    min-height: 100vh;
-  }
-
-  /* Ensure all content within the super elements gets theme colors */
-  .content-container,
-  .cards,
-  .visuals {
-    background-color: var(--color-background) !important;
-  }
-
-  /* Fix for z-index stacking issues that might cause background color problems */
-  .fixed-navbar-container {
-    z-index: 1000;
-  }
-
-  .content-container {
-    z-index: 1;
-    position: relative;
-  }
-
-  /* Improve transitions between themes */
-  *, *::before, *::after {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  }
-
-  /* Fix for any color issues in the AppBar component */
-  .AppBar {
-    background-color: var(--color-surface-100-800-token);
-    color: var(--color-text);
-    border-color: var(--color-surface-300-600-token);
-  }
-
-  /* Ensure absolute-positioned elements within the layout inherit theme */
-  .absolute {
-    background-color: inherit;
-  }
-
-  /* Make sure your long scrolling containers use theme colors */
-  .grid-cols-1,
-  .md\:grid-cols-2,
-  .h-\[26000px\] {
-    background-color: var(--color-background) !important;
   }
 </style>
