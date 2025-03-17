@@ -311,20 +311,23 @@
         <div class="w-full h-full absolute top-0 left-0 z-10">
           <!-- Cards and visuals - responsive grid layout -->
           <div class="grid grid-cols-1 md:grid-cols-2 h-[26000px] w-full absolute top-0 left-0 z-10">
-            <!-- On mobile, show only a single column with cards and visuals interweaved -->
+            <!-- Cards column -->
             <div class="cards md:block">
+              <!-- Loop through all cards first -->
               {#each Array(11) as _, i}
                 <div class={`super_card_${i}`}>
                   <div class={`card card_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 ${i > 0 ? 'mt-2 sm:mt-4' : ''} mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base ${i === 0 ? 'animate-fadeIn' : ''}`}>
                     {@html render[i]}
                   </div>
                 </div>
+              {/each}
 
-                <!-- Insert visuals after each card on mobile only -->
-                <div class="block md:hidden">
-                  <div class={`super_visual super_visual_${i} md:hidden`}>
-                    <div class={`visual visual_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 ${i > 0 ? 'mt-2 sm:mt-4' : ''} mx-1 sm:mx-4 p-2 sm:p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
-                      <!-- Copy of the visual content for this index -->
+              <!-- On mobile, show all visuals after all text cards -->
+              <div class="block md:hidden">
+                {#each Array(11) as _, i}
+                  <div class={`super_visual super_visual_${i}`}>
+                    <div class={`visual visual_${i} sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center ${i === 0 ? 'animate-fadeIn' : ''}`}>
+                      <!-- Visual content for each index -->
                       {#if i === 0}
                         <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/professional.jpg" alt="Professional" />
                       {:else if i === 1}
@@ -381,8 +384,30 @@
                       {/if}
                     </div>
                   </div>
+                {/each}
+
+                <!-- Add the additional visuals for mobile -->
+                <div class="super_visual super_visual_11">
+                  <div class="visual visual_11 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://beatcode.dev/" title="BeatCode Website" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
                 </div>
-              {/each}
+                <div class="super_visual super_visual_12">
+                  <div class="visual visual_12 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <div class="super_visual super_visual_13">
+                  <div class="visual visual_13 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <div class="super_visual super_visual_14">
+                  <div class="visual visual_14 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-8 mx-1 p-2 sm:p-4 flex justify-center items-center">
+                    <iframe class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-8rem)] sm:h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Visuals column - only visible on medium screens and up -->
