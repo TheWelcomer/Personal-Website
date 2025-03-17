@@ -7,7 +7,7 @@ export const TO_PRINT = [
             '</div>',
         text:
             '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@' +
-            'Hello, I\'m @<br><span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl" style="color: var(--color-accent2);">@Donnie Winkelman!!@</span>@' +
+            'Hello, I\'m @<br><span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl" style="color: var(--color-accent2);">@Donnie Winkelman!!@~</span>@' +
             '@</div>@' +
             '@<br>@' +
             '@<div class="font-ibm italic text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl" style="color: var(--color-text);">@' +
@@ -20,7 +20,7 @@ export const TO_PRINT = [
             '... and all things @<span class="font-semibold" style="color: var(--color-primary);">@blue@</span>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [10, 1],  // Slightly slower than original 5 for better readability
+        speed: [10, 2],  // Slightly slower than original 5 for better readability
     },
     {
         initial: '',
@@ -37,7 +37,7 @@ export const TO_PRINT = [
             'Feel free to reach out to me to discuss any interesting discoveries!' +
             '@<br><br>@' +
             '@<div class="mt-6 pt-4" style="border-top: 1px solid var(--color-border);">@' +
-            '@<span class="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl font-semibold" style="color: var(--color-primary);">@Contact Me@</span>@' +
+            '@<span class="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl font-semibold" style="color: var(--color-primary);">~@Contact Me@~</span>@' +
             '@<br><br>@' +
             '<a href="mailto:dwinkelman@umass.edu" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@dwinkelman (at) umass.edu@</a>@' +
             '@<br>@' +
@@ -48,7 +48,7 @@ export const TO_PRINT = [
             '<a href="https://github.com/TheWelcomer" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
             '@</div>@' +
             '@</div>@',
-        speed: [10, 1],  // Adjusted from 3, 1 for more proportional timing
+        speed: [10, 1, 10, 1],  // Adjusted from 3, 1 for more proportional timing
     },
     {
         initial: '',
@@ -115,6 +115,8 @@ export const TO_PRINT = [
     {
         initial: '',
         text:
+            '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@Experience Cont.@~</div>@' +
+            '@<br>@' +
             '@<div class="font-ibm italic text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl" style="color: var(--color-text);">@' +
             '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@Secure, Private Internet (SPIN) Research Group@</span>@ | ' +
             '@<a href="https://umass-my.sharepoint.com/:p:/g/personal/atepal_umass_edu/EZXuPQJGZJdNixAaAVn4b1gBYUYDyfbgVgpYpoGchMZBlw?e=eQTqwk" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@Poster@</a>@ | ' +
@@ -166,6 +168,8 @@ export const TO_PRINT = [
     {
         initial: '',
         text:
+            '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@Projects Cont.@~</div>@' +
+            '@<br>@' +
             '@<div class="font-ibm italic text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl" style="color: var(--color-text);">@' +
             '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@Self-Driving Car Vision@</span>@ | PyTorch, Computer Vision | ' +
             '@<a href="https://www.youtube.com/watch?v=9HHAOiQH_pA&t=78s" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@Demo@</a>@ | ' +
