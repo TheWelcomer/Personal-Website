@@ -1,15 +1,18 @@
-<!-- Script remains the same -->
 <script lang="ts">
     // Imports
     import { onMount } from 'svelte';
     import '../app.css';
     import { TO_PRINT } from './resumeInfo';
-    import PdfViewer from 'svelte-pdf';
     import { Avatar, AppBar, Modal} from '@skeletonlabs/skeleton-svelte';
-    import { page } from '$app/stores';
+    import Sun from "lucide-svelte/icons/sun";
+    import Moon from "lucide-svelte/icons/moon";
+    import { toggleMode } from "mode-watcher";
+    import { Button } from "$lib/components/ui/button/index.js";
 
     // Constants
     const TIMER_INTERVAL = 515;
+    const PRINT_VISIBILITY_THRESHOLD = 0.4; // Minimum visibility before printing starts
+    const MAX_SCROLLS_PER_FRAME = 5; // Prevent printing too much text at once
 
     // State variables
     let scrollY = $state(0);
@@ -19,11 +22,15 @@
     let currentCard = $state(0);
     let currentVisual = $state(0);
     let printing = $state(true);
+    let timer: ReturnType<typeof setInterval>;
 
     // Drawer state for the navbar
     let drawerState = $state(false);
 
-    // Make sure TO_PRINT has enough items for 11 cards, fill with empty objects if needed
+    /**
+     * Ensure TO_PRINT has enough items for all cards.
+     * Fill with empty objects if needed.
+     */
     const ensureCardData = () => {
         // Check if TO_PRINT exists and has the right length
         if (!Array.isArray(TO_PRINT) || TO_PRINT.length < 11) {
@@ -45,6 +52,7 @@
     // Get card data with fallbacks
     const cardData = ensureCardData();
 
+    // Initialize render array for each card
     let render = $state(['', '', '', '', '', '', '', '', '', '', '']);
 
     // Derived state
@@ -52,7 +60,8 @@
 
     // Effect to handle scrolling
     $effect(() => {
-        if (numScrolled > numScrollsHandled) {
+        // Only process scroll if we have new scrolling to handle and printing is active
+        if (numScrolled > numScrollsHandled && printing) {
             handleScroll();
         }
     });
@@ -71,147 +80,123 @@
         drawerState = true;
     }
 
-    // Handle scrolling
+    /**
+     * Handle scrolling and text printing
+     * Processes scroll events to show text gradually
+     */
     const handleScroll = async () => {
         if (!printing) return;
 
+        // Remove temporary opacity cursor if present
         if (render[currentCard].length >= 18 && render[currentCard].slice(-32) === '<span class="opacity-0">▋</span>') {
             render[currentCard] = render[currentCard].slice(0, -32);
         }
 
+        // Reset render for first card if needed
         if (currentCard === 0 && charsPrinted === 0) {
             render[currentCard] = '';
         }
 
+        // Clear the blink timer during text printing
         clearInterval(timer);
 
         const currentCardData = cardData[currentCard] || { text: '', speed: [10] };
 
-        for (let i = 0; i < numScrolled - numScrollsHandled; i++) {
+        // Calculate how many scrolls to process
+        const scrollDelta = numScrolled - numScrollsHandled;
+
+        // Limit maximum scrolls per frame to prevent skipping too much text at once
+        const scrollsToProcess = Math.min(scrollDelta, MAX_SCROLLS_PER_FRAME);
+
+        for (let i = 0; i < scrollsToProcess; i++) {
+            // Remove cursor if present
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
                 render[currentCard] = render[currentCard].slice(0, -1);
             }
 
+            // Check if we've reached the end of the text
             if (charsPrinted >= currentCardData.text.length) {
                 printing = false;
                 break;
             }
 
+            // Special character handling
             if (currentCardData.text[charsPrinted] === '@') {
                 charsPrinted++;
+
+                // Process text between @ markers
                 while (charsPrinted < currentCardData.text.length && currentCardData.text[charsPrinted] !== '@') {
+                    // Speed adjustment
                     if (currentCardData.text[charsPrinted] === '~') {
                         speed++;
                         numScrollsHandled = Math.floor(scrollY / currentCardData.speed[speed]);
                         charsPrinted++;
                         continue;
                     }
+
+                    // Escape @ character
                     if (currentCardData.text[charsPrinted] === '+') {
                         render[currentCard] += '@';
                         charsPrinted++;
                         continue;
                     }
+
+                    // Add normal characters
                     render[currentCard] += currentCardData.text[charsPrinted];
                     charsPrinted++;
                 }
+
+                // Skip the closing @
                 charsPrinted++;
                 break;
             }
 
+            // Add the next character and cursor
             render[currentCard] += currentCardData.text[charsPrinted];
             render[currentCard] += '▋';
             charsPrinted++;
             numScrollsHandled++;
         }
 
+        // Restart cursor blinking
         timer = startCursorBlinking();
-    }
+    };
 
-    // Handle cursor blinking
+    /**
+     * Handle cursor blinking animation
+     * Returns interval timer for blinking cursor
+     */
     const startCursorBlinking = () => {
         return setInterval(() => {
+            // Fix for double line breaks
             if (render[currentCard].length >= 8 && render[currentCard].slice(-8) === '<br><br>') {
                 render[currentCard] = render[currentCard].slice(0, -4);
             }
 
+            // Toggle cursor visibility
             if (render[currentCard][render[currentCard].length - 1] === '▋') {
+                // Replace visible cursor with invisible one
                 render[currentCard] = render[currentCard].slice(0, -1);
                 render[currentCard] += '<span class="opacity-0">▋</span>';
 
+                // Preserve line breaks
                 if (render[currentCard].slice(-4) === '<br>') {
                     render[currentCard] += '<br>';
                 }
             } else {
+                // Replace invisible cursor with visible one
                 if (render[currentCard].slice(-32) === '<span class="opacity-0">▋</span>') {
                     render[currentCard] = render[currentCard].slice(0, -32);
                 }
                 render[currentCard] += '▋';
             }
         }, TIMER_INTERVAL);
-    }
+    };
 
-    // Handle scrolling to top on page refresh
-    onMount(() => {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    });
-
-    // Handle active card switching
-    onMount(() => {
-        const cards = document.querySelectorAll('.card');
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.boundingClientRect.top < 0) {
-                    let thinksCurrentCard = parseInt(entry.target.classList[1][5]) + 1;
-                    if (thinksCurrentCard > currentCard) {
-                        cards[currentCard].innerHTML = cards[currentCard].innerHTML.replace('▋', '');
-                        printing = true;
-                        charsPrinted = 0;
-                        currentCard++;
-
-                        if (cards[currentCard].classList.contains('opacity-0')) {
-                            lockScroll(1000);
-                            cards[currentCard].classList.remove('opacity-0');
-                            cards[currentCard].classList.add('animate-fadeIn');
-                        }
-
-                        speed = 0;
-                        numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
-                    }
-                }
-            }
-        );
-
-        cards.forEach((card) => {
-            observer.observe(card);
-        });
-    });
-
-    // Handle active visual switching
-    onMount(() => {
-        const visuals = document.querySelectorAll('.visual');
-        const visualObserver = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.boundingClientRect.top < 0) {
-                    let thinksCurrentVisual = parseInt(entry.target.classList[1].slice(7)) + 1;
-                    if (thinksCurrentVisual > currentVisual) {
-                        currentVisual++;
-
-                        if (visuals[currentVisual].classList.contains('opacity-0')) {
-                            visuals[currentVisual].classList.remove('opacity-0');
-                            visuals[currentVisual].classList.add('animate-fadeIn');
-                        }
-                    }
-                }
-            }
-        );
-
-        visuals.forEach((visual) => {
-            visualObserver.observe(visual);
-        });
-    });
-
+    /**
+     * Locks scrolling temporarily
+     * Used for animations and transitions
+     */
     function lockScroll(ms: number) {
         document.body.style.overflow = 'hidden';
         setTimeout(() => {
@@ -219,8 +204,101 @@
         }, ms);
     }
 
-    // Start cursor blinking
-    let timer = startCursorBlinking();
+    /**
+     * Set up card scroll detection and text printing
+     */
+    onMount(() => {
+        // Handle scrolling to top on page refresh
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        };
+
+        // Initialize cursor blinking
+        timer = startCursorBlinking();
+
+        // Set up card observers
+        const cards = document.querySelectorAll('.card');
+
+        // Create intersection observer with options for better control
+        const cardObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    // Only process if the card is intersecting
+                    if (entry.isIntersecting) {
+                        const cardIndex = parseInt(entry.target.classList[1].slice(5));
+
+                        // Check if enough of the card is visible
+                        if (entry.intersectionRatio > PRINT_VISIBILITY_THRESHOLD) {
+                            // Only switch to next card if this is a new one
+                            if (cardIndex > currentCard) {
+                                // Clear any cursor from previous card
+                                if (currentCard >= 0 && currentCard < cards.length) {
+                                    const prevHtml = cards[currentCard].innerHTML;
+                                    cards[currentCard].innerHTML = prevHtml.replace('▋', '')
+                                        .replace('<span class="opacity-0">▋</span>', '');
+                                }
+
+                                printing = true;
+                                charsPrinted = 0;
+                                currentCard = cardIndex;
+
+                                // Check if the card needs to fade in
+                                if (cards[currentCard].classList.contains('opacity-0')) {
+                                    lockScroll(1000);
+                                    cards[currentCard].classList.remove('opacity-0');
+                                    cards[currentCard].classList.add('animate-fadeIn');
+                                }
+
+                                speed = 0;
+                                numScrollsHandled = Math.floor(scrollY / cardData[currentCard].speed[speed]);
+                            }
+                        }
+                    }
+                });
+            },
+            {
+                // These options give better control over when the observer fires
+                threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                rootMargin: "-30% 0px -40% 0px" // Adjust the detection box to trigger at appropriate scroll point
+            }
+        );
+
+        cards.forEach((card) => {
+            cardObserver.observe(card);
+        });
+
+        // Set up visual observers
+        const visuals = document.querySelectorAll('.visual');
+
+        // Create similar observer for visuals
+        const visualObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > PRINT_VISIBILITY_THRESHOLD) {
+                        const visualIndex = parseInt(entry.target.classList[1].slice(7));
+
+                        // Only proceed to next visual if this is a new one
+                        if (visualIndex > currentVisual) {
+                            currentVisual = visualIndex;
+
+                            if (visuals[currentVisual].classList.contains('opacity-0')) {
+                                visuals[currentVisual].classList.remove('opacity-0');
+                                visuals[currentVisual].classList.add('animate-fadeIn');
+                            }
+                        }
+                    }
+                });
+            },
+            {
+                threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                rootMargin: "-30% 0px -40% 0px"
+            }
+        );
+
+        visuals.forEach((visual) => {
+            visualObserver.observe(visual);
+        });
+    });
 </script>
 
 <!-- HTML -->
@@ -267,7 +345,15 @@
       {/snippet}
 
       {#snippet trail()}
-      <!-- Keep this empty for now -->
+      <Button on:click={toggleMode} variant="outline" size="icon">
+        <Sun
+            class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+        />
+        <Moon
+            class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+        />
+        <span class="sr-only">Toggle theme</span>
+      </Button>
       {/snippet}
     </AppBar>
   </div>
@@ -654,38 +740,28 @@
 </div>
 
 <style lang="css">
-  /* Super card heights */
-  /* Super card heights - adjusted for smoother, more consistent scrolling */
-  .super_card_0 { height: calc(2500px); }  /* Reduced from 4500px */
-  .super_card_1 { height: calc(2500px); }  /* Reduced from 5000px */
-  .super_card_2 { height: calc(2500px); }  /* Reduced from 4000px */
-  .super_card_3 { height: calc(2500px); }   /* Reduced from 3500px */
-  .super_card_4 { height: calc(2500px); }   /* Reduced from 4000px */
-  .super_card_5 { height: calc(2500px); }   /* Reduced from 4000px */
-  .super_card_6 { height: calc(2500px); }   /* Reduced from 3500px */
-  .super_card_7 { height: calc(2500px); }   /* Reduced from 3500px */
-  .super_card_8 { height: calc(2500px); }   /* Reduced from 4000px */
-  .super_card_9 { height: calc(2500px); }   /* Reduced from 4000px */
-  .super_card_10 { height: calc(2500px); }  /* Reduced from 4000px */
+  /* Super card heights - consistent for better scrolling */
+  .super_card_0, .super_card_1, .super_card_2, .super_card_3,
+  .super_card_4, .super_card_5, .super_card_6, .super_card_7,
+  .super_card_8, .super_card_9, .super_card_10 {
+    height: calc(2500px);
+    position: relative;
+  }
 
-  /* Visual heights - adjusted for desktop view */
-  .super_visual_0 { height: 1250px; }  /* Adjusted from 2250px */
-  .super_visual_1 { height: 1250px; }  /* Adjusted from 2500px */
-  .super_visual_2 { height: 1250px; }  /* Adjusted from 2000px */
-  .super_visual_3 { height: 1250px; }  /* Adjusted from 1750px */
-  .super_visual_4 { height: 1250px; }  /* Adjusted from 2000px */
-  .super_visual_5 { height: 1250px; }  /* Adjusted from 2000px */
-  .super_visual_6 { height: 1250px; }  /* Adjusted from 1750px */
-  .super_visual_7 { height: 1250px; }  /* Adjusted from 1750px */
-  .super_visual_8 { height: 2500px; }  /* Adjusted from 2000px */
-  .super_visual_9 { height: 1250px; }  /* Adjusted from 2000px */
-  .super_visual_10 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_11 { height: 2500px; } /* Adjusted from 2000px */
-  .super_visual_12 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_13 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_14 { height: 2500px; } /* Adjusted from 2000px */
+  /* Visual heights for desktop view */
+  .super_visual_0, .super_visual_1, .super_visual_2, .super_visual_3,
+  .super_visual_4, .super_visual_5, .super_visual_6, .super_visual_7,
+  .super_visual_9, .super_visual_10, .super_visual_12, .super_visual_13 {
+    height: 1250px;
+    position: relative;
+  }
 
-  /* Mobile-specific height adjustments for the single column layout */
+  .super_visual_8, .super_visual_11, .super_visual_14 {
+    height: 2500px;
+    position: relative;
+  }
+
+  /* Mobile-specific height adjustments */
   @media (max-width: 768px) {
     .super_card_0, .super_card_1, .super_card_2, .super_card_3,
     .super_card_4, .super_card_5, .super_card_6, .super_card_7,
@@ -693,28 +769,49 @@
       height: calc(1500px); /* Reduced height for mobile */
     }
 
-    /* Adjust visual height for mobile as well */
     .super_visual_0, .super_visual_1, .super_visual_2, .super_visual_3,
     .super_visual_4, .super_visual_5, .super_visual_6, .super_visual_7,
     .super_visual_9, .super_visual_10, .super_visual_12, .super_visual_13 {
-      height: 750px; /* Half the desktop height */
+      height: 750px;
     }
 
     .super_visual_8, .super_visual_11, .super_visual_14 {
-      height: 1250px; /* Half the desktop height for larger elements */
+      height: 1250px;
     }
   }
 
-  .visual {
+  /* Improved card and visual styling */
+  .card, .visual {
     opacity: 1 !important;
-    position: sticky !important; /* Explicitly set sticky positioning */
-    top: 5rem !important; /* Reduce top spacing on mobile (was 7rem) */
+    position: sticky !important;
+    /* Use consistent positioning based on screen size */
+    top: calc(20px + 5vh) !important;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    will-change: transform, opacity;
+    z-index: 2;
   }
 
+  /* Adjust positioning for larger screens */
   @media (min-width: 640px) {
-    .visual {
-      top: 7rem !important; /* Match the top-28 (7rem) used in your HTML for larger screens */
+    .card, .visual {
+      top: calc(28px + 5vh) !important;
     }
+  }
+
+  /* Ensure cards have higher z-index than visuals */
+  .card {
+    z-index: 3;
+    margin-bottom: 2vh;
+  }
+
+  /* Improved fade-in animation */
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* Outer wrapper to contain everything */
@@ -724,25 +821,25 @@
     min-height: 100vh;
   }
 
-  /* Fixed navbar container - position fixed to stay at top during scrolling */
+  /* Fixed navbar container */
   .fixed-navbar-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999; /* Maximum z-index to keep above all content */
+    z-index: 9999;
   }
 
-  /* Content container with appropriate padding for navbar */
+  /* Content container with appropriate spacing */
   .content-container {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
-    margin-top: 0; /* No margin needed since we use padding */
+    margin-top: 0;
   }
 
-  /* Anchor styling */
+  /* Bottom anchor */
   #bottom {
     height: 0;
     width: 0;
@@ -750,7 +847,7 @@
     bottom: 0;
   }
 
-  /* Fonts */
+  /* Font faces - preserved from original */
   @font-face {
     font-family: 'IBM Plex Mono';
     src: url('https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@4.5.1/files/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
@@ -780,7 +877,7 @@
     font-display: swap;
   }
 
-  /* Theme CSS Variables for Light/Dark Mode - kept for inline styles to work */
+  /* Theme CSS Variables for Light/Dark Mode */
   :root {
     /* Default Light Mode Colors */
     --color-primary: #3b82f6;      /* Blue 500 */
@@ -798,7 +895,7 @@
     --color-background: #ffffff;   /* White */
   }
 
-  /* Dark Mode Colors - removed html.dark selector */
+  /* Dark Mode Colors */
   :root.dark {
     --color-primary: #60a5fa;    /* Blue 400 */
     --color-accent1: #34d399;    /* Emerald 400 */
