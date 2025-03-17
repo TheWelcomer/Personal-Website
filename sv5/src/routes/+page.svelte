@@ -274,7 +274,7 @@
 </svelte:head>
 
 <!-- This outer wrapper ensures the navbar stays fixed regardless of scrolling -->
-<div class="outer-wrapper">
+<div class="outer-wrapper bg-theme-background">
   <!-- Fixed navbar container positioned outside the scrollable area -->
   <div class="fixed-navbar-container">
     <AppBar class="fixed top-0 left-0 right-0 w-full border-b border-surface-300-600-token shadow-lg bg-surface-100-800-token" gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
@@ -870,5 +870,9 @@
       line-height: 1.4;
       letter-spacing: -0.01em;
     }
+  }
+
+  .bg-theme-background {
+    background-color: var(--color-background);
   }
 </style>
