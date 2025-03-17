@@ -476,6 +476,8 @@
   .super_visual_10 { height: 1250px; } /* Adjusted from 2000px */
   .super_visual_11 { height: 1250px; } /* Adjusted from 2000px */
   .super_visual_12 { height: 2500px; } /* Adjusted from 2000px */
+  .super_visual_12 { height: 1250px; } /* Adjusted from 2000px */
+  .super_visual_12 { height: 1250px; } /* Adjusted from 2000px */
 
   /* Ensure all visuals are visible on page load */
   .visual {
