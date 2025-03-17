@@ -426,13 +426,13 @@
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/9HHAOiQH_pA?start=78" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
-              <div class="super_visual super_visual_12">
-                <div class="visual visual_12 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div class="super_visual super_visual_13">
+                <div class="visual visual_13 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/MdE_fYm7meg?si=id_WXNJd_2i6ZSOO" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
-              <div class="super_visual super_visual_12">
-                <div class="visual visual_12 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+              <div class="super_visual super_visual_14">
+                <div class="visual visual_14 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
                   <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
               </div>
@@ -474,10 +474,10 @@
   .super_visual_8 { height: 2500px; }  /* Adjusted from 2000px */
   .super_visual_9 { height: 1250px; }  /* Adjusted from 2000px */
   .super_visual_10 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_11 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_12 { height: 2500px; } /* Adjusted from 2000px */
+  .super_visual_11 { height: 2500px; } /* Adjusted from 2000px */
   .super_visual_12 { height: 1250px; } /* Adjusted from 2000px */
-  .super_visual_12 { height: 1250px; } /* Adjusted from 2000px */
+  .super_visual_13 { height: 1250px; } /* Adjusted from 2000px */
+  .super_visual_14 { height: 2500px; } /* Adjusted from 2000px */
 
   /* Ensure all visuals are visible on page load */
   .visual {
