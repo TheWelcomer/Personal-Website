@@ -1,4 +1,4 @@
-// Updated TO_PRINT array with adjusted speeds for smoother scrolling
+// Updated TO_PRINT array with adjusted speeds for smoother scrolling and swapped projects
 export const TO_PRINT = [
     {
         initial:
@@ -154,13 +154,12 @@ export const TO_PRINT = [
             '@<br>@' +
             '• Implemented real-time code execution with test cases, sabotage abilities, and ELO-based ranking' +
             '@<br><br>@' +
-            '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@Self-Driving Car Vision@</span>@ | PyTorch, Computer Vision | ' +
-            '@<a href="https://www.youtube.com/watch?v=9HHAOiQH_pA&t=78s" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@Demo@</a>@ | ' +
-            '@<a href="https://github.com/TheWelcomer/Self-Driving-Car-Vision" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
+            '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@ClubberNaut@</span>@ | React, Next.js, Supabase | ' +
+            '@<a href="https://github.com/TheWelcomer/clubbernaut" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
             '@<br>@' +
-            '• Trained ResNet model on 11,110-image dataset to predict vehicle positioning, increasing accuracy by 1,300%' +
+            '• Built full-stack platform with REST API endpoints to support UMass club community' +
             '@<br>@' +
-            '• Engineered data augmentation pipeline, reducing overfitting and resolving gradient instability issues' +
+            '• Led 7-person Agile team through implementation of authentication, club creation/discovery features' +
             '@</div>@',
         speed: [3.5, 1.8],  // Slightly adjusted for better pacing
     },
@@ -168,12 +167,13 @@ export const TO_PRINT = [
         initial: '',
         text:
             '@<div class="font-ibm italic text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl" style="color: var(--color-text);">@' +
-            '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@ClubberNaut@</span>@ | React, Next.js, Supabase | ' +
-            '@<a href="https://github.com/TheWelcomer/clubbernaut" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
+            '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@Self-Driving Car Vision@</span>@ | PyTorch, Computer Vision | ' +
+            '@<a href="https://www.youtube.com/watch?v=9HHAOiQH_pA&t=78s" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@Demo@</a>@ | ' +
+            '@<a href="https://github.com/TheWelcomer/Self-Driving-Car-Vision" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@GitHub@</a>@' +
             '@<br>@' +
-            '• Built full-stack platform with REST API endpoints to support UMass club community' +
+            '• Trained ResNet model on 11,110-image dataset to predict vehicle positioning, increasing accuracy by 1,300%' +
             '@<br>@' +
-            '• Led 7-person Agile team through implementation of authentication, club creation/discovery features' +
+            '• Engineered data augmentation pipeline, reducing overfitting and resolving gradient instability issues' +
             '@<br><br>@' +
             '@<span class="font-semibold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl" style="color: var(--color-accent2);">@UMass CLog@</span>@ | React Native, Supabase, BeautifulSoup | ' +
             '@<a href="https://devpost.com/software/umass-clog" class="hover:underline font-semibold" style="color: var(--color-link); border-bottom: 2px solid var(--color-link-border);" target="_blank">@Demo@</a>@' +
