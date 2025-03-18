@@ -16,7 +16,7 @@
     import { Avatar } from "$lib/components/ui/avatar";
     import { Badge } from "$lib/components/ui/badge/index.js";
 
-    // State variables
+    // -------- State variables --------
     let scrollY = $state(0);
     let filter = $state('all'); // 'all', 'tech', 'personal', etc.
     let searchQuery = $state('');
@@ -30,10 +30,22 @@
     let featuredPost = $state(null);
     let allTags = $state<string[]>([]);
     let selectedTags = $state<string[]>([]);
-    let scrollProgress = $state(0);
     let initialRender = $state(true);
 
-    // Filter categories
+    // -------- Non-reactive update tracking system --------
+    let lastUpdateTimestamp = 0;
+    let updateTimer = null;
+    let updatesInProgress = false;
+    let updateRequested = false;
+    let filterState = {
+        filter: 'all',
+        tags: [],
+        search: '',
+        page: 1,
+        perPage: 9
+    };
+
+    // -------- Filter categories --------
     const categories = [
         { id: 'all', name: 'All Posts' },
         { id: 'tech', name: 'Technology' },
@@ -41,17 +53,6 @@
         { id: 'personal', name: 'Personal' },
         { id: 'projects', name: 'Projects' }
     ];
-
-    /**
-     * Calculate scroll progress
-     */
-    $effect(() => {
-        if (typeof document !== 'undefined') {
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight - windowHeight;
-            scrollProgress = (scrollY / documentHeight) * 100 || 0;
-        }
-    });
 
     /**
      * Ensures we have blog data by providing fallbacks if needed
@@ -112,7 +113,7 @@
     }
 
     /**
-     * Toggle tag selection
+     * Toggle tag selection - non-reactive implementation
      */
     function toggleTag(tag) {
         if (selectedTags.includes(tag)) {
@@ -120,112 +121,31 @@
         } else {
             selectedTags = [...selectedTags, tag];
         }
-    }
-
-    /**
-     * Get paginated blog posts - non-reactive version
-     */
-    function getPaginatedPosts(allPosts) {
-        const startIndex = (currentPage - 1) * postsPerPage;
-        const endIndex = startIndex + postsPerPage;
-        return allPosts.slice(startIndex, endIndex);
-    }
-
-    /**
-     * Separate effect to reset page when filters change
-     */
-    $effect(() => {
-        // Watch filter, selectedTags, and searchQuery
-        const _ = filter;
-        const __ = [...selectedTags];
-        const ___ = searchQuery;
-
-        // Don't reset page on the initial render
-        if (initialRender) {
-            initialRender = false;
-            return;
-        }
-
-        // Reset to page 1 when filters change
+        // Reset to first page when changing filters
         currentPage = 1;
-    });
-
-    /**
-     * Main effect for data processing - separated to avoid infinite loops
-     */
-    $effect(() => {
-        const currentFilter = filter;
-        const currentTags = [...selectedTags];
-        const currentSearch = searchQuery;
-        const currentPageNum = currentPage;
-        const currentPostsPerPage = postsPerPage;
-
-        // Load blog data
-        const allBlogs = ensureBlogData();
-
-        // Debug - log the available blog posts
-        console.log("Available blog posts:", allBlogs);
-
-        // Extract all unique tags
-        allTags = extractTags(allBlogs);
-
-        // Find featured post
-        featuredPost = allBlogs.find(post => post.featured) || allBlogs[0];
-
-        // Remove featured post from regular listing
-        let regularPosts = allBlogs.filter(post => post.id !== featuredPost.id);
-
-        // Apply category filter
-        if (currentFilter !== 'all') {
-            regularPosts = regularPosts.filter(post => post.category === currentFilter);
-        }
-
-        // Apply tag filters if any are selected
-        if (currentTags.length > 0) {
-            regularPosts = regularPosts.filter(post =>
-                post.tags && currentTags.some(tag => post.tags.includes(tag))
-            );
-        }
-
-        // Apply search filter if there's a query
-        if (currentSearch.trim() !== '') {
-            const query = currentSearch.toLowerCase();
-            regularPosts = regularPosts.filter(post =>
-                post.title.toLowerCase().includes(query) ||
-                post.excerpt.toLowerCase().includes(query) ||
-                post.content.toLowerCase().includes(query) ||
-                (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
-            );
-        }
-
-        // Sort by date (newest first)
-        regularPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        // Calculate pagination
-        const startIndex = (currentPageNum - 1) * currentPostsPerPage;
-        const endIndex = startIndex + currentPostsPerPage;
-
-        // Set the filtered & paginated blog posts
-        blogs = regularPosts.slice(startIndex, endIndex);
-
-        // Mark loading as complete
-        isLoading = false;
-    });
+        // Explicitly request update
+        requestBlogUpdate();
+    }
 
     /**
      * Calculate total pages based on filtered posts and posts per page
-     * Non-reactive to avoid loops
+     * Non-reactive function to avoid loops
      */
     function getTotalPages() {
-        // Use current snapshot of reactive values to avoid reactivity loops
+        // Create local copies to avoid reactivity
         const currentFilter = filter;
         const currentTags = [...selectedTags];
         const currentSearch = searchQuery;
-        const currentPostsPerPage = postsPerPage;
+        const currentPostsPerPage = Number(postsPerPage);
 
+        // Get all blog posts
         const allBlogs = ensureBlogData();
-        let filteredPosts = allBlogs.filter(post => post.id !== featuredPost?.id);
 
+        // Remove featured post from count
+        const featId = featuredPost?.id;
+        let filteredPosts = allBlogs.filter(post => post.id !== featId);
+
+        // Apply filters (same logic as in updateBlogPostsNow)
         if (currentFilter !== 'all') {
             filteredPosts = filteredPosts.filter(post => post.category === currentFilter);
         }
@@ -246,20 +166,159 @@
             );
         }
 
+        // Calculate total pages
         return Math.ceil(filteredPosts.length / currentPostsPerPage);
     }
 
     /**
-     * Jump to specific page
+     * Jump to specific page - non-reactive implementation
      */
     function goToPage(page) {
-        if (page >= 1 && page <= getTotalPages()) {
+        const totalPages = getTotalPages();
+        if (page >= 1 && page <= totalPages) {
             currentPage = page;
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
+            // Explicitly request update
+            requestBlogUpdate();
         }
+    }
+
+    /**
+     * Reset all filters - non-reactive implementation
+     */
+    function resetFilters() {
+        searchQuery = '';
+        filter = 'all';
+        selectedTags = [];
+        currentPage = 1;
+        // Explicitly request update
+        requestBlogUpdate();
+    }
+
+    /**
+     * Non-reactive function to update the blog posts
+     * This avoids the infinite reactivity cycle
+     */
+    function updateBlogPostsNow() {
+        // Prevent multiple simultaneous updates
+        if (updatesInProgress) {
+            updateRequested = true;
+            return;
+        }
+
+        // Prevent updates that happen too quickly (debounce)
+        const now = Date.now();
+        if (now - lastUpdateTimestamp < 100) {
+            if (!updateTimer) {
+                updateTimer = setTimeout(() => {
+                    updateTimer = null;
+                    updateBlogPostsNow();
+                }, 150);
+            }
+            return;
+        }
+
+        // Mark as in progress and update timestamp
+        updatesInProgress = true;
+        lastUpdateTimestamp = now;
+        updateRequested = false;
+
+        try {
+            // Capture current filter state to avoid reactivity during processing
+            const localFilter = filter;
+            const localTags = [...selectedTags];
+            const localSearch = searchQuery;
+            const localPage = currentPage;
+            const localPerPage = Number(postsPerPage); // Ensure it's a number
+
+            // Record filter state to detect future changes
+            filterState = {
+                filter: localFilter,
+                tags: localTags,
+                search: localSearch,
+                page: localPage,
+                perPage: localPerPage
+            };
+
+            // Get blog data (non-reactive call)
+            const allBlogs = ensureBlogData();
+
+            // Process unique tags if needed
+            if (allTags.length === 0) {
+                allTags = extractTags(allBlogs);
+            }
+
+            // Find featured post
+            const foundFeaturedPost = allBlogs.find(post => post.featured) || allBlogs[0];
+            featuredPost = foundFeaturedPost;
+
+            // Filter posts without triggering reactivity
+            let regularPosts = allBlogs.filter(post => post.id !== foundFeaturedPost.id);
+
+            // Apply filters
+            if (localFilter !== 'all') {
+                regularPosts = regularPosts.filter(post => post.category === localFilter);
+            }
+
+            if (localTags.length > 0) {
+                regularPosts = regularPosts.filter(post =>
+                    post.tags && localTags.some(tag => post.tags.includes(tag))
+                );
+            }
+
+            if (localSearch.trim() !== '') {
+                const query = localSearch.toLowerCase();
+                regularPosts = regularPosts.filter(post =>
+                    post.title.toLowerCase().includes(query) ||
+                    post.excerpt.toLowerCase().includes(query) ||
+                    post.content.toLowerCase().includes(query) ||
+                    (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+                );
+            }
+
+            // Sort (doesn't trigger reactivity)
+            regularPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Paginate
+            const startIndex = (localPage - 1) * localPerPage;
+            const endIndex = startIndex + localPerPage;
+            const paginatedPosts = regularPosts.slice(startIndex, endIndex);
+
+            // Update state in a single batch to reduce reactivity triggers
+            blogs = paginatedPosts;
+            isLoading = false;
+        } finally {
+            // Mark as completed
+            updatesInProgress = false;
+
+            // If another update was requested during processing, schedule it
+            if (updateRequested) {
+                setTimeout(updateBlogPostsNow, 50);
+            }
+        }
+    }
+
+    /**
+     * Request an update when filters change
+     * Can be called directly from event handlers
+     */
+    function requestBlogUpdate() {
+        // If filter state is unchanged, don't update
+        if (
+            filterState.filter === filter &&
+            JSON.stringify(filterState.tags) === JSON.stringify(selectedTags) &&
+            filterState.search === searchQuery &&
+            filterState.page === currentPage &&
+            filterState.perPage === Number(postsPerPage)
+        ) {
+            return;
+        }
+
+        // Schedule an update
+        updateBlogPostsNow();
     }
 
     /**
@@ -338,20 +397,39 @@
         tagsDrawerState = true;
     }
 
-    function resetFilters() {
-        searchQuery = '';
-        filter = 'all';
-        selectedTags = [];
-        currentPage = 1;
-    }
-
+    // Initialize blogs once on mount
     onMount(() => {
         // Reset scroll position when page loads
         window.scrollTo(0, 0);
 
+        // Initial data load
+        updateBlogPostsNow();
+
         // Set up animations after initial render
         setTimeout(setupAnimations, 100);
+
+        // Set up filter change detection through polling
+        const unsubscribe = setInterval(() => {
+            requestBlogUpdate();
+        }, 300);
+
+        return () => {
+            clearInterval(unsubscribe);
+            if (updateTimer) clearTimeout(updateTimer);
+        };
     });
+
+    // Form submission handler for search
+    function handleSearchSubmit(e) {
+        e.preventDefault();
+        requestBlogUpdate();
+    }
+
+    // Handle select change for posts per page
+    function handlePostsPerPageChange(e) {
+        postsPerPage = Number(e.target.value);
+        requestBlogUpdate();
+    }
 </script>
 
 <!-- Main content container with padding for fixed navbar -->
@@ -366,16 +444,19 @@
 
       <!-- Mobile search - visible only on small screens -->
       <div class="relative mt-6 max-w-md mx-auto md:hidden">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        </div>
-        <input
-            type="search"
-            id="mobile-search-main"
-            class="block w-full p-3 pl-10 text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500"
-            placeholder="Search blog posts..."
-            bind:value={searchQuery}
-        />
+        <form onsubmit={handleSearchSubmit}>
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <Search class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          </div>
+          <input
+              type="search"
+              id="mobile-search-main"
+              class="block w-full p-3 pl-10 text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500"
+              placeholder="Search blog posts..."
+              bind:value={searchQuery}
+              onchange={() => requestBlogUpdate()}
+          />
+        </form>
       </div>
 
       <!-- Mobile tags button -->
@@ -394,7 +475,10 @@
               {categories.find(c => c.id === filter)?.name}
               <button
                   class="ml-1 inline-flex items-center"
-                  onclick={() => filter = 'all'}
+                  onclick={() => {
+                      filter = 'all';
+                      requestBlogUpdate();
+                  }}
                   aria-label="Remove filter"
               >×</button>
             </Badge>
@@ -479,7 +563,7 @@
               {#if featuredPost.tags && featuredPost.tags.length > 0}
                 <div class="flex flex-wrap gap-1 mb-4">
                   {#each featuredPost.tags.slice(0, 3) as tag}
-                    <Badge variant="outline" class="text-xs" onclick={() => toggleTag(tag)}>
+                    <Badge variant="outline" class="text-xs cursor-pointer" onclick={() => toggleTag(tag)}>
                       {tag}
                     </Badge>
                   {/each}
@@ -520,7 +604,8 @@
         <div class="flex space-x-2">
           <select
               class="text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500 p-2"
-              bind:value={postsPerPage}
+              value={postsPerPage}
+              onchange={handlePostsPerPageChange}
           >
             <option value="6">6 per page</option>
             <option value="9">9 per page</option>
