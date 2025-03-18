@@ -10,10 +10,10 @@
     import Calendar from "lucide-svelte/icons/calendar";
     import BookOpen from "lucide-svelte/icons/book-open";
     import TagIcon from "lucide-svelte/icons/tag";
+    import ChevronRight from "lucide-svelte/icons/chevron-right";
     import { toggleMode } from "mode-watcher";
     import { Button } from "$lib/components/ui/button";
     import { Card } from "$lib/components/ui/card";
-    import { Avatar } from "$lib/components/ui/avatar";
     import { Badge } from "$lib/components/ui/badge/index.js";
 
     // -------- State variables --------
@@ -31,6 +31,8 @@
     let allTags = $state<string[]>([]);
     let selectedTags = $state<string[]>([]);
     let initialRender = $state(true);
+    let hasError = $state(false);
+    let errorMessage = $state('');
 
     // -------- Non-reactive update tracking system --------
     let lastUpdateTimestamp = 0;
@@ -113,9 +115,22 @@
     }
 
     /**
-     * Toggle tag selection - non-reactive implementation
+     * Navigate to blog post
      */
-    function toggleTag(tag) {
+    function navigateToBlogPost(postId) {
+        window.location.href = `/blog/${postId}`;
+    }
+
+    /**
+     * Toggle tag selection - non-reactive implementation
+     * Improved to handle event propagation
+     */
+    function toggleTag(tag, event) {
+        // Stop event propagation to prevent card click
+        if (event) {
+            event.stopPropagation();
+        }
+
         if (selectedTags.includes(tag)) {
             selectedTags = selectedTags.filter(t => t !== tag);
         } else {
@@ -132,42 +147,47 @@
      * Non-reactive function to avoid loops
      */
     function getTotalPages() {
-        // Create local copies to avoid reactivity
-        const currentFilter = filter;
-        const currentTags = [...selectedTags];
-        const currentSearch = searchQuery;
-        const currentPostsPerPage = Number(postsPerPage);
+        try {
+            // Create local copies to avoid reactivity
+            const currentFilter = filter;
+            const currentTags = [...selectedTags];
+            const currentSearch = searchQuery;
+            const currentPostsPerPage = Number(postsPerPage);
 
-        // Get all blog posts
-        const allBlogs = ensureBlogData();
+            // Get all blog posts
+            const allBlogs = ensureBlogData();
 
-        // Remove featured post from count
-        const featId = featuredPost?.id;
-        let filteredPosts = allBlogs.filter(post => post.id !== featId);
+            // Remove featured post from count
+            const featId = featuredPost?.id;
+            let filteredPosts = allBlogs.filter(post => post.id !== featId);
 
-        // Apply filters (same logic as in updateBlogPostsNow)
-        if (currentFilter !== 'all') {
-            filteredPosts = filteredPosts.filter(post => post.category === currentFilter);
+            // Apply filters (same logic as in updateBlogPostsNow)
+            if (currentFilter !== 'all') {
+                filteredPosts = filteredPosts.filter(post => post.category === currentFilter);
+            }
+
+            if (currentTags.length > 0) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.tags && currentTags.some(tag => post.tags.includes(tag))
+                );
+            }
+
+            if (currentSearch.trim() !== '') {
+                const query = currentSearch.toLowerCase();
+                filteredPosts = filteredPosts.filter(post =>
+                    post.title.toLowerCase().includes(query) ||
+                    post.excerpt.toLowerCase().includes(query) ||
+                    post.content.toLowerCase().includes(query) ||
+                    (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+                );
+            }
+
+            // Calculate total pages
+            return Math.ceil(filteredPosts.length / currentPostsPerPage);
+        } catch (error) {
+            console.error('Error calculating total pages:', error);
+            return 1; // Default to 1 page on error
         }
-
-        if (currentTags.length > 0) {
-            filteredPosts = filteredPosts.filter(post =>
-                post.tags && currentTags.some(tag => post.tags.includes(tag))
-            );
-        }
-
-        if (currentSearch.trim() !== '') {
-            const query = currentSearch.toLowerCase();
-            filteredPosts = filteredPosts.filter(post =>
-                post.title.toLowerCase().includes(query) ||
-                post.excerpt.toLowerCase().includes(query) ||
-                post.content.toLowerCase().includes(query) ||
-                (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
-            );
-        }
-
-        // Calculate total pages
-        return Math.ceil(filteredPosts.length / currentPostsPerPage);
     }
 
     /**
@@ -201,6 +221,7 @@
     /**
      * Non-reactive function to update the blog posts
      * This avoids the infinite reactivity cycle
+     * Improved with better error handling
      */
     function updateBlogPostsNow() {
         // Prevent multiple simultaneous updates
@@ -221,12 +242,23 @@
             return;
         }
 
+        // Reset error state
+        hasError = false;
+        errorMessage = '';
+
         // Mark as in progress and update timestamp
         updatesInProgress = true;
         lastUpdateTimestamp = now;
         updateRequested = false;
 
         try {
+            console.log('Updating blog posts with filters:', {
+                filter,
+                tags: selectedTags,
+                search: searchQuery,
+                page: currentPage
+            });
+
             // Capture current filter state to avoid reactivity during processing
             const localFilter = filter;
             const localTags = [...selectedTags];
@@ -245,6 +277,7 @@
 
             // Get blog data (non-reactive call)
             const allBlogs = ensureBlogData();
+            console.log('Total blog posts:', allBlogs.length);
 
             // Process unique tags if needed
             if (allTags.length === 0) {
@@ -254,6 +287,7 @@
             // Find featured post
             const foundFeaturedPost = allBlogs.find(post => post.featured) || allBlogs[0];
             featuredPost = foundFeaturedPost;
+            console.log('Featured post:', foundFeaturedPost.title);
 
             // Filter posts without triggering reactivity
             let regularPosts = allBlogs.filter(post => post.id !== foundFeaturedPost.id);
@@ -287,12 +321,23 @@
             const endIndex = startIndex + localPerPage;
             const paginatedPosts = regularPosts.slice(startIndex, endIndex);
 
+            console.log('Filtered posts:', regularPosts.length);
+            console.log('Paginated posts:', paginatedPosts.length);
+
             // Update state in a single batch to reduce reactivity triggers
             blogs = paginatedPosts;
             isLoading = false;
+        } catch (error) {
+            console.error('Error updating blog posts:', error);
+            hasError = true;
+            errorMessage = error.message || 'An error occurred while loading blog posts';
+            // Still set blogs to empty array and isLoading to false
+            blogs = [];
+            isLoading = false;
         } finally {
-            // Mark as completed
+            // ALWAYS mark as completed and NOT loading
             updatesInProgress = false;
+            isLoading = false;
 
             // If another update was requested during processing, schedule it
             if (updateRequested) {
@@ -397,13 +442,37 @@
         tagsDrawerState = true;
     }
 
+    // Debug function to check state
+    function debugState() {
+        console.log('Current state:', {
+            isLoading,
+            blogs: blogs.length,
+            featuredPost: featuredPost?.id,
+            filter,
+            selectedTags,
+            searchQuery
+        });
+        // Force update
+        isLoading = false;
+        updateBlogPostsNow();
+    }
+
     // Initialize blogs once on mount
     onMount(() => {
         // Reset scroll position when page loads
         window.scrollTo(0, 0);
 
-        // Initial data load
-        updateBlogPostsNow();
+        console.log('Blog page mounted, initializing...');
+
+        // Make sure we have blog data
+        const blogData = ensureBlogData();
+        console.log('Blog data loaded:', blogData.length, 'posts found');
+
+        // Initial data load with setTimeout to ensure it runs after mounting
+        setTimeout(() => {
+            updateBlogPostsNow();
+            console.log('Initial blog update complete, isLoading:', isLoading, 'blogs length:', blogs.length);
+        }, 50);
 
         // Set up animations after initial render
         setTimeout(setupAnimations, 100);
@@ -489,7 +558,7 @@
               {tag}
               <button
                   class="ml-1 inline-flex items-center"
-                  onclick={() => toggleTag(tag)}
+                  onclick={(e) => toggleTag(tag, e)}
                   aria-label="Remove tag"
               >×</button>
             </Badge>
@@ -509,227 +578,210 @@
       {/if}
     </div>
 
+    <!-- Debug button (can be removed in production) -->
+    <div class="mb-4 text-center">
+      <Button variant="outline" size="sm" onclick={debugState}>
+        Debug: Reload Posts
+      </Button>
+    </div>
+
+    {#if hasError}
+      <!-- Error state -->
+      <div class="text-center py-12 mb-8">
+        <h2 class="text-2xl font-ibm-bold mb-4 text-red-500">Something went wrong</h2>
+        <p class="text-lg opacity-75 mb-6">{errorMessage || 'Error loading blog posts'}</p>
+        <Button variant="outline" onclick={() => updateBlogPostsNow()}>
+          Try Again
+        </Button>
+      </div>
+    {/if}
+
     {#if isLoading}
       <!-- Loading state -->
       <div class="flex justify-center items-center py-20">
         <div class="animate-spin h-10 w-10 rounded-full border-t-4 border-primary-500 border-opacity-50"></div>
       </div>
-    {:else if featuredPost && currentPage === 1 && (filter === 'all' && selectedTags.length === 0 && searchQuery === '')}
+    {:else}
+      <!-- FIXED: Split the conditional logic to allow both featured and regular posts to show -->
+
       <!-- Featured post (only on first page with no filters) -->
-      <div class="mb-16 animate-on-scroll opacity-0">
-        <h2 class="text-2xl font-ibm-bold mb-6 flex items-center">
-          <span class="mr-2">Featured Post</span>
-          <Badge variant="outline" class="ml-2 text-xs font-normal">
-            Editor's Pick
-          </Badge>
-        </h2>
+      {#if featuredPost && currentPage === 1 && (filter === 'all' && selectedTags.length === 0 && searchQuery === '')}
+        <div class="mb-16 animate-on-scroll opacity-0">
+          <h2 class="text-2xl font-ibm-bold mb-6 flex items-center">
+            <span class="mr-2">Featured Post</span>
+            <Badge variant="outline" class="ml-2 text-xs font-normal">
+              Editor's Pick
+            </Badge>
+          </h2>
 
-        <Card class="overflow-hidden">
-          <div class="grid grid-cols-1 md:grid-cols-2">
-            <div class="relative h-64 md:h-full">
-              <img
-                  src={featuredPost.image || `/images/placeholder-1.jpg`}
-                  alt={featuredPost.title}
-                  class="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-6 flex flex-col">
-              <div class="flex justify-between items-center mb-2">
-                <span class="px-3 py-1 text-xs rounded-full font-ibm-bold bg-primary-500 text-white">
-                  {featuredPost.category.charAt(0).toUpperCase() + featuredPost.category.slice(1)}
-                </span>
-                <div class="flex items-center text-xs opacity-75 font-ibm">
-                  <Calendar class="h-4 w-4 mr-1" />
-                  {formatDate(featuredPost.date)}
-                </div>
+          <Card class="overflow-hidden blog-card post-card" onclick={() => navigateToBlogPost(featuredPost.id)}>
+            <div class="grid grid-cols-1 md:grid-cols-2">
+              <div class="relative h-64 md:h-full">
+                <img
+                    src={featuredPost.image || `/images/placeholder-1.jpg`}
+                    alt={featuredPost.title}
+                    class="absolute inset-0 w-full h-full object-cover card-image transition-transform duration-500"
+                />
               </div>
+              <div class="p-6 flex flex-col">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="px-3 py-1 text-xs rounded-full font-ibm-bold bg-primary-500 text-white">
+                    {featuredPost.category.charAt(0).toUpperCase() + featuredPost.category.slice(1)}
+                  </span>
+                  <div class="flex items-center text-xs opacity-75 font-ibm">
+                    <Calendar class="h-4 w-4 mr-1" />
+                    {formatDate(featuredPost.date)}
+                  </div>
+                </div>
 
-              <h3 class="text-2xl font-ibm-bold mb-4">{featuredPost.title}</h3>
-              <p class="mb-6 opacity-85">{featuredPost.excerpt}</p>
+                <h3 class="text-2xl font-ibm-bold mb-4">{featuredPost.title}</h3>
+                <p class="mb-6 opacity-85">{featuredPost.excerpt}</p>
 
-              <div class="flex items-center mb-4 mt-auto">
-                <Avatar class="h-8 w-8 mr-3">
-                  <img src={featuredPost.author?.avatar || "/images/placeholder-avatar.jpg"} alt={featuredPost.author?.name || "Author"} />
-                </Avatar>
-                <div>
-                  <p class="font-ibm-bold text-sm">{featuredPost.author?.name || "Author"}</p>
+                <div class="flex items-center mb-4">
                   <div class="flex items-center text-xs opacity-75">
-                    <BookOpen class="h-3 w-3 mr-1" />
+                    <BookOpen class="h-4 w-4 mr-1" />
                     {calculateReadingTime(featuredPost.content)} min read
                   </div>
                 </div>
-              </div>
 
-              {#if featuredPost.tags && featuredPost.tags.length > 0}
-                <div class="flex flex-wrap gap-1 mb-4">
-                  {#each featuredPost.tags.slice(0, 3) as tag}
-                    <Badge variant="outline" class="text-xs cursor-pointer" onclick={() => toggleTag(tag)}>
-                      {tag}
-                    </Badge>
-                  {/each}
-                </div>
-              {/if}
-
-              <a href={`/blog/${featuredPost.id}`} class="btn variant-filled-primary font-ibm self-start">
-                Read Article
-                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </Card>
-      </div>
-    {/if}
-
-    {#if blogs.length === 0 && !isLoading}
-      <!-- No results state -->
-      <div class="text-center py-20">
-        <h2 class="text-2xl font-ibm-bold mb-4">No blog posts found</h2>
-        <p class="text-lg opacity-75 mb-8">Try adjusting your search or filter criteria.</p>
-        <Button variant="outline" class="mt-6" onclick={resetFilters}>
-          Reset Filters
-        </Button>
-      </div>
-    {:else if !isLoading}
-      <!-- Recent posts heading -->
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-2xl font-ibm-bold animate-on-scroll opacity-0">
-          {currentPage === 1 && filter === 'all' && selectedTags.length === 0 && searchQuery === ''
-            ? 'Recent Posts'
-            : 'Blog Posts'}
-        </h2>
-
-        <!-- Sort/View options - can be expanded later -->
-        <div class="flex space-x-2">
-          <select
-              class="text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500 p-2"
-              value={postsPerPage}
-              onchange={handlePostsPerPageChange}
-          >
-            <option value="6">6 per page</option>
-            <option value="9">9 per page</option>
-            <option value="12">12 per page</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Blog posts grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-        {#each blogs as post, i}
-          <Card class="blog-card opacity-0 overflow-hidden h-full flex flex-col" style="animation-delay: {i * 100}ms;">
-            <div class="relative h-48 w-full overflow-hidden">
-              <img
-                  src={post.image || `/images/placeholder-${(i % 3) + 1}.jpg`}
-                  alt={post.title}
-                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-              />
-              <div class="absolute top-4 right-4">
-                <span class="px-3 py-1 text-xs rounded-full font-ibm-bold bg-primary-500 text-white">
-                  {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
-                </span>
-              </div>
-            </div>
-            <div class="p-5 flex flex-col flex-grow">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-xs opacity-75 font-ibm">{formatDate(post.date)}</span>
-                <span class="text-xs opacity-75 font-ibm flex items-center">
-                  <BookOpen class="h-3 w-3 mr-1" />
-                  {calculateReadingTime(post.content)} min read
-                </span>
-              </div>
-              <h3 class="text-xl font-ibm-bold mb-3 line-clamp-2">{post.title}</h3>
-              <p class="mb-4 opacity-85 line-clamp-3">{post.excerpt}</p>
-
-              {#if post.tags && post.tags.length > 0}
-                <div class="flex flex-wrap gap-1 mb-4">
-                  {#each post.tags.slice(0, 3) as tag}
-                    <Badge variant="outline" class="text-xs cursor-pointer" onclick={() => toggleTag(tag)}>
-                      {tag}
-                    </Badge>
-                  {/each}
-                </div>
-              {/if}
-
-              <div class="mt-auto">
-                <a href={`/blog/${post.id}`} class="inline-flex items-center text-primary-500 hover:underline font-ibm">
-                  Read more
-                  <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </a>
+                {#if featuredPost.tags && featuredPost.tags.length > 0}
+                  <div class="flex flex-wrap gap-1 mt-auto">
+                    {#each featuredPost.tags.slice(0, 3) as tag}
+                      <Badge variant="outline" class="text-xs cursor-pointer" onclick={(e) => toggleTag(tag, e)}>
+                        {tag}
+                      </Badge>
+                    {/each}
+                  </div>
+                {/if}
               </div>
             </div>
           </Card>
-        {/each}
-      </div>
-
-      <!-- Pagination -->
-      {#if getTotalPages() > 1}
-        <div class="flex justify-center mt-12">
-          <nav aria-label="Page navigation" class="flex flex-wrap justify-center gap-2">
-            <!-- Previous page button -->
-            <Button
-                variant="outline"
-                size="sm"
-                onclick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                aria-label="Previous page"
-            >
-              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-              </svg>
-            </Button>
-
-            <!-- Page numbers -->
-            {#each Array(getTotalPages()) as _, index}
-              <Button
-                  variant={currentPage === index + 1 ? "default" : "outline"}
-                  size="sm"
-                  onclick={() => goToPage(index + 1)}
-              >
-                {index + 1}
-              </Button>
-            {/each}
-
-            <!-- Next page button -->
-            <Button
-                variant="outline"
-                size="sm"
-                onclick={() => goToPage(currentPage + 1)}
-                disabled={currentPage === getTotalPages()}
-                aria-label="Next page"
-            >
-              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-              </svg>
-            </Button>
-          </nav>
         </div>
       {/if}
-    {/if}
-  </div>
 
-  <!-- Newsletter sign up -->
-  <div class="py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
-    <div class="rounded-xl bg-primary-100 dark:bg-primary-900/30 p-8">
-      <div class="text-center">
-        <h2 class="text-2xl font-ibm-bold mb-4">Stay updated</h2>
-        <p class="text-lg opacity-75 max-w-2xl mx-auto mb-6">
-          Subscribe to my newsletter to get the latest blog posts and updates directly to your inbox.
-        </p>
-        <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
-          <input
-              type="email"
-              class="flex-grow p-3 text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500"
-              placeholder="Enter your email address"
-          />
-          <Button variant="default" size="default" class="font-ibm-bold">
-            Subscribe
+      <!-- Blog posts section (now separate from featured post condition) -->
+      {#if blogs.length === 0}
+        <!-- No results state -->
+        <div class="text-center py-20">
+          <h2 class="text-2xl font-ibm-bold mb-4">No blog posts found</h2>
+          <p class="text-lg opacity-75 mb-8">Try adjusting your search or filter criteria.</p>
+          <Button variant="outline" class="mt-6" onclick={resetFilters}>
+            Reset Filters
           </Button>
         </div>
-      </div>
-    </div>
+      {:else}
+        <!-- Recent posts heading -->
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-ibm-bold animate-on-scroll opacity-0">
+            {currentPage === 1 && filter === 'all' && selectedTags.length === 0 && searchQuery === ''
+              ? 'Recent Posts'
+              : 'Blog Posts'}
+          </h2>
+
+          <!-- Sort/View options - can be expanded later -->
+          <div class="flex space-x-2">
+            <select
+                class="text-sm border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:ring-primary-500 focus:border-primary-500 p-2 appearance-auto"
+                value={postsPerPage}
+                onchange={handlePostsPerPageChange}
+            >
+              <option value="6" class="text-gray-900 dark:text-gray-100">6 per page</option>
+              <option value="9" class="text-gray-900 dark:text-gray-100">9 per page</option>
+              <option value="12" class="text-gray-900 dark:text-gray-100">12 per page</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Blog posts grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {#each blogs as post, i}
+            <Card
+                class="blog-card post-card opacity-0 overflow-hidden h-full flex flex-col cursor-pointer"
+                style="animation-delay: {i * 100}ms;"
+                onclick={() => navigateToBlogPost(post.id)}
+            >
+              <div class="relative h-48 w-full overflow-hidden">
+                <img
+                    src={post.image || `/images/placeholder-${(i % 3) + 1}.jpg`}
+                    alt={post.title}
+                    class="w-full h-full object-cover card-image transition-transform duration-500"
+                />
+                <div class="absolute top-4 right-4">
+                  <span class="px-3 py-1 text-xs rounded-full font-ibm-bold bg-primary-500 text-white">
+                    {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
+                  </span>
+                </div>
+              </div>
+              <div class="p-5 flex flex-col flex-grow">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-xs opacity-75 font-ibm">{formatDate(post.date)}</span>
+                  <span class="text-xs opacity-75 font-ibm flex items-center">
+                    <BookOpen class="h-3 w-3 mr-1" />
+                    {calculateReadingTime(post.content)} min read
+                  </span>
+                </div>
+                <h3 class="text-xl font-ibm-bold mb-3 line-clamp-2">{post.title}</h3>
+                <p class="mb-4 opacity-85 line-clamp-3">{post.excerpt}</p>
+
+                {#if post.tags && post.tags.length > 0}
+                  <div class="flex flex-wrap gap-1 mt-auto">
+                    {#each post.tags.slice(0, 3) as tag}
+                      <Badge variant="outline" class="text-xs cursor-pointer" onclick={(e) => toggleTag(tag, e)}>
+                        {tag}
+                      </Badge>
+                    {/each}
+                  </div>
+                {/if}
+              </div>
+            </Card>
+          {/each}
+        </div>
+
+        <!-- Pagination -->
+        {#if getTotalPages() > 1}
+          <div class="flex justify-center mt-12">
+            <nav aria-label="Page navigation" class="flex flex-wrap justify-center gap-2">
+              <!-- Previous page button -->
+              <Button
+                  variant="outline"
+                  size="sm"
+                  onclick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
+              >
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                </svg>
+              </Button>
+
+              <!-- Page numbers -->
+              {#each Array(getTotalPages()) as _, index}
+                <Button
+                    variant={currentPage === index + 1 ? "default" : "outline"}
+                    size="sm"
+                    onclick={() => goToPage(index + 1)}
+                >
+                  {index + 1}
+                </Button>
+              {/each}
+
+              <!-- Next page button -->
+              <Button
+                  variant="outline"
+                  size="sm"
+                  onclick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === getTotalPages()}
+                  aria-label="Next page"
+              >
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+              </Button>
+            </nav>
+          </div>
+        {/if}
+      {/if}
+    {/if}
   </div>
 </div>
 
@@ -779,13 +831,53 @@
   }
 
   /* Blog card styling */
-  .blog-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .blog-card, .post-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
   }
 
-  .blog-card:hover {
-    transform: translateY(-5px);
+  .blog-card:hover, .post-card:hover {
+    transform: translateY(-5px) scale(1.01);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--color-primary);
+  }
+
+  .blog-card:hover .card-image, .post-card:hover .card-image {
+    transform: scale(1.1) rotate(1deg);
+  }
+
+  .blog-card::after, .post-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+
+  .blog-card:hover::after, .post-card:hover::after {
+    width: 100%;
+  }
+
+  /* Fix select dropdown appearance to ensure text is visible */
+  select {
+    color: inherit !important;
+    appearance: auto !important;
+  }
+
+  select option {
+    background-color: inherit;
+    color: inherit;
+  }
+
+  /* Make sure dark mode has readable options */
+  .dark select option {
+    background-color: #1f2937;
+    color: white;
   }
 
   /* Layout components */

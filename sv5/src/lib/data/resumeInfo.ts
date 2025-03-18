@@ -213,4 +213,25 @@ export const TO_PRINT = [
             '@</div>@',
         speed: [10, 1],  // Back to standard speed for final card
     },
+    {
+        initial: '',
+        text:
+            '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@You can stop scrolling now :>@~</div>' +
+            '@<pre>@        .n.                     |@<br>@' +
+            '       /___\\          _.---.  \\ _ /@<br>@' +
+            '       [|||]         (_._ ) )--;_) =-@<br>@' +
+            '       [___]           \'---\'.__,\' \\@<br>@' +
+            '       }-=-{                    |@<br>@' +
+            '       |-" |@<br>@' +
+            '       |.-"|                p@<br>@' +
+            '〜^〜^〜-|_.-|〜^-〜^〜 〜^〜 -^〜^〜|\\ 〜^-〜^〜-@<br>@' +
+            '^   .=.| _.|__  ^       〜  /| \\@<br>@' +
+            ' 〜 /:. \\" _|_/\\    〜      /_|__\\  ^@<br>@' +
+            '.-/::.  |   |""|-._    ^   〜〜〜〜@<br>@' +
+            '  `===-\'-----\'""`  \'-.              〜@<br>@' +
+            '                 __.-\'      ^@<br>@' +
+            '@~</pre>' +
+            '<div class="font-ibm-bold italic text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl" style="color: var(--color-accent1);">@↓ Clicky Stuffs ↓@</div>@',
+        speed: [10, 3, 10],  // Back to standard speed for final card
+    },
 ];

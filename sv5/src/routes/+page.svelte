@@ -1,7 +1,7 @@
 <script lang="ts">
     // Imports
     import { onMount } from 'svelte';
-    import { TO_PRINT } from './resumeInfo';
+    import { TO_PRINT } from '$lib/data/resumeInfo';
     import { Avatar } from '@skeletonlabs/skeleton-svelte';
 
     // Constants
@@ -419,43 +419,48 @@
       <div class="block md:hidden">
         <div class="super_visual super_visual_9">
           <div class="visual visual_9 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-            <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-            <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-            <script type="text/javascript">
-              document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                var adobeDCView =
-                  new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
-                adobeDCView.previewFile({
-                  content:{location: {url: "/images/paper.pdf"}},
-                  metaData:{fileName: "Research Paper.pdf"}
-                }, {
-                  embedMode: "SIZED_CONTAINER",
-                  showDownloadPDF: true,
-                  showPrintPDF: true,
-                  showFullScreen: true
+
+            {#if typeof window != 'undefined' && location.hostname === 'www.dwink.dev'}
+              <div id="mobile-adobe-dc-view-1" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+              <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+              <script type="text/javascript">
+                document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                  var adobeDCView =
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-1"});
+                  adobeDCView.previewFile({
+                    content:{location: {url: "/images/paper.pdf"}},
+                    metaData:{fileName: "Research Paper.pdf"}
+                  }, {
+                    embedMode: "SIZED_CONTAINER",
+                    showDownloadPDF: true,
+                    showPrintPDF: true,
+                    showFullScreen: true
+                  });
                 });
-              });
-            </script>
+              </script>
+             {/if}
           </div>
         </div>
         <div class="super_visual super_visual_10">
           <div class="visual visual_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
-            <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
-            <script type="text/javascript">
-              document.addEventListener("adobe_dc_view_sdk.ready", function(){
-                var adobeDCView =
-                  new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
-                adobeDCView.previewFile({
-                  content:{location: {url: "/images/poster.pdf"}},
-                  metaData:{fileName: "Conference Poster.pdf"}
-                }, {
-                  embedMode: "SIZED_CONTAINER",
-                  showDownloadPDF: true,
-                  showPrintPDF: true,
-                  showFullScreen: true
+            {#if typeof window != 'undefined' && location.hostname === 'www.dwink.dev'}
+              <div id="mobile-adobe-dc-view-2" class="w-full h-[calc(100vh-7rem)] sm:h-[calc(100vh-9rem)] rounded-lg"></div>
+              <script type="text/javascript">
+                document.addEventListener("adobe_dc_view_sdk.ready", function(){
+                  var adobeDCView =
+                    new AdobeDC.View({clientId: "1cc3ec82e7c242c1909daa48e3da9c3d", divId: "mobile-adobe-dc-view-2"});
+                  adobeDCView.previewFile({
+                    content:{location: {url: "/images/poster.pdf"}},
+                    metaData:{fileName: "Conference Poster.pdf"}
+                  }, {
+                    embedMode: "SIZED_CONTAINER",
+                    showDownloadPDF: true,
+                    showPrintPDF: true,
+                    showFullScreen: true
+                  });
                 });
-              });
-            </script>
+              </script>
+             {/if}
           </div>
         </div>
       </div>
@@ -520,9 +525,12 @@
         </div>
       </div>
 
-      <div class="super_card_10">
-        <div class="card card_10 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-2 sm:mt-4 mx-1 sm:ml-4 p-2 sm:p-4 break-words whitespace-pre-wrap text-sm sm:text-base">
-          {@html render[10]}
+      <!-- Visual 15 after Card 8 (mobile only) -->
+      <div class="block md:hidden">
+        <div class="super_visual super_visual_15">
+          <div class="visual visual_15 sticky top-20 sm:top-28 min-h-80 sm:min-h-96 mt-4 mx-1 p-2 sm:p-4 flex justify-center items-center">
+            <img class="max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/lightman.jpg" alt="Lightman" />
+          </div>
         </div>
       </div>
     </div>
@@ -577,6 +585,7 @@
       </div>
       <div class="super_visual super_visual_9">
         <div class="visual visual_9 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+          {#if typeof window != 'undefined' && location.hostname === 'www.dwink.dev'}
           <div id="adobe-dc-view-1" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
           <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
           <script type="text/javascript">
@@ -594,10 +603,12 @@
               });
             });
           </script>
+          {/if}
         </div>
       </div>
       <div class="super_visual super_visual_10">
         <div class="visual visual_10 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+          {#if typeof window != 'undefined' && location.hostname === 'www.dwink.dev'}
           <div id="adobe-dc-view-2" class="w-full h-[calc(100vh-9rem)] rounded-lg"></div>
           <script type="text/javascript">
             document.addEventListener("adobe_dc_view_sdk.ready", function(){
@@ -614,6 +625,7 @@
               });
             });
           </script>
+          {/if}
         </div>
       </div>
       <div class="super_visual super_visual_11">
@@ -636,9 +648,14 @@
           <iframe class="max-h-[calc(100vh-9rem)] w-full h-[calc(100vh-11rem)] rounded-lg" src="https://www.youtube.com/embed/XfWcxHTRSsI" title="YouTube Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
+      <div class="super_visual super_visual_15">
+        <div class="visual visual_15 sticky top-28 min-h-96 mt-4 ml-4 mr-4 p-4 flex justify-center items-center">
+          <img class="max-h-[calc(100vh-9rem)] max-w-full object-scale-down rounded-lg" src="/images/lightman.jpg" alt="Lightman" />
+        </div>
     </div>
   </div>
 </div>
+  </div>
 
 <!-- Anchor for the bottom of the page -->
 <div id="bottom"></div>
@@ -647,9 +664,13 @@
   /* Super card heights - consistent for better scrolling */
   .super_card_0, .super_card_1, .super_card_2, .super_card_3,
   .super_card_4, .super_card_5, .super_card_6, .super_card_7,
-  .super_card_8, .super_card_9, .super_card_10 {
+  .super_card_8 {
     height: calc(2500px);
     position: relative;
+  }
+
+  .super_card_9 {
+    height: 1500px;
   }
 
   /* Visual heights for desktop view */
@@ -665,11 +686,15 @@
     position: relative;
   }
 
+  .super_visual_15 {
+    height: 1500px;
+  }
+
   /* Mobile-specific height adjustments */
   @media (max-width: 768px) {
     .super_card_0, .super_card_1, .super_card_2, .super_card_3,
     .super_card_4, .super_card_5, .super_card_6, .super_card_7,
-    .super_card_8, .super_card_9, .super_card_10 {
+    .super_card_8, .super_card_9, .super_card_10, .super_card_11 {
       height: calc(1500px); /* Reduced height for mobile */
     }
 
@@ -681,6 +706,14 @@
 
     .super_visual_8, .super_visual_11, .super_visual_14 {
       height: 1250px;
+    }
+
+    .super_card_9 {
+      height: calc(1000px)
+    }
+
+    .super_visual_15 {
+      height: calc(500px)
     }
   }
 
