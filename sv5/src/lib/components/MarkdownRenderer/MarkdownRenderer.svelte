@@ -52,6 +52,10 @@
             return `<h3 id="${id}" class="text-xl font-bold my-4">${heading}</h3>`;
         });
 
+        // Process images - added support for Markdown image syntax
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
+            '<img src="$2" alt="$1" class="w-full max-w-full h-auto rounded-lg my-6" loading="lazy" />');
+
         // Process inline code
         html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">$1</code>');
 
@@ -82,7 +86,7 @@
             if (!p) return '';
             if (p.startsWith('<h1') || p.startsWith('<h2') || p.startsWith('<h3') ||
                 p.startsWith('<div id="code-block-') || p.startsWith('<ul') || p.startsWith('<ol') ||
-                p.startsWith('<blockquote') || p.startsWith('<hr')) {
+                p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<img')) {
                 return p;
             }
             return `<p class="my-4 text-gray-700 dark:text-gray-300">${p}</p>`;
@@ -163,5 +167,18 @@
 
   :global(.code-block-placeholder) {
     min-height: 50px;
+  }
+
+  /* Added image styling */
+  :global(.markdown-content img) {
+    margin: 1.5rem 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  :global(.dark .markdown-content img) {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
   }
 </style>

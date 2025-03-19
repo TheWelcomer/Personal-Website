@@ -13,9 +13,9 @@ export const TO_PRINT = [
             '@<div class="font-ibm italic text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl" style="color: var(--color-text);">@' +
             'Wanderer of @<span class="font-semibold" style="color: var(--color-accent1);">@systems @</span>@and @<span class="font-semibold" style="color: var(--color-accent3);">@science!@</span>@' +
             '@<div class="text-right mt-4">@' +
-            '... and @<span class="font-semibold" style="color: var(--color-neutral);">@delving spots@</span>@         ' +
+            '... and @<span class="font-semibold" style="color: var(--color-neutral);">@delving spots@</span>@        ' +
             '@<br>@' +
-            '... and @<span class="font-semibold" style="color: var(--color-accent4);">@backwoods@</span>@          ' +
+            '... and @<span class="font-semibold" style="color: var(--color-accent4);">@backwoods@</span>@         ' +
             '@<br>@' +
             '... and all things @<span class="font-semibold" style="color: var(--color-primary);">@blue@</span>@' +
             '@</div>@' +
@@ -216,22 +216,22 @@ export const TO_PRINT = [
     {
         initial: '',
         text:
-            '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@You can stop scrolling now :>@~</div>' +
-            '@<pre>@        .n.                     |@<br>@' +
-            '       /___\\          _.---.  \\ _ /@<br>@' +
-            '       [|||]         (_._ ) )--;_) =-@<br>@' +
-            '       [___]           \'---\'.__,\' \\@<br>@' +
-            '       }-=-{                    |@<br>@' +
-            '       |-" |@<br>@' +
-            '       |.-"|                p@<br>@' +
-            '〜^〜^〜-|_.-|〜^-〜^〜 〜^〜 -^〜^〜|\\ 〜^-〜^〜-@<br>@' +
-            '^   .=.| _.|__  ^       〜  /| \\@<br>@' +
-            ' 〜 /:. \\" _|_/\\    〜      /_|__\\  ^@<br>@' +
-            '.-/::.  |   |""|-._    ^   〜〜〜〜@<br>@' +
-            '  `===-\'-----\'""`  \'-.              〜@<br>@' +
-            '                 __.-\'      ^@<br>@' +
-            '@~</pre>' +
-            '<div class="font-ibm-bold italic text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl" style="color: var(--color-accent1);">@↓ Clicky Stuffs ↓@</div>@',
-        speed: [10, 3, 10],  // Back to standard speed for final card
+            '@<div class="font-ibm-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl" style="color: var(--color-primary);">@You can stop scrolling now :>@~</div>@' +
+            '@<pre>@' +
+            '        .n.                     |' +
+            '\n       /___\\          _.---.  \\ _ /' +
+            '\n       [|||]         (_._ ) )--;_) =-' +
+            '\n       [___]           \'---\'.__,\' \\' +
+            '\n       }-=-{                    |' +
+            '\n       |-" |' +
+            '\n       |.-"|                p' +
+            '\n〜^〜^〜|_.-|〜^-〜^〜 〜^〜 -^〜^〜|\\ 〜^-〜^〜-' +
+            '\n^   .=.| _.|__  ^       〜  /| \\' +
+            '\n 〜 /:. \\" _|_/\\    〜      /_|__\\  ^' +
+            '\n.-/::.  |   |""|-._    ^   〜〜〜〜' +
+            '\n  `===-\'-----\'""`  \'-.              〜' +
+            '\n                 __.-\'      ^@~</pre>@' +
+            '@<div class="font-ibm-bold italic text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl" style="color: var(--color-accent1);">@↓ Clicky Stuffs ↓@</div>@',
+        speed: [10, 2, 10],  // Adjusted timing: header, ASCII art, footer text
     },
 ];

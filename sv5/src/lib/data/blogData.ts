@@ -1142,5 +1142,24 @@ I've open-sourced the core visualization components, which you can find on my Gi
 
 Feel free to try the live dashboard at [renewable-viz.example.com](https://renewable-viz.example.com) and share your feedback!
         `
+    },
+    {
+        id: '7',
+        title: 'Book Review: Project Hail Mary',
+        excerpt: 'A quick overview of Andy Weir\'s latest science fiction novel "Project Hail Mary"',
+        date: '2025-03-19',
+        category: 'projects',
+        image: '/images/hailmary.png',
+        tags: ['book review', 'hobbies'],
+        author: {
+            name: 'Your Name',
+            avatar: '/images/hailmary.png'
+        },
+        featured: true,
+        content: `
+## I recently finished reading Andy Weir's latest science fiction novel "Project Hail Mary" and wanted to share my thoughts on this captivating story.
+**Read the book, it's the best!**
+![alt text](/images/hailmary.png)
+        `
     }
 ];

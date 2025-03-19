@@ -25,8 +25,6 @@
     let drawerState = $state(false);
     let filterDrawerState = $state(false);
     let tagsDrawerState = $state(false);
-    let currentPage = $state(1);
-    let postsPerPage = $state(9);
     let featuredPost = $state(null);
     let allTags = $state<string[]>([]);
     let selectedTags = $state<string[]>([]);
@@ -42,9 +40,7 @@
     let filterState = {
         filter: 'all',
         tags: [],
-        search: '',
-        page: 1,
-        perPage: 9
+        search: ''
     };
 
     // -------- Filter categories --------
@@ -136,86 +132,60 @@
         } else {
             selectedTags = [...selectedTags, tag];
         }
-        // Reset to first page when changing filters
-        currentPage = 1;
         // Explicitly request update
         requestBlogUpdate();
     }
 
     /**
-     * Calculate total pages based on filtered posts and posts per page
-     * Non-reactive function to avoid loops
-     */
-    function getTotalPages() {
-        try {
-            // Create local copies to avoid reactivity
-            const currentFilter = filter;
-            const currentTags = [...selectedTags];
-            const currentSearch = searchQuery;
-            const currentPostsPerPage = Number(postsPerPage);
-
-            // Get all blog posts
-            const allBlogs = ensureBlogData();
-
-            // Remove featured post from count
-            const featId = featuredPost?.id;
-            let filteredPosts = allBlogs.filter(post => post.id !== featId);
-
-            // Apply filters (same logic as in updateBlogPostsNow)
-            if (currentFilter !== 'all') {
-                filteredPosts = filteredPosts.filter(post => post.category === currentFilter);
-            }
-
-            if (currentTags.length > 0) {
-                filteredPosts = filteredPosts.filter(post =>
-                    post.tags && currentTags.some(tag => post.tags.includes(tag))
-                );
-            }
-
-            if (currentSearch.trim() !== '') {
-                const query = currentSearch.toLowerCase();
-                filteredPosts = filteredPosts.filter(post =>
-                    post.title.toLowerCase().includes(query) ||
-                    post.excerpt.toLowerCase().includes(query) ||
-                    post.content.toLowerCase().includes(query) ||
-                    (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
-                );
-            }
-
-            // Calculate total pages
-            return Math.ceil(filteredPosts.length / currentPostsPerPage);
-        } catch (error) {
-            console.error('Error calculating total pages:', error);
-            return 1; // Default to 1 page on error
-        }
-    }
-
-    /**
-     * Jump to specific page - non-reactive implementation
-     */
-    function goToPage(page) {
-        const totalPages = getTotalPages();
-        if (page >= 1 && page <= totalPages) {
-            currentPage = page;
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            // Explicitly request update
-            requestBlogUpdate();
-        }
-    }
-
-    /**
      * Reset all filters - non-reactive implementation
+     * With improved animation handling for both blog cards and featured post
      */
     function resetFilters() {
         searchQuery = '';
         filter = 'all';
         selectedTags = [];
-        currentPage = 1;
+
         // Explicitly request update
         requestBlogUpdate();
+
+        // Force immediate visibility of cards after reset
+        setTimeout(() => {
+            if (typeof document !== 'undefined') {
+                // Make all regular blog cards visible
+                document.querySelectorAll('.blog-card, .post-card').forEach(card => {
+                    // Make visible immediately
+                    card.style.opacity = '1';
+                    card.classList.add('animate-fadeIn');
+                    card.classList.remove('opacity-0');
+                });
+
+                // Also make featured post visible
+                const featuredPostContainer = document.querySelector('.mb-16.animate-on-scroll');
+                if (featuredPostContainer) {
+                    featuredPostContainer.style.opacity = '1';
+                    featuredPostContainer.classList.add('animate-fadeIn');
+                    featuredPostContainer.classList.remove('opacity-0');
+                }
+            }
+        }, 50);
+    }
+
+    /**
+     * Request an update when filters change
+     * Can be called directly from event handlers
+     */
+    function requestBlogUpdate() {
+        // If filter state is unchanged, don't update
+        if (
+            filterState.filter === filter &&
+            JSON.stringify(filterState.tags) === JSON.stringify(selectedTags) &&
+            filterState.search === searchQuery
+        ) {
+            return;
+        }
+
+        // Schedule an update
+        updateBlogPostsNow();
     }
 
     /**
@@ -255,24 +225,19 @@
             console.log('Updating blog posts with filters:', {
                 filter,
                 tags: selectedTags,
-                search: searchQuery,
-                page: currentPage
+                search: searchQuery
             });
 
             // Capture current filter state to avoid reactivity during processing
             const localFilter = filter;
             const localTags = [...selectedTags];
             const localSearch = searchQuery;
-            const localPage = currentPage;
-            const localPerPage = Number(postsPerPage); // Ensure it's a number
 
             // Record filter state to detect future changes
             filterState = {
                 filter: localFilter,
                 tags: localTags,
-                search: localSearch,
-                page: localPage,
-                perPage: localPerPage
+                search: localSearch
             };
 
             // Get blog data (non-reactive call)
@@ -316,16 +281,10 @@
             // Sort (doesn't trigger reactivity)
             regularPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            // Paginate
-            const startIndex = (localPage - 1) * localPerPage;
-            const endIndex = startIndex + localPerPage;
-            const paginatedPosts = regularPosts.slice(startIndex, endIndex);
-
             console.log('Filtered posts:', regularPosts.length);
-            console.log('Paginated posts:', paginatedPosts.length);
 
             // Update state in a single batch to reduce reactivity triggers
-            blogs = paginatedPosts;
+            blogs = regularPosts;
             isLoading = false;
         } catch (error) {
             console.error('Error updating blog posts:', error);
@@ -343,27 +302,18 @@
             if (updateRequested) {
                 setTimeout(updateBlogPostsNow, 50);
             }
-        }
-    }
 
-    /**
-     * Request an update when filters change
-     * Can be called directly from event handlers
-     */
-    function requestBlogUpdate() {
-        // If filter state is unchanged, don't update
-        if (
-            filterState.filter === filter &&
-            JSON.stringify(filterState.tags) === JSON.stringify(selectedTags) &&
-            filterState.search === searchQuery &&
-            filterState.page === currentPage &&
-            filterState.perPage === Number(postsPerPage)
-        ) {
-            return;
+            // Reset animations on posts after update
+            setTimeout(() => {
+                if (typeof document !== 'undefined') {
+                    const blogCards = document.querySelectorAll('.blog-card.opacity-0');
+                    blogCards.forEach(card => {
+                        card.classList.add('animate-fadeIn');
+                        card.classList.remove('opacity-0');
+                    });
+                }
+            }, 100);
         }
-
-        // Schedule an update
-        updateBlogPostsNow();
     }
 
     /**
@@ -442,19 +392,16 @@
         tagsDrawerState = true;
     }
 
-    // Debug function to check state
-    function debugState() {
-        console.log('Current state:', {
-            isLoading,
-            blogs: blogs.length,
-            featuredPost: featuredPost?.id,
-            filter,
-            selectedTags,
-            searchQuery
-        });
-        // Force update
-        isLoading = false;
-        updateBlogPostsNow();
+    // Form submission handler for search with reset functionality
+    function handleSearchSubmit(e) {
+        e.preventDefault();
+
+        // If search is cleared, reset all filters
+        if (searchQuery.trim() === '') {
+            resetFilters();
+        } else {
+            requestBlogUpdate();
+        }
     }
 
     // Initialize blogs once on mount
@@ -487,54 +434,75 @@
             if (updateTimer) clearTimeout(updateTimer);
         };
     });
-
-    // Form submission handler for search
-    function handleSearchSubmit(e) {
-        e.preventDefault();
-        requestBlogUpdate();
-    }
-
-    // Handle select change for posts per page
-    function handlePostsPerPageChange(e) {
-        postsPerPage = Number(e.target.value);
-        requestBlogUpdate();
-    }
 </script>
 
 <!-- Main content container with padding for fixed navbar -->
 <div class="content-container">
-  <div class="py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+  <div class="px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
     <!-- Page header -->
-    <div class="text-center mb-16 mt-8">
-      <h1 class="text-4xl font-ibm-bold mb-4 animate-on-scroll opacity-0">Blog</h1>
+    <div class="text-center mb-16">
+      <h1 class="text-4xl font-ibm-bold mb-4 animate-on-scroll opacity-0">Devlog</h1>
       <p class="text-lg font-ibm opacity-75 max-w-2xl mx-auto animate-on-scroll opacity-0">
-        Thoughts, ideas, and explorations on technology, research, and personal projects.
+        Where I write about all the things!
       </p>
 
-      <!-- Mobile search - visible only on small screens -->
-      <div class="relative mt-6 max-w-md mx-auto md:hidden">
+      <!-- Mobile and desktop search -->
+      <div class="relative mt-6 max-w-md mx-auto">
         <form onsubmit={handleSearchSubmit}>
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <Search class="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </div>
           <input
               type="search"
-              id="mobile-search-main"
+              id="search-main"
               class="block w-full p-3 pl-10 text-sm border rounded-lg bg-surface-100-800-token border-surface-300-600-token focus:ring-primary-500 focus:border-primary-500"
               placeholder="Search blog posts..."
-              bind:value={searchQuery}
-              onchange={() => requestBlogUpdate()}
+              value={searchQuery}
+              oninput={(e) => {
+      // Update searchQuery manually instead of using bind:value
+      searchQuery = e.target.value;
+
+      if (e.target.value.trim() === '') {
+        // When search is cleared:
+        // 1. Reset all filters
+        resetFilters();
+
+        // 2. Force immediate re-render of all blog cards and featured post
+        setTimeout(() => {
+          if (typeof document !== 'undefined') {
+            // Make all cards visible immediately
+            document.querySelectorAll('.blog-card, .post-card').forEach(card => {
+              card.style.opacity = '1';
+              card.classList.add('animate-fadeIn');
+              card.classList.remove('opacity-0');
+            });
+
+            // Ensure featured post container is visible
+            const featuredPostContainer = document.querySelector('.mb-16.animate-on-scroll');
+            if (featuredPostContainer) {
+              featuredPostContainer.style.opacity = '1';
+              featuredPostContainer.classList.add('animate-fadeIn');
+              featuredPostContainer.classList.remove('opacity-0');
+            }
+          }
+        }, 10);
+      } else {
+        requestBlogUpdate();
+      }
+    }}
           />
         </form>
       </div>
 
-      <!-- Mobile tags button -->
+      <!-- Mobile tags button - commented out for now -->
+      <!--
       <div class="mt-4 md:hidden">
         <Button variant="outline" class="w-full" onclick={openTagsDrawer}>
           <TagIcon class="h-4 w-4 mr-2" />
           Browse by Tags
         </Button>
       </div>
+      -->
 
       <!-- Active filters display -->
       {#if filter !== 'all' || selectedTags.length > 0}
@@ -578,13 +546,6 @@
       {/if}
     </div>
 
-    <!-- Debug button (can be removed in production) -->
-    <div class="mb-4 text-center">
-      <Button variant="outline" size="sm" onclick={debugState}>
-        Debug: Reload Posts
-      </Button>
-    </div>
-
     {#if hasError}
       <!-- Error state -->
       <div class="text-center py-12 mb-8">
@@ -602,10 +563,8 @@
         <div class="animate-spin h-10 w-10 rounded-full border-t-4 border-primary-500 border-opacity-50"></div>
       </div>
     {:else}
-      <!-- FIXED: Split the conditional logic to allow both featured and regular posts to show -->
-
-      <!-- Featured post (only on first page with no filters) -->
-      {#if featuredPost && currentPage === 1 && (filter === 'all' && selectedTags.length === 0 && searchQuery === '')}
+      <!-- Featured post (only with no filters) -->
+      {#if featuredPost && (filter === 'all' && selectedTags.length === 0 && searchQuery === '')}
         <div class="mb-16 animate-on-scroll opacity-0">
           <h2 class="text-2xl font-ibm-bold mb-6 flex items-center">
             <span class="mr-2">Featured Post</span>
@@ -670,26 +629,13 @@
           </Button>
         </div>
       {:else}
-        <!-- Recent posts heading -->
+        <!-- Posts heading -->
         <div class="flex justify-between items-center mb-8">
           <h2 class="text-2xl font-ibm-bold animate-on-scroll opacity-0">
-            {currentPage === 1 && filter === 'all' && selectedTags.length === 0 && searchQuery === ''
-              ? 'Recent Posts'
+            {filter === 'all' && selectedTags.length === 0 && searchQuery === ''
+              ? 'All Posts'
               : 'Blog Posts'}
           </h2>
-
-          <!-- Sort/View options - can be expanded later -->
-          <div class="flex space-x-2">
-            <select
-                class="text-sm border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:ring-primary-500 focus:border-primary-500 p-2 appearance-auto"
-                value={postsPerPage}
-                onchange={handlePostsPerPageChange}
-            >
-              <option value="6" class="text-gray-900 dark:text-gray-100">6 per page</option>
-              <option value="9" class="text-gray-900 dark:text-gray-100">9 per page</option>
-              <option value="12" class="text-gray-900 dark:text-gray-100">12 per page</option>
-            </select>
-          </div>
         </div>
 
         <!-- Blog posts grid -->
@@ -736,53 +682,57 @@
             </Card>
           {/each}
         </div>
-
-        <!-- Pagination -->
-        {#if getTotalPages() > 1}
-          <div class="flex justify-center mt-12">
-            <nav aria-label="Page navigation" class="flex flex-wrap justify-center gap-2">
-              <!-- Previous page button -->
-              <Button
-                  variant="outline"
-                  size="sm"
-                  onclick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  aria-label="Previous page"
-              >
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                </svg>
-              </Button>
-
-              <!-- Page numbers -->
-              {#each Array(getTotalPages()) as _, index}
-                <Button
-                    variant={currentPage === index + 1 ? "default" : "outline"}
-                    size="sm"
-                    onclick={() => goToPage(index + 1)}
-                >
-                  {index + 1}
-                </Button>
-              {/each}
-
-              <!-- Next page button -->
-              <Button
-                  variant="outline"
-                  size="sm"
-                  onclick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === getTotalPages()}
-                  aria-label="Next page"
-              >
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                </svg>
-              </Button>
-            </nav>
-          </div>
-        {/if}
       {/if}
     {/if}
   </div>
+
+  <!-- Tags Drawer Modal - commented out for now -->
+  <!--
+  <Modal
+      open={tagsDrawerState}
+      onOpenChange={(e) => (tagsDrawerState = e.open)}
+      contentBase="bg-surface-100-800-token p-4 space-y-4 shadow-xl w-[280px] md:w-[480px] h-screen rounded-r-xl"
+      positionerJustify="justify-start"
+      positionerAlign=""
+      positionerPadding="p-0"
+      alignOffset={0}
+      backdropClasses="bg-gradient-to-tr from-surface-500/50 via-primary-500/50 to-secondary-500/50 backdrop-blur-sm"
+      transitionsPositionerIn={{ x: -480, duration: 200 }}
+      transitionsPositionerOut={{ x: -480, duration: 200 }}
+  >
+    {#snippet content()}
+    <header class="flex justify-between items-center mb-4">
+      <h2 class="h2 font-ibm-bold">Browse by Tags</h2>
+      <button type="button" class="btn-icon variant-ghost-surface" onclick={tagsDrawerClose} aria-label="Close">×</button>
+    </header>
+    <hr class="opacity-50" />
+    <article class="py-4">
+      <div class="flex flex-wrap gap-2">
+        {#each allTags as tag}
+          <Badge
+            variant={selectedTags.includes(tag) ? "default" : "outline"}
+            class="cursor-pointer px-3 py-1.5 text-sm"
+            onclick={(e) => toggleTag(tag, e)}
+          >
+            {tag}
+          </Badge>
+        {/each}
+      </div>
+    </article>
+    <hr class="opacity-50" />
+    <footer class="mt-4">
+      <div class="flex space-x-2">
+        <Button variant="outline" class="flex-1" onclick={tagsDrawerClose}>
+          Close
+        </Button>
+        <Button variant="default" class="flex-1" onclick={resetFilters}>
+          Reset Filters
+        </Button>
+      </div>
+    </footer>
+    {/snippet}
+  </Modal>
+  -->
 </div>
 
 <style>
@@ -830,24 +780,69 @@
     overflow: hidden;
   }
 
-  /* Blog card styling */
+  /* Blog card styling - base styles */
   .blog-card, .post-card {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
   }
 
-  .blog-card:hover, .post-card:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-color: var(--color-primary);
+  /* Card image transitions - add base state with transition */
+  :global(.card-image) {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transform: scale(1) rotate(0deg);
+    will-change: transform;
   }
 
-  .blog-card:hover .card-image, .post-card:hover .card-image {
-    transform: scale(1.1) rotate(1deg);
+  /* Card transitions and base state */
+  :global(.post-card),
+  :global(.blog-card),
+  :global(div.post-card),
+  :global(div.blog-card),
+  :global(.card),
+  :global(.card.post-card),
+  :global(.card.blog-card) {
+    /* Ensure smooth transition for all relevant properties */
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease !important;
+    /* Set initial state explicitly */
+    transform: translateY(0) scale(1);
+    will-change: transform, box-shadow; /* Performance optimization */
   }
 
+  /* Card hover effects */
+  :global(.post-card):hover,
+  :global(.blog-card):hover,
+  :global(div.post-card):hover,
+  :global(div.blog-card):hover,
+  :global(.card):hover,
+  :global(.card.post-card):hover,
+  :global(.card.blog-card):hover {
+    transform: translateY(-5px) scale(1.01) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    border-color: var(--color-primary) !important;
+  }
+
+  /* Image hover effect */
+  :global(.blog-card:hover) :global(.card-image),
+  :global(.post-card:hover) :global(.card-image) {
+    transform: scale(1.1) rotate(1deg) !important;
+  }
+
+  /* Fix for featured post card image container to prevent clipping */
+  .relative.h-64.md\:h-full {
+    overflow: hidden !important;
+  }
+
+  /* General fix for all image containers */
+  :global(.relative.h-48.w-full),
+  :global(.relative.h-64),
+  :global([class*="relative"][class*="h-"]) {
+    overflow: hidden !important;
+  }
+
+  /* Bottom border animation */
   .blog-card::after, .post-card::after {
     content: "";
     position: absolute;
@@ -857,6 +852,7 @@
     height: 3px;
     background-color: var(--color-primary);
     transition: width 0.3s ease;
+    z-index: 5;
   }
 
   .blog-card:hover::after, .post-card:hover::after {
@@ -872,27 +868,6 @@
   select option {
     background-color: inherit;
     color: inherit;
-  }
-
-  /* Make sure dark mode has readable options */
-  .dark select option {
-    background-color: #1f2937;
-    color: white;
-  }
-
-  /* Layout components */
-  .outer-wrapper {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-  }
-
-  .fixed-navbar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
   }
 
   .content-container {
@@ -946,6 +921,6 @@
 
   /* Theme transitions */
   * {
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   }
 </style>
