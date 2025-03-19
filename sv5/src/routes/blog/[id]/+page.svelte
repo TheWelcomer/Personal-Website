@@ -201,10 +201,10 @@
               </div>
             </div>
 
-            <h1 class="font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white leading-tight" style="font-size: 1.875rem; line-height: 2.25rem;">
+            <h1 class="font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white leading-tight text-3xl sm:text-4xl">
               {post.title}
             </h1>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed" style="font-size: 1.125rem;">
+            <p class="text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed text-xl sm:text-2xl font-light italic border-l-4 border-primary-500 pl-4 py-2">
               {post.excerpt}
             </p>
 
@@ -217,7 +217,11 @@
 
           {#key post.id}
             <div class="article-content mb-16">
-              <MarkdownRenderer markdown={post.content} isDarkMode={isDarkMode} />
+              <!-- Pass a modified version of the content to remove the duplicate title -->
+              <MarkdownRenderer
+                  markdown={post.content.replace(/^# +\s*{post.title}\s*\n+/m, '')}
+                  isDarkMode={isDarkMode}
+              />
             </div>
           {/key}
 
@@ -301,7 +305,7 @@
         </div>
 
         <!-- Right Column - Table of Contents (expanded outward) -->
-        <div class="hidden lg:block px-4 sm:px-6 lg:px-4 mr-4">
+        <div class="hidden lg:block px-4 sm:px-6 lg:px-8">
           <div class="sticky top-24 w-full pl-0">
             {#if tableOfContents.length > 0}
               <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 sm:p-5 mb-6 sm:mb-8 w-full">
