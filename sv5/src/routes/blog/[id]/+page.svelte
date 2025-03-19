@@ -121,8 +121,8 @@
   });
 </script>
 
-<!-- Expanded full-width container with a fixed-width inner container -->
-<div class="blog-detail py-8 sm:py-12 w-full bg-black text-white">
+<!-- Expanded full-width container with adaptive background color -->
+<div class="blog-detail py-8 sm:py-12 w-full bg-white dark:bg-black text-gray-800 dark:text-white">
   <div class="mx-auto px-0">
     {#if !post}
       <div class="flex flex-col items-center justify-center py-32">
@@ -201,8 +201,12 @@
               </div>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white leading-tight">{post.title}</h1>
-            <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed">{post.excerpt}</p>
+            <h1 class="font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white leading-tight" style="font-size: 1.875rem; line-height: 2.25rem;">
+              {post.title}
+            </h1>
+            <p class="text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed" style="font-size: 1.125rem;">
+              {post.excerpt}
+            </p>
 
             {#if post.image}
               <div class="mb-10 overflow-hidden rounded-xl shadow-lg">
@@ -211,9 +215,11 @@
             {/if}
           </header>
 
-          <div class="article-content mb-16">
-            <MarkdownRenderer markdown={post.content} isDarkMode={isDarkMode} />
-          </div>
+          {#key post.id}
+            <div class="article-content mb-16">
+              <MarkdownRenderer markdown={post.content} isDarkMode={isDarkMode} />
+            </div>
+          {/key}
 
           {#if post.tags && post.tags.length > 0}
             <div class="flex flex-wrap gap-2 mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -335,3 +341,219 @@
     {/if}
   </div>
 </div>
+
+<style>
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Custom styles for article content - no @apply directives */
+  :global(.article-content h1) {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content h3) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content p) {
+    font-size: 1rem;
+    line-height: 1.625;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content a) {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  :global(.article-content a:hover) {
+    text-decoration: underline;
+  }
+
+  :global(.article-content ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content ol) {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content li) {
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content blockquote) {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 1.5rem 0;
+    color: #4b5563;
+  }
+
+  :global(.article-content code) {
+    font-family: monospace;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content pre) {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.article-content pre code) {
+    background-color: transparent;
+    padding: 0;
+    color: #1f2937;
+  }
+
+  :global(.article-content img) {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    max-width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.article-content table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  :global(.article-content th) {
+    border: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+    padding: 0.5rem 1rem;
+    text-align: left;
+  }
+
+  :global(.article-content td) {
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Dark mode overrides using media query */
+  @media (prefers-color-scheme: dark) {
+    :global(.article-content h1),
+    :global(.article-content h2),
+    :global(.article-content h3) {
+      color: #f9fafb;
+    }
+
+    :global(.article-content p),
+    :global(.article-content li),
+    :global(.article-content table) {
+      color: #e5e7eb;
+    }
+
+    :global(.article-content a) {
+      color: #3b82f6;
+    }
+
+    :global(.article-content blockquote) {
+      border-color: #4b5563;
+      color: #9ca3af;
+    }
+
+    :global(.article-content code),
+    :global(.article-content pre code) {
+      color: #e5e7eb;
+    }
+
+    :global(.article-content pre) {
+      background-color: #1f2937;
+    }
+
+    :global(.article-content th) {
+      border-color: #4b5563;
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+
+    :global(.article-content td) {
+      border-color: #4b5563;
+      color: #e5e7eb;
+    }
+  }
+
+  /* Support for dark class in addition to media query */
+  :global(.dark .article-content h1),
+  :global(.dark .article-content h2),
+  :global(.dark .article-content h3) {
+    color: #f9fafb;
+  }
+
+  :global(.dark .article-content p),
+  :global(.dark .article-content li),
+  :global(.dark .article-content table) {
+    color: #e5e7eb;
+  }
+
+  :global(.dark .article-content a) {
+    color: #3b82f6;
+  }
+
+  :global(.dark .article-content blockquote) {
+    border-color: #4b5563;
+    color: #9ca3af;
+  }
+
+  :global(.dark .article-content code),
+  :global(.dark .article-content pre code) {
+    color: #e5e7eb;
+  }
+
+  :global(.dark .article-content pre) {
+    background-color: #1f2937;
+  }
+
+  :global(.dark .article-content th) {
+    border-color: #4b5563;
+    background-color: #1f2937;
+    color: #e5e7eb;
+  }
+
+  :global(.dark .article-content td) {
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+</style>
