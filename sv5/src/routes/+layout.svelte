@@ -64,7 +64,7 @@
         About Me
       </a>
       <a href="/blog" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
-        Blog
+        DevBlog
       </a>
       <a href="/resume.pdf" target="_blank" class="btn font-ibm-bold hidden md:inline-flex lg:inline-flex md:btn-lg lg:btn-lg preset-tonal mr-2">
         Resume

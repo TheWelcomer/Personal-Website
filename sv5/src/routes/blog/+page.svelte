@@ -441,7 +441,7 @@
   <div class="px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
     <!-- Page header -->
     <div class="text-center mb-16">
-      <h1 class="text-4xl font-ibm-bold mb-4 animate-on-scroll opacity-0">Devlog</h1>
+      <h1 class="text-4xl font-ibm-bold mb-4 animate-on-scroll opacity-0">DevBlog</h1>
       <p class="text-lg font-ibm opacity-75 max-w-2xl mx-auto animate-on-scroll opacity-0">
         Where I write about all the things!
       </p>
