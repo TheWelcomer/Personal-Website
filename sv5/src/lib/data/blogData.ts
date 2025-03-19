@@ -1159,12 +1159,12 @@ export const BLOG_POSTS: BlogPost[] = [
         content: `
 ## If you, like me, are in search of a book with the same great flavor as The Martian, then go read Project Hail Mary.
 ## Pacing
-Overall, I feel like The Martian was more consistently paced, whereas Project Hail Mary had higher 
+&nbsp;&nbsp;&nbsp;&nbsp;Overall, I feel like The Martian was more consistently paced, whereas Project Hail Mary had higher 
 highs and lower lows. Project Hail Mary takes some time to get going, and the story slows down again at the ending 
 (although it leads to a very satisfying conclusion). About a third of the way into the book is where I believe Project 
 Hail Mary really shines.
 ## Problem Solving
-Project Hail Mary has that same style of structuring the plot around STEM puzzles as the Martian, but feels more Natural
+&nbsp;&nbsp;&nbsp;&nbsp;Project Hail Mary has that same style of structuring the plot around STEM puzzles as the Martian, but feels more Natural
 Science focused whereas The Martian felt engineering focused. While Mark Watney would be trying 
 to fix or engineer a new gadget, Ryland Grace would be investigating new organisms or materials.
 <figure>
@@ -1172,12 +1172,12 @@ to fix or engineer a new gadget, Ryland Grace would be investigating new organis
     <figcaption class="justify-center">Scene from the upcoming Project Hail Mary movie, coming out in 2026!</figcaption>
 </figure>
 ## Characters/Relationships
-Where Project Hail Mary really shines is in its characters and their relationships. If there's one thing I wanted
+&nbsp;&nbsp;&nbsp;&nbsp;Where Project Hail Mary really shines is in its characters and their relationships. If there's one thing I wanted
 The Martian to improve at, it was this. Mark Watney was an excellent character, but we almost never saw him interacting
 with another person and the relationships between the NASA characters felt undeveloped. I was a little worried
 Project Hail Mary would go down this route, but it ended up having one of the most genuine relationships I've ever seen 
-in a book. <br>
-I really enjoyed the amount of ethical nuance in each of the characters, and similar to the martian, the lack of a clear villain.
+in a book. <br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;I really enjoyed the amount of ethical nuance in each of the characters, and similar to the martian, the lack of a clear villain.
 I also enjoyed the complexity of each organism and tool introduced in Project Hail Mary. What in one moment seems like
 the Ryland's worst fear in one moment is his greatest asset in another, and vice versa.
 <figure>
@@ -1185,7 +1185,7 @@ the Ryland's worst fear in one moment is his greatest asset in another, and vice
     <figcaption class="justify-center">Ryland Grace, protagonist of Project Hail Mary</figcaption>
 </figure>
 ## Suspense
-Both books have a similar thriller feel, but derive it from different sources. In The Martian, it feels like Mark 
+&nbsp;&nbsp;&nbsp;&nbsp;Both books have a similar thriller feel, but derive it from different sources. In The Martian, it feels like Mark 
 Watney's in constant danger from simply living in such a hostile environment. In contrast, there's only a couple of 
 moments when the main character of Project Hail Mary really feels in danger, although these are well-executed.
         `
