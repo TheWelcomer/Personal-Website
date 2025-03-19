@@ -1144,7 +1144,7 @@ export const BLOG_POSTS: BlogPost[] = [
 //         `
 //     },
     {
-        id: '7',
+        id: '1',
         title: 'Book Review: Project Hail Mary',
         excerpt: 'A quick overview of Andy Weir\'s latest science fiction novel "Project Hail Mary"',
         date: '2025-03-19',
