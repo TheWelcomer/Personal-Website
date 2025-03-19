@@ -560,4 +560,24 @@
     border-color: #4b5563;
     color: #e5e7eb;
   }
+
+  :global(figcaption) {
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    width: 100%;
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    :global(figcaption) {
+      color: #9ca3af;
+    }
+  }
+
+  :global(.dark figcaption) {
+    color: #9ca3af;
+  }
 </style>
