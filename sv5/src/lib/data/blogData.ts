@@ -1168,7 +1168,7 @@ Project Hail Mary has that same style of structuring the plot around STEM puzzle
 Science focused whereas The Martian felt engineering focused. While Mark Watney would be trying 
 to fix or engineer a new gadget, Ryland Grace would be investigating new organisms or materials.
 <figure>
-    <img src="/images/goslingmary.webp" width="300" alt="Satellite Scene in Project Hail Mary">
+    <img src="/images/sattelitesmary.webp" width="300" alt="Satellite Scene in Project Hail Mary">
     <figcaption class="justify-center">Scene from the upcoming Project Hail Mary movie, coming out in 2026!</figcaption>
 </figure>
 ## Characters/Relationships
