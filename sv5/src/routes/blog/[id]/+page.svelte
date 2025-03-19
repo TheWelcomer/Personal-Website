@@ -107,6 +107,23 @@
       currentUrl = window.location.href;
       isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+      // Apply additional styles to ensure header colors
+      const addHeaderStyles = () => {
+        const style = document.createElement('style');
+        style.textContent = `
+          .article-content h1, .article-content h2, .article-content h3 {
+            color: #000000 !important;
+          }
+
+          .dark .article-content h1, .dark .article-content h2, .dark .article-content h3 {
+            color: #ffffff !important;
+          }
+        `;
+        document.head.appendChild(style);
+      };
+
+      addHeaderStyles();
+
       const handleScroll = () => {
         isScrolled = window.scrollY > 100;
         updateActiveHeading();
@@ -216,7 +233,7 @@
           </header>
 
           {#key post.id}
-            <div class="article-content mb-16">
+            <div class="article-content mb-16 text-black dark:text-white">
               <!-- Pass a modified version of the content to remove the duplicate title -->
               <MarkdownRenderer
                   markdown={post.content.replace(/^# +\s*{post.title}\s*\n+/m, '')}
@@ -361,7 +378,7 @@
     font-weight: 700;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: #1f2937;
+    color: #000000 !important;
   }
 
   :global(.article-content h2) {
@@ -369,7 +386,7 @@
     font-weight: 700;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: #1f2937;
+    color: #000000 !important;
   }
 
   :global(.article-content h3) {
@@ -377,7 +394,7 @@
     font-weight: 700;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
-    color: #1f2937;
+    color: #000000 !important;
   }
 
   :global(.article-content p) {
@@ -480,7 +497,7 @@
     :global(.article-content h1),
     :global(.article-content h2),
     :global(.article-content h3) {
-      color: #f9fafb;
+      color: #ffffff !important;
     }
 
     :global(.article-content p),
@@ -523,7 +540,7 @@
   :global(.dark .article-content h1),
   :global(.dark .article-content h2),
   :global(.dark .article-content h3) {
-    color: #f9fafb;
+    color: #ffffff !important;
   }
 
   :global(.dark .article-content p),
