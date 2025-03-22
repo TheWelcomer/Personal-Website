@@ -401,7 +401,6 @@
     font-size: 1rem;
     line-height: 1.625;
     margin-bottom: 1rem;
-    color: #1f2937;
   }
 
   :global(.article-content a) {
@@ -596,5 +595,25 @@
 
   :global(.dark figcaption) {
     color: #9ca3af;
+  }
+
+  :global(.article-content p) {
+    color: #1f2937 !important;
+  }
+
+  :global(.dark .article-content p) {
+    color: #e5e7eb !important;
+  }
+
+  :global(.article-content ul),
+  :global(.article-content ol),
+  :global(.article-content li) {
+    color: #1f2937 !important;
+  }
+
+  :global(.dark .article-content ul),
+  :global(.dark .article-content ol),
+  :global(.dark .article-content li) {
+    color: #e5e7eb !important;
   }
 </style>

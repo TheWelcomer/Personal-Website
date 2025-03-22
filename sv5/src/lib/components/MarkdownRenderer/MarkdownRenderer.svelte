@@ -56,8 +56,8 @@
         html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
             '<img src="$2" alt="$1" class="w-full max-w-full h-auto rounded-lg my-6" loading="lazy" />');
 
-        // Process inline code
-        html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">$1</code>');
+        // Process inline code - removed color classes
+        html = html.replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded text-sm font-mono">$1</code>');
 
         // Process bold and italic
         html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -66,20 +66,20 @@
         // Process links
         html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-500 hover:underline">$1</a>');
 
-        // Process lists
+        // Process lists - removed color classes
         html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
         html = html.replace(/(<li>.+<\/li>\n?)+/g, match => `<ul class="list-disc pl-5 my-4">${match}</ul>`);
 
         html = html.replace(/^(\d+)\. (.+)$/gm, '<li>$1. $2</li>');
         html = html.replace(/(<li>\d+\..+<\/li>\n?)+/g, match => `<ol class="list-decimal pl-5 my-4">${match}</ol>`);
 
-        // Process blockquotes
+        // Process blockquotes - removed color classes
         html = html.replace(/^> (.+)$/gm, '<blockquote class="pl-4 border-l-4 border-gray-300 italic my-4">$1</blockquote>');
 
         // Process horizontal rule
         html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300">');
 
-        // Process paragraphs (after other elements)
+        // Process paragraphs (after other elements) - removed color classes
         const paragraphs = html.split(/\n\n+/);
         html = paragraphs.map(p => {
             p = p.trim();
@@ -89,7 +89,7 @@
                 p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<img')) {
                 return p;
             }
-            return `<p class="my-4 text-gray-700 dark:text-gray-300">${p}</p>`;
+            return `<p class="my-4">${p}</p>`;
         }).join('\n\n');
 
         return { html, blocks };
