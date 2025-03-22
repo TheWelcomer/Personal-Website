@@ -1283,18 +1283,6 @@ The VRBot (KaMed) dataset is a Chinese medical dialogue corpus sourced from Chun
 
     5. **Generation of Doctor Notes**: We generate doctor notes N in the tabular format according to the SOAP standard for clinical notes, with provisions for more fine-grained categorization within the 4 broad segments.′, with meaningful and concise sentences.
 
-   Following the recommendation of Aliero et al [2], we will utilize a hybrid text normalization technique known as a rule-based multihead attention model. We plan to use an AI agent system with an open-source LLM like phi4 to normalize transcripts. For our model's runtime environment, we'll use Ollama, and LangChain. LangChain additionally supports various rule-based text normalization functions which we plan to utilize before and after the use of our LLM. The LLM will have access to a ChromaDB database representing the standard academic style it should translate the medical transcripts to. This data will be effectively relayed to the LLM as context in its translation via LangChain.
-
-   We will be running this step on the cloud, likely on google colab or similar, as this offers more processing power than we have locally and better supports collaboration. Application of LangChain's rule-based normalization capabilities, proper preprocessing of our medical terminology database, and effective prompt engineering for our base model will all be essential for this step.
-
-3. **Key-Phrase Extraction**: At this point, we extract a set of key phrases K from our transcript T′ in preparation for clustering in the next step.
-
-   Note that we also maintain a separate set Kp of the dialogues spoken exclusively by the patient, which will be used for further analysis in the next step.
-
-4. **Topic Categorization**: Given the set K (and Kp) of key phrases corresponding to the transcript T′, we employ hierarchical clustering to group phrases pertaining to the same topic together hierarchically, such that we finally end up with 4 main clusters corresponding to the SOAP format for clinical notes (SOAP stands for Subjective, Objective, Assessment, Plan).
-
-5. **Generation of Doctor Notes**: We generate doctor notes N in the tabular format according to the SOAP standard for clinical notes, with provisions for more fine-grained categorization within the 4 broad segments.
-
 Figure 2 provides a diagrammatic description of our entire pipeline, illustrating the flow from raw transcript processing through normalization, key-phrase extraction, and topic categorization, to the final generation of structured SOAP notes.
 
 ![Our proposed pipeline for automated clinical documentation](/images/scribingpipeline1.png)
