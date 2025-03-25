@@ -60,7 +60,7 @@ export const TO_PRINT = [
             '@<br><br>@' +
             '@<span class="font-semibold" style="color: var(--color-accent3);">@Data Science: @</span>@NumPy, Pandas, Sklearn, Mechanistic Interpretability, Feature Visualization, Integrated Gradients' +
             '@<br><br>@' +
-            '@<span class="font-semibold" style="color: var(--color-primary);">@Languages: @</span>@Python, TypeScript/JavaScript, SQL, C/C++, Java, C#, Swift' +
+            '@<span class="font-semibold" style="color: var(--color-primary);">@Languages: @</span>@Python, TypeScript/JavaScript, SQL, C/C++, Bash, Java, C#, Swift' +
             '@<br><br>@' +
             '@<span class="font-semibold" style="color: var(--color-accent1);">@Web/Cloud: @</span>@Linux, Docker, React, Next.js, Node.js, AWS, gRPC, Sockets, PostgreSQL, Tailwind, Svelte, Express.js' +
             '@<br><br>@' +
